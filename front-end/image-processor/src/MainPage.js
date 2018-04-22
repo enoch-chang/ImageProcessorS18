@@ -44,17 +44,28 @@ class MainPage extends React.Component {
             "email": ["Enter your e-mail"],
             "name": ["Enter your name"],
             "logged_in": 2,
-            "images": [['Frozen yoghurt', 159, 6.0, 24, 4.0], ['Ice cream sandwich', 237, 9.0, 37, 4.3],['Eclair', 262, 16.0, 45, 6.0]],
+            "images": [['image64_1', "cat_1.jpg", "001", ".jpg", "15:05 04/20/2018",[1200,1600], [[23,14,15,18], [1, 2, 3, 4],
+                [63,75,54,35], [1, 2, 3, 4], [45,35,34,12], [1, 2, 3, 4]]],
+                ['image64_2', "dog_1.jpg", "002", ".jpg", "15:28 04/20/2018",[1200,1600], [[24,63,56,26], [1, 2, 3, 4],
+                    [3,63,65,73], [1, 2, 3, 4], [28,64,76,34], [1, 2, 3, 4]]],
+                    ['image64_3', "cat_2.png", "003", ".png", "16:20 04/20/2018",[1200,1600], [[87,47,83,25], [1, 2, 3, 4],
+                        [93,62,54,34], [1, 2, 3, 4], [22,63,23,46], [1, 2, 3, 4]]]], // test data
+            // [image, filename, image_id, filetype, time_stamp, image_size, histogram]
+            // [   0  ,    1   ,    2    ,    3    ,     4     ,      5    ,    6     ]
             "disp_images": [],
             "disp": "original",
-            "current_image":[],
-            "processed_images":[['Cupcake', 305, 3.7, 24, 4.3],['Gingerbread', 356, 16.0, 49, 3.9]],
-            "current_image_processed":[],
+            "current_image":['', "No file selected.", "", "--", "--", ["--","--"], ""],
+            "processed_images":[['image64_3', "cat_1_histogram.jpg", "001", "histogram", "16:52 04/20/2018", "4", [1200,1600], [[87,47,83,25], [1, 2, 3, 4],
+            [93,62,54,34], [1, 2, 3, 4], [22,63,23,46], [1, 2, 3, 4]]],
+            ['image64_4', "cat_2_reverse.png", "003", "reverse", "16.55 04/20/2018", "2.3", [[23,14,15,18], [1, 2, 3, 4],
+                [63,75,54,35], [1, 2, 3, 4], [45,35,34,12], [1, 2, 3, 4]]]],
+            // [proc_image, filename, image_id, proc_type, time_stamp, time_duration, histogram]
+            // [     0    ,     1   ,     2   ,     3    ,     4     ,       5      ,      6   ]
+            "current_image_processed":['', "No file selected.", "", "--", "--", "--", ""],
             "process":[],
             "tab":0,
-            "id":""
+            "id":"",
         };
-
     }
 
     TypeInputEmail = (event) => {
@@ -75,9 +86,10 @@ class MainPage extends React.Component {
             "images": [],
             "disp_images": [],
             "disp": "original",
-            "current_image": [],
+            "current_image":['', "No file selected.", "", "--", "--", ["--","--"], ""],
             "processed_images": [],
-            "current_image_processed": []
+            "current_image_processed":['', "No file selected.", "", "--", "--", "--", ""],
+            "tab":0,
         })
         console.log(this.state)
 
@@ -137,7 +149,7 @@ class MainPage extends React.Component {
             this.uploadPOST(files[i])
         }
 
-        this.setState({"current_image":e.target.result});
+        // this.setState({"current_image":e.target.result}); // Given that uploadPOST works
 
         // const reader = new FileReader()
         // const file = files[0]
@@ -156,6 +168,8 @@ class MainPage extends React.Component {
 
         this.logIn()
 
+        this.setState({"current_image":file[file.length-1]});
+
     }
 
 
@@ -170,14 +184,13 @@ class MainPage extends React.Component {
 
     }
 
-    onListClick1 = (id, image) => { //holds original image array
+    onListClick1 = (image) => { //holds original image array
 
-        this.setState({"current_image_id":id,
-                       "current_image":image}); // set to index of image
+        this.setState({"current_image":image});
         var temp_image_list = [];
 
         for (var i = 0; i < (this.state.processed_images).length; i++){
-            if (this.state.processed_images[i][3] == id){
+            if (this.state.processed_images[i][2] == image[2]){
                 temp_image_list.push(this.state.processed_images[i])
             }
         }
@@ -186,6 +199,7 @@ class MainPage extends React.Component {
                        "disp":"processed"});
 
         console.log(this.state)
+        this.handleChange("",0)
 
     }
 
@@ -193,6 +207,7 @@ class MainPage extends React.Component {
 
         this.setState({"current_image_processed":image}); // set to index of image
         console.log(this.state)
+        this.handleChange("",1)
 
 
     }
@@ -298,9 +313,14 @@ class MainPage extends React.Component {
                     <Paper style={{"width": "600px", "margin": "auto"}}>
                         <div style={styles.blockStyle}>
 
+                            <Typography component="p">
+
                             Hello {this.state.name} !
 
-                            <Button variant="raised" onClick={this.resetUser}
+                            </Typography>
+
+
+                                <Button variant="raised" onClick={this.resetUser}
                                     style={{"float": "right"}}
                                     color="secondary">
                                 CHANGE USER
@@ -334,30 +354,31 @@ class MainPage extends React.Component {
                                     if (this.state.disp == "original") {
 
                                         return (
+
                                             <ListItem button component="a"
                                                       href="#simple-list"
-                                                      onClick={() => this.onListClick1(n[3], n[0])}> {/* CHANGE TO IMAGE ID AND FILE*/}
-                                                <ListItemText primary={n[1]}
+                                                      onClick={() => this.onListClick1(n)}> {/* CHANGE TO IMAGE ID AND FILE*/}
+                                                    <ListItemText primary={n[1]}
                                                               style={{"textAlign": "left"}}/> {/* CHANGE TO FILENAME*/}
-                                                <ListItemText primary={n[2]}
+                                                <ListItemText primary={n[4]}
                                                               style={{"textAlign": "left"}}/> {/* CHANGE TO TIMESTAMP*/}
                                             </ListItem>
-                                        );
+
+
+                                                );
                                     }
 
                                     if (this.state.disp == "processed"){
-                                        {
                                             return (
                                                 <ListItem button component="a"
                                                           href="#simple-list"
-                                                          onClick={() => this.onListClick2(n[3])}> {/* CHANGE TO FILE*/}
+                                                          onClick={() => this.onListClick2(n)}> {/* CHANGE TO FILE*/}
                                                     <ListItemText primary={n[1]}
                                                                   style={{"textAlign": "left"}}/> {/* CHANGE TO FILENAME*/}
-                                                    <ListItemText primary={n[2]}
+                                                    <ListItemText primary={n[4]}
                                                                   style={{"textAlign": "left"}}/> {/* CHANGE TO TIMESTAMP*/}
                                                 </ListItem>
                                             );
-                                        }
 
                                     }
 
@@ -373,7 +394,7 @@ class MainPage extends React.Component {
 
                     <div style={styles.blockStyle}>
                         <Paper style = {{"width":"600px", "margin": "auto"}} >
-                            <img src={this.state.current_image} style={{"width":"550px", "marginLeft":"20px", "marginTop":"20px", "marginRight":"20px"}} />
+                            <img src={this.state.current_image[0]} style={{"width":"550px", "marginLeft":"20px", "marginTop":"20px", "marginRight":"20px"}} />
 
 
                             <AppBar position="static" color="default">
@@ -410,11 +431,16 @@ class MainPage extends React.Component {
                                     <Card>
                                         <CardContent>
                                             <Typography gutterBottom variant="headline" component="h2">
-                                                Lizard
+                                                {this.state.current_image[1]}
                                             </Typography>
                                             <Typography component="p">
-                                                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                                across all continents except Antarctica
+                                                Date Uploaded: {this.state.current_image[4]}
+                                                <div>
+                                                    Image Size: {this.state.current_image[5][0]} x {this.state.current_image[5][1]}
+                                                </div>
+                                                <div>
+                                                    Filetype: {this.state.current_image[3]}
+                                                </div>
                                             </Typography>
                                         </CardContent>
                                     </Card>
@@ -437,11 +463,16 @@ class MainPage extends React.Component {
                                     <Card>
                                         <CardContent>
                                             <Typography gutterBottom variant="headline" component="h2">
-                                                Dogs
+                                                {this.state.current_image_processed[1]}
                                             </Typography>
                                             <Typography component="p">
-                                                Dogs are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                                across all continents except Antarctica
+                                                Date Uploaded: {this.state.current_image_processed[4]}
+                                                <div>
+                                                    Process Type: {this.state.current_image_processed[3]}
+                                                </div>
+                                                <div>
+                                                    Time for Processing: {this.state.current_image_processed[5]}
+                                                </div>
                                             </Typography>
                                         </CardContent>
                                     </Card>
@@ -452,7 +483,11 @@ class MainPage extends React.Component {
 
                     <div style={styles.blockStyle}>
                         <Paper style = {{"width":"600px", "margin": "auto"}} >
-                        Select image processing technique:
+                            <Card>
+                            <CardContent>
+                            <Typography component="p">
+                            Select image processing technique:
+                            </Typography>
                         <Select
                             value={this.state.process}
                             onChange={this.selectProcess}
@@ -460,18 +495,21 @@ class MainPage extends React.Component {
                             />}
                             style={{"marginTop":"20px", "marginBottom":"20px"}}
                         >
-                            <MenuItem value={"histogram"}>Histogram Equalization</MenuItem>
-                            <MenuItem value={"contrast"}>Contrast Stretching</MenuItem>
-                            <MenuItem value={"log"}>Log Compression</MenuItem>
-                            <MenuItem value={"reverse"}>Reverse Video</MenuItem>
+                            <MenuItem value={"histogram"}><Typography component="p">
+                                Histogram Equalization </Typography></MenuItem>
+                            <MenuItem value={"contrast"}><Typography component="p">Contrast Stretching</Typography></MenuItem>
+                            <MenuItem value={"log"}><Typography component="p">Log Compression</Typography></MenuItem>
+                            <MenuItem value={"reverse"}><Typography component="p">Reverse Video</Typography></MenuItem>
+
                         </Select>
 
-                            <Button variant="raised" onClick={this.resetUser}
+                            <Button variant="raised" onClick={this.processPOST}
                                     style={{"float": "right", "marginTop":"20px", "marginBottom":"20px", "marginRight":"20px"}}
                                     color="secondary">
                                 GO!
                             </Button>
-
+                                </CardContent>
+                                </Card>
                         </Paper>
                         </div>
 
