@@ -6,7 +6,6 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
-
 from skimage import io
 from skimage import data, img_as_float
 from skimage import exposure
@@ -55,4 +54,3 @@ def contrast_stretch(img):
 
 show_histogram(image, color_type='greyscale')
 hist_eq(image)
-
