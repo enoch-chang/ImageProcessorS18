@@ -6,13 +6,13 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
-
 from skimage import io
 from skimage import data, img_as_float
 from skimage import exposure
 
 # Load Image
-image_name = 'bad_contrast.JPEG'
+file_type = '.png'
+image_name = 'test' + file_type
 image = io.imread(image_name)
 
 
@@ -35,10 +35,22 @@ def show_histogram(img, color_type):
 
 
 # Equalization
-def hist_eq(photo):
-    img_eq = exposure.equalize_hist(photo)
-    skimage.io.imsave('hist_equalized.JPEG', img_eq, plugin=None)
+def hist_eq(img):
+    img_eq = exposure.equalize_hist(img)
+    skimage.io.imsave('hist_equalized'+file_type, img_eq, plugin=None)
     return img_eq
 
 
+# Contrast Stretching
+def contrast_stretch(img):
+    p2 = np.percentile(img, 2)
+    p98 = np.percentile(img, 98)
+    img_contrast_stretched = exposure.rescale_intensity(img, in_range=(p2,
+                                                                       p98))
+    skimage.io.imsave('contrast_stretched'+file_type, img_contrast_stretched,
+                      plugin=None)
+    return img_contrast_stretched
+
+
 show_histogram(image, color_type='greyscale')
+hist_eq(image)
