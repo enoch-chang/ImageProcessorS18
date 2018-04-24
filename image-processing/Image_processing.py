@@ -6,13 +6,15 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
+
 from skimage import io
 from skimage import data, img_as_float
 from skimage import exposure
+from skimage import util
 
 # Load Image
-file_type = '.png'
-image_name = 'test' + file_type
+file_type = '.JPEG'
+image_name = 'bad_contrast' + file_type
 image = io.imread(image_name)
 
 
@@ -52,5 +54,11 @@ def contrast_stretch(img):
     return img_contrast_stretched
 
 
-show_histogram(image, color_type='greyscale')
-hist_eq(image)
+# Reverse Video
+def reverse_video(img):
+    inverted = util.invert(img)
+    skimage.io.imsave('reverse_video'+file_type, inverted, plugin=None)
+    return inverted
+
+
+reverse_video(image)
