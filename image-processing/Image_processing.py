@@ -13,8 +13,8 @@ from skimage import exposure
 from skimage import util
 
 # Load Image
-file_type = '.JPEG'
-image_name = 'bad_contrast' + file_type
+file_type = '.PNG'
+image_name = 'IMG_0115' + file_type
 image = io.imread(image_name)
 
 
@@ -55,10 +55,20 @@ def contrast_stretch(img):
 
 
 # Reverse Video
-def reverse_video(img):
-    inverted = util.invert(img)
-    skimage.io.imsave('reverse_video'+file_type, inverted, plugin=None)
+def reverse_video(img, color_type):
+    if color_type == 'greyscale':
+        inverted = util.invert(img)
+    elif color_type == 'color':
+        rows, columns, channels = img.shape
+        inverted = np.zeros_like(img)
+        print(inverted)
+        for row in range(0, rows):
+            for column in range(0, columns):
+                inverted[row, column] = [255, 255, 255] - img[row, column]
+    print(inverted[30, 30])
+    print(img[30, 30])
+    skimage.io.imsave('reverse_video' + file_type, inverted, plugin=None)
     return inverted
 
 
-reverse_video(image)
+reverse_video(image, 'color')
