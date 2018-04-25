@@ -61,12 +61,9 @@ def reverse_video(img, color_type):
     elif color_type == 'color':
         rows, columns, channels = img.shape
         inverted = np.zeros_like(img)
-        print(inverted)
         for row in range(0, rows):
             for column in range(0, columns):
                 inverted[row, column] = [255, 255, 255] - img[row, column]
-    print(inverted[30, 30])
-    print(img[30, 30])
     skimage.io.imsave('reverse_video' + file_type, inverted, plugin=None)
     return inverted
 
