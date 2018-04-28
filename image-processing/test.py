@@ -18,7 +18,7 @@ def test_gather_data():
     test = Image(file_name='color_image_test', file_ext='.JPEG',
                  color_type='color')
     test.gather_data()
-    assert test.dimensions == [1200, 777]
+    assert test.dimensions == [777, 1200]
     assert test.color_type == 'color'
 
 
