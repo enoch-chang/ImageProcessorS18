@@ -36,7 +36,7 @@ class Image:
         self.image_array = io.imread(self.file_name+self.file_ext)
         image_info = {}
         rows, columns, channels = self.image_array.shape
-        self.dimensions = [columns, rows]
+        self.dimensions = (rows, columns)
         if channels == 1:
             self.color_type = 'greyscale'
         else:
@@ -61,6 +61,30 @@ class Image:
             plt.xlabel('Intensity'), plt.ylabel('Frequency (# of Pixels)')
             plt.title('Histogram for %s' % self.filename)
             plt.show()
+
+    # Generate plottable histogram data
+    def output_histogram_data(self):
+        red = np.zeros(self.dimensions, dtype=int)
+        green = np.zeros(self.dimensions, dtype=int)
+        blue = np.zeros(self.dimensions, dtype=int)
+        rows, columns, channels = self.image_array.shape
+        for row in range(0, rows):
+            for column in range(0, columns):
+                red_val, blue_val, green_val = self.image_array[row, column]
+                red[row, column] = red_val
+                green[row, column] = green_val
+                blue[row, column] = blue_val
+        red_data = np.histogram(red, bins=256)
+        blue_data = np.histogram(blue, bins=256)
+        green_data = np.histogram(green, bins=256)
+        red_hist = red_data[0]
+        blue_hist = blue_data[0]
+        green_hist = green_data[0]
+        x_vals = range(0, 256)
+        plt.plot(x_vals, green_hist)
+        plt.show()
+        return red_hist, blue_hist, green_hist, x_vals
+
 
     # Equalization
     def hist_eq(self):
@@ -99,4 +123,4 @@ class Image:
 test = Image(file_name='color_image_test', file_ext='.JPEG',
              color_type='color')
 test.gather_data()
-test.reverse_video()
+test.output_histogram_data()
