@@ -40,7 +40,7 @@ def processed_reverse(email, images, timing):
 #    })
 #    return image_list
 
-def add_images(email, images, times):
+def add_images(user_email, user_names, images, times):
     """
     Appends a heart_rate measurement at a specified time to the user specified by
     email. It is assumed that the user specified by email exists already.
@@ -48,13 +48,14 @@ def add_images(email, images, times):
     :param heart_rate: number heart_rate measurement of the user
     :param time: the datetime of the heart_rate measurement
     """
-    user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
+    user = models.User.objects.raw({"_id": user_email}).first()  # Get the first user where _id=email
+    user.user_names = user_names
     user.user_ori_images.append(images)  # append the current time to the user's list of heart rate times
-    user.user_ori_images_time.append(times)
+    user.user_ori_images_time.append(times)  # append the current time to the user's list of images
     user.save()  # save the user to the database
 
 
-def create_user(email, user_id, images, processed_images):
+def create_user(user_email, user_names):
     """
     Creates a user with the specified email and age. If the user already exists in the DB this WILL
     overwrite that user. It also adds the specified heart_rate to the user
@@ -64,21 +65,21 @@ def create_user(email, user_id, images, processed_images):
     :param time: datetime of the initial heart rate measurement
     """
 
-    u = models.User(email, user_id, [], [])  # create a new User instance
-    u.user_id.append(user_id)
-    u.images.append(images)
-    u.processed_images.append(processed_images)
-    u.save()  # save the user to the database
+    u = models.User(user_email, user_names, [], [])  # create a new User instance
+    u.user_names = user_names
+    u.save() # save the user to the database
 
+def check_user(user_email):
+    return models.User.objects.raw({"_id": user_email}).count()>0
 
-def print_user(email):
+def print_user(user_email):
     """
     Prints the user with the specified email
     :param email: str email of the user of interest
     :return:
     """
-    user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
-    print(user.email)
+    user = models.User.objects.raw({"_id": user_email}).first()  # Get the first user where _id=email
+    print(user.user_email)
 
 if __name__ == "__main__":
-    connect("mongodb://vcm-3539.vm.duke.edu:27017/MyLittlePony")  # open up connection to db
+    connect("mongodb://vcm-3539.vm.duke.edu:27017/fp_images")  # open up connection to db
