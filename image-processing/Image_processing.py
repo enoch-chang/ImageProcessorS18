@@ -14,6 +14,9 @@ from skimage import data, img_as_float
 from skimage import exposure
 from skimage import util
 
+with open('color_image_test.JPEG', 'rb') as imageFile:
+    string = base64.b64encode(imageFile.read())
+
 
 class Image:
 
@@ -21,7 +24,7 @@ class Image:
                  color_type=None,
                  image_array=None, dimensions=None,
                  contrast_stretch_array=None, hist_eq_array=None,
-                 rev_video_array=None):
+                 rev_video_array=None, image_as_string=None):
         self.file_name = file_name
         self.file_ext = file_ext
         self.color_type = color_type
@@ -30,10 +33,11 @@ class Image:
         self.hist_eq_array = hist_eq_array
         self.rev_video_array = rev_video_array
         self.dimensions = dimensions
+        self.image_as_string = image_as_string
 
     # Load and Gather Image Data (Size, color / greyscale, file type)
     def gather_data(self):
-        self.image_array = io.imread(self.file_name+self.file_ext)
+        self.image_array = io.imread('working_image.JPEG')
         image_info = {}
         rows, columns, channels = self.image_array.shape
         self.dimensions = (rows, columns)
@@ -42,6 +46,12 @@ class Image:
         else:
             self.color_type = 'color'
         return self.color_type, self.dimensions, self.image_array
+
+    # Decode Base64 string into workable image
+    def decode_string(self):
+        fh = open("working_image"+self.file_ext, 'wb')
+        fh.write(self.image_as_string.decode('base64'))
+
 
     # Generate Histogram
     def show_histogram(self):
@@ -120,7 +130,6 @@ class Image:
         return self.rev_video_array
 
 
-test = Image(file_name='color_image_test', file_ext='.JPEG',
-             color_type='color')
+test = Image(image_as_string=string)
 test.gather_data()
-test.output_histogram_data()
+test.decode_string()
