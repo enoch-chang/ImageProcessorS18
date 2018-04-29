@@ -26,20 +26,6 @@ def processed_reverse(email, images, timing):
     user.user_images_pro_time.append(timing)
     user.save()
 
-#def save_image(base64image, filename):
-#    with open(filename, “wb”) as image_out:
-#        image_out.write(base64.b64decode(base64image))
-
-
-
-
-#def image_decode():
-#   with open(request.GET[filename], "im") as images
-#        image_string = base64.b64encode(images.read())
-#    image_list = db.database_name.insert(){ "images" : image_string
-#    })
-#    return image_list
-
 def add_images(user_email, user_names, images, times):
     """
     Appends a heart_rate measurement at a specified time to the user specified by
