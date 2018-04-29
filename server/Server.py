@@ -9,8 +9,8 @@ import datetime
 import time
 from Image_processing import show_histogram, hist_eq, contrast_stretch, reverse_video
 
-connect("mongodb://vcm-3539.vm.duke.edu:27017/fp_images")
-#connect("mongodb://localhost:27017/images")
+#connect("mongodb://vcm-3539.vm.duke.edu:27017/fp_images")
+connect("mongodb://localhost:27017/images")
 app = Flask(__name__)
 CORS(app)
 
@@ -22,27 +22,38 @@ def app_get_user(user_email):
     try:
         #user_data = mainfunction.print_user(user_email)
         images_list = models.User.objects.raw({"_id": user_email}).first()
+        images_arr = images_list.user_ori_images.pre_processing()
+        pro_images_arr = images_list.user_processed_images.pre_processing()
         result = {
             "user_email": images_list.user_email,
             "name": images_list.user_names,
-            "images": {"user_ori_images": images_list.user_ori_images,
-                       "user_ori_images_id": images_list.user_ori_images_id,
-                       "user_ori_images_filetype": images_list.user_ori_images_filetype,
-                       "user_ori_images_time": datetime.datetime.now()
-                       },
-            "pro_images": {"user_ori_images": images_list.user_ori_images,
-                           "user_ori_images_id": images_list.user_ori_images_id,
-                           "user_images_his": images_list.user_images_his,
-                           "user_images_log": images_list.user_images_log,
-                           "user_images_contrast": images_list.user_images_contrast,
-                           "user_images_reverse": images_list.user_images_reverse
-                           }
+            "images": images_arr,
+            "pro_images": pro_images_arr,
+            "success":1
         }
     except pymodm.errors.DoesNotExist:
-        msg = {"warning": "No data related to this input email. "}
-        return jsonify(msg), 0
+        result = {"success":0}
+        return jsonify(result), 200
 
     return jsonify(result), 200
+
+
+def decode_image(base64bytes, image_id):
+    with open(image_id, 'wb') as image_out:
+        image_out.write(base64.b64decode(base64bytes))
+
+def pre_processing():
+
+    r = request.get_json()
+
+    user_images = r["user_ori_image"]
+    image_names = r["user_ori_images_id"]
+    #filetype = Image_processing.Image.decode_filetype()
+    time_stamp = datetime.datetime.now()
+    histograms = show_histogram()
+
+    images_arr = [user_images, image_names, image_names, None, time_stamp, None, histograms]
+    return images_arr
 
 def get_user(user_email):
 
@@ -107,6 +118,25 @@ def images_post():
         mainfunction.add_images(email, user_id, images, datetime.datetime.now())
         return get_user(user_email), 200
 
+@app.route("/api/images/<user_email>/original/<images_id>", methods=["GET"])
+def app_get_ori_images(user_ori_images):
+
+    try:
+        images_info = models.User.objects.raw({"_id": user_ori_images}).first()
+        images_gather = Image.gather_data()
+        result = {
+            "user_ori_images": images_info.user_ori_images,
+            "user_ori_images_id": images_info.user_ori_images_id,
+            "user_ori_images_filetype": ,
+            "user_ori_images_time": datetime.datetime.now(),
+            "success": 1
+            }
+    except pymodm.errors.DoesNotExist:
+        result = {"success": 0}
+        return jsonify(result), 200
+
+    return jsonify(result), 200
+
 @app.route("/api/images/<user_email>/<user_ori_images_id>/histogram", methods=["POST"])
 def pro_images_post_his():
 
@@ -120,4 +150,4 @@ def pro_images_post_his():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="127.0.0.1")
