@@ -96,14 +96,14 @@ def create_user():
 
     r = request.get_json()
 
-    email = r["user_email"]
-    user_id = r["user_names"]
+    user_email = r["email"]
+    user_names = r["name"]
 
-    if mainfunction.check_user(email):
+    if mainfunction.check_user(user_email):
         msg = {"warning": "User exist, do not need to add"}
         return jsonify(msg), 400
     else:
-        mainfunction.create_user(email, user_id)
+        mainfunction.create_user(user_email, user_names)
         logging.info("Images added to new user.")
         return get_user(user_email), 200
 
@@ -144,15 +144,15 @@ def app_get_ori_images(user_ori_images):
 
     return jsonify(result), 200
 
-@app.route("/api/images/<user_email>/<user_ori_images_id>", methods=["POST"])
+@app.route("/api/images/<user_email>/<user_ori_images_id>/process", methods=["POST"])
 def pro_images_post_his():
 
     r = request.get_json()
 
+    image_pro_type = r["image_pro_type"]
+    image_id = r[""]
+    if image_pro_type == "reverse video"
 
-    images_list = models.User.objects.raw({"_id": user_email}).first()
-    images = images_list.user_ori_images
-    show_histogram(images, color_type)
 
 
 
