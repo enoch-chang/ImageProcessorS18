@@ -142,14 +142,14 @@ def app_get_ori_images(user_ori_images):
 
     return jsonify(result), 200
 
-@app.route("/api/images/<user_email>/<user_ori_images_id>/process", methods=["POST"])
-def pro_images_post_his():
+#@app.route("/api/images/<user_email>/<user_ori_images_id>/process", methods=["POST"])
+#def pro_images_post_his():
 
-    r = request.get_json()
+#    r = request.get_json()
 
-    image_pro_type = r["image_pro_type"]
-    image_id = r[""]
-    if image_pro_type == "reverse video"
+#    image_pro_type = r["image_pro_type"]
+#    image_id = r[""]
+#    if image_pro_type == "reverse video"
 
 
 
