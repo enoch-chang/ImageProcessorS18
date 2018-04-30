@@ -92,13 +92,12 @@ def get_user(user_email):
 
     return jsonify(result), 200
 
-def pre_processing(images):
+def pre_processing(images, filename):
 
-    r = request.get_json()
-
-    images = r["images"]
-    images_names = r["filename"]
-    filetype = Image_processing.Image.get_file_ext(images)
+    images = images
+    images_names = filename
+    image_function = Image_processing.Image(image_as_string=images)
+    filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
     base64_str = transfer_decode(images)
     imgdata = base64.b64decode(base64_str)
@@ -133,7 +132,8 @@ def images_post():
 
     email = r["email"]
     images = r["images"]
-    images_info = pre_processing(images)
+    filename = r["filename"]
+    images_info = pre_processing(images, filename)
     mainfunction.add_images(email, images_info)
 
     return get_user(email), 200
