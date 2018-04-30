@@ -97,18 +97,20 @@ def create_user():
     result = {
             "email": r["email"],
             "name": r["name"],
-            "image_info": r["image_info"],
-            "pro_image_info": r["pro_image_info"]
+            "images": r["images"],
+            "pro_images": r["pro_images"]
     }
     email = r["email"]
     name = r["name"]
+    images = [["No images", "No images", "No images", "No images", "--", [--, --], [[0, 0], [0, 0], [0, 0]]]]
+    pro_images = [["No images", "No images", "No images", "No images", "No images", [--, --], [[0, 0], [0, 0], [0, 0]]]]
 
 
     if mainfunction.check_user(email):
         result = {"warning": "User exist, do not need to add"}
         return jsonify(result), 400
     else:
-        mainfunction.create_user(email, name)
+        mainfunction.create_user(email, name, images, pro_images)
         logging.info("Images added to new user.")
         return jsonify(result), 200
 
