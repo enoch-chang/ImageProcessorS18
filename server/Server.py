@@ -9,6 +9,7 @@ import datetime
 import time
 import Image_processing
 import io
+import base64
 import PIL
 from PIL import Image
 
@@ -99,8 +100,7 @@ def pre_processing(images, filename):
     image_function = Image_processing.Image(image_as_string=images)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
-    base64_str = transfer_decode(images)
-    imgdata = base64.b64decode(base64_str)
+    imgdata = base64.b64decode(images)
     im = Image.open(io.BytesIO(imgdata))
     image_size = [im.size]
     #histograms = Image_processing.output_altered_histogram_data()
@@ -108,6 +108,24 @@ def pre_processing(images, filename):
                   [[0,0], [0,0], [0,0], [0,0]]]
 
     return images_arr
+
+def aft_processing(images, filename):
+
+    images = images
+    images_names = filename
+    image_function = Image_processing.Image(image_as_string=images)
+    filetype = image_function.get_file_ext()
+    time_stamp = datetime.datetime.now()
+    imgdata = base64.b64decode(images)
+    im = Image.open(io.BytesIO(imgdata))
+    image_size = [im.size]
+    #histograms = Image_processing.output_altered_histogram_data()
+    images_arr = [images, images_names, image_names, filetype, time_stamp, image_size,
+                  [[0,0], [0,0], [0,0], [0,0]]]
+
+    return images_arr
+
+
 
 @app.route("/api/images/create", methods=["POST"])
 def create_user():
@@ -157,14 +175,17 @@ def app_get_ori_images(user_ori_images):
 
     return jsonify(result), 200
 
-#@app.route("/api/images/<user_email>/<user_ori_images_id>/process", methods=["POST"])
-#def pro_images_post_his():
+@app.route("/api/images/<user_email>/<image_id>/process", methods=["POST"])
+def pro_images_post_his(user_email, image_id):
 
-#    r = request.get_json()
+    r = request.get_json()
 
-#    image_pro_type = r["image_pro_type"]
-#    image_id = r[""]
-#    if image_pro_type == "reverse video"
+    image_id = r["image_id"]
+    image_pro_type = r["process"]
+
+    if image_pro_type == "reverse video":
+
+
 
 
 
