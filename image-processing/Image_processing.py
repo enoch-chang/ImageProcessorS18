@@ -250,7 +250,16 @@ def reverse_video_complete(image_string):
     return red_hist, blue_hist, green_hist, x_vals, base64_string
 
 
+# Log Compression - Callable Function
+def log_compression_complete(image_string):
+    image = initialize_image(image_string)
+    image.log_compression()
+    red_hist, blue_hist, green_hist, x_vals = \
+        output_altered_histogram_data('log_comp', image.file_ext)
+    base64_string = encode_string('log_compressed', image.file_ext)
+    return red_hist, blue_hist, green_hist, x_vals, base64_string
+
+
 test = Image(image_as_string=string)
 test.gather_data()
 test.log_compression()
-
