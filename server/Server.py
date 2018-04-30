@@ -96,8 +96,8 @@ def create_user():
 
     r = request.get_json()
 
-    email = r["user_email"]
-    user_id = r["user_names"]
+    email = r["email"]
+    user_id = r["name"]
 
     if mainfunction.check_user(email):
         msg = {"warning": "User exist, do not need to add"}
