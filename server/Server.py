@@ -107,7 +107,7 @@ def create_user():
         result = {"warning": "User exist, do not need to add"}
         return jsonify(result), 400
     else:
-        mainfunction.create_user(email, name, images, pro_images)
+        mainfunction.create_user(email, name)
         logging.info("Images added to new user.")
         return jsonify(result), 200
 
