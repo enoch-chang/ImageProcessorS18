@@ -9,7 +9,7 @@ import datetime
 import time
 import Image_processing
 
-connect("mongodb://vcm-3539.vm.duke.edu:27017/fp_images")
+connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")
 #connect("mongodb://localhost:27017/images")
 app = Flask(__name__)
 CORS(app)
