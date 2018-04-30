@@ -97,12 +97,11 @@ def create_user():
     result = {
             "email": r["email"],
             "name": r["name"],
-            "image_info": r["image_info"],
-            "pro_image_info": r["pro_image_info"]
+            "images": r["images"],
+            "pro_images": r["pro_images"]
     }
     email = r["email"]
     name = r["name"]
-
 
     if mainfunction.check_user(email):
         result = {"warning": "User exist, do not need to add"}
