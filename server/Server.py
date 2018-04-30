@@ -25,15 +25,14 @@ def app_get_user(user_email):
 
         user_images = images_list.user_ori_images
         image_names = images_list.user_ori_images_id
-        # filetype = Image_processing.Image.decode_filetype()
-        time_stamp = datetime.datetime.now()
-        #histograms = Image_processing.Image.show_histogram()
-        images_arr = [user_images, image_names, image_names, None, time_stamp, None, None]
+        filetype = Image_processing.Image.get_file_ext(user_images)
+        time_stamp = images_list.user_ori_images_time
+        #histograms = Image_processing.output_altered_histogram_data()
+        images_arr = [user_images, image_names, image_names, filetype, time_stamp, None, None]
 
         user_pro_images = images_list.user_processed_images
-        # filetype = Image_processing.Image.decode_filetype()
         #histograms = Image_processing.Image.show_histogram()
-        pro_images_arr = [user_pro_images , image_names, image_names, None, time_stamp, None, None]
+        pro_images_arr = [user_pro_images , image_names, image_names, filetype, time_stamp, None, None]
 
         result = {
             "user_email": images_list.user_email,
@@ -68,15 +67,16 @@ def get_user(user_email):
 
         user_images = images_list.user_ori_images
         image_names = images_list.user_ori_images_id
-        # filetype = Image_processing.Image.decode_filetype()
-        time_stamp = datetime.datetime.now()
-        #histograms = Image_processing.Image.show_histogram()
-        images_arr = [user_images, image_names, image_names, None, time_stamp, None, None]
+        filetype = Image_processing.Image.get_file_ext(user_images)
+        time_stamp = images_list.user_ori_images_time
+        #histograms = Image_processing.output_altered_histogram_data()
+        images_arr = [user_images, image_names, image_names, filetype, time_stamp, None, None]
 
         user_pro_images = images_list.user_processed_images
+        pro_images_type = images_list.image_pro_type
         # filetype = Image_processing.Image.decode_filetype()
         #histograms = Image_processing.Image.show_histogram()
-        pro_images_arr = [user_pro_images , image_names, image_names, None, time_stamp, None, None]
+        pro_images_arr = [user_pro_images , image_names, image_names, pro_images_type, time_stamp, None, None]
 
         result = {
             "user_email": images_list.user_email,
@@ -134,7 +134,7 @@ def app_get_ori_images(user_ori_images):
         result = {
             "user_ori_images": images_info.user_ori_images,
             "user_ori_images_id": images_info.user_ori_images_id,
-            "user_ori_images_filetype": [],
+            "user_ori_images_filetype": Image_processing.Image.get_file_ext(images_info.user_ori_images),
             "user_ori_images_time": datetime.datetime.now(),
             "success": 1
             }
@@ -144,10 +144,11 @@ def app_get_ori_images(user_ori_images):
 
     return jsonify(result), 200
 
-@app.route("/api/images/<user_email>/<user_ori_images_id>/histogram", methods=["POST"])
+@app.route("/api/images/<user_email>/<user_ori_images_id>", methods=["POST"])
 def pro_images_post_his():
 
-    #r = request.get_json()
+    r = request.get_json()
+
 
     images_list = models.User.objects.raw({"_id": user_email}).first()
     images = images_list.user_ori_images
