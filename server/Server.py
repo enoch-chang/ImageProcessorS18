@@ -103,6 +103,7 @@ def create_user():
     email = r["email"]
     name = r["name"]
 
+
     if mainfunction.check_user(email):
         result = {"warning": "User exist, do not need to add"}
         return jsonify(result), 400
