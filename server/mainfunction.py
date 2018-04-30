@@ -53,7 +53,7 @@ def create_user(email, name):
     u = models.User(email, name, [], [])  # create a new User instance
     u.images.append(["No images", "No images", "No images", "No images", "No images",
                      [0, 0], [[0, 0], [0, 0], [0, 0]]])
-    u.pro_images.append("No images", "No images", "No images", "No images", "No images",
+    u.pro_images.append(["No images", "No images", "No images", "No images", "No images",
                         [0, 0], [[0, 0], [0, 0], [0, 0]]])
     #u.name = name
     u.save() # save the user to the database
