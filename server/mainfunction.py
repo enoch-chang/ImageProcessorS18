@@ -41,7 +41,7 @@ def add_images(user_email, user_names, images, times):
     user.save()  # save the user to the database
 
 
-def create_user(user_email, user_names):
+def create_user(email, name):
     """
     Creates a user with the specified email and age. If the user already exists in the DB this WILL
     overwrite that user. It also adds the specified heart_rate to the user
@@ -51,12 +51,12 @@ def create_user(user_email, user_names):
     :param time: datetime of the initial heart rate measurement
     """
 
-    u = models.User(user_email,
-                    user_names,
-                    ["No images", "No images", "No images", "No images", "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]],
-                    ["No images", "No images", "No images", "No images", "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]]
+    u = models.User(email,
+                    name,
+                    [["No images", "No images", "No images", "No images", "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]]],
+                    [["No images", "No images", "No images", "No images", "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]]]
                     )  # create a new User instance
-    u.user_names = user_names
+    u.name = name
     u.save() # save the user to the database
 
 def check_user(user_email):

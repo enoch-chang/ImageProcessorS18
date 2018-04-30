@@ -15,28 +15,28 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route("/api/images/<user_email>", methods=["GET"])
-def app_get_user(user_email):
+def app_get_user(email):
 
     #r = request.get_json()
 
     try:
         #user_data = mainfunction.print_user(user_email)
-        images_list = models.User.objects.raw({"_id": user_email}).first()
+        images_list = models.User.objects.raw({"_id": email}).first()
 
-        user_images = images_list.user_ori_images
+        user_images = images_list.images
         image_names = images_list.user_ori_images_id
         filetype = Image_processing.Image.get_file_ext(user_images)
         time_stamp = images_list.user_ori_images_time
         #histograms = Image_processing.output_altered_histogram_data()
         images_arr = [user_images, image_names, image_names, filetype, time_stamp, None, None]
 
-        user_pro_images = images_list.user_processed_images
+        user_pro_images = images_list.pro_images
         #histograms = Image_processing.Image.show_histogram()
         pro_images_arr = [user_pro_images , image_names, image_names, filetype, time_stamp, None, None]
 
         result = {
-            "user_email": images_list.user_email,
-            "name": images_list.user_names,
+            "user_email": images_list.email,
+            "name": images_list.name,
             "images": images_arr,
             "pro_images": pro_images_arr,
             "success":1
@@ -57,30 +57,28 @@ def decode_image(image_bytes, image_id):
     with open(image_id, 'wb') as images:
         images.write(base64.b64decode(image_bytes))
 
-def get_user(user_email):
+def get_user(email):
 
     #r = request.get_json()
 
     try:
         #user_data = mainfunction.print_user(user_email)
-        images_list = models.User.objects.raw({"_id": user_email}).first()
+        images_list = models.User.objects.raw({"_id": email}).first()
 
-        user_images = images_list.user_ori_images
+        user_images = images_list.images
         image_names = images_list.user_ori_images_id
         filetype = Image_processing.Image.get_file_ext(user_images)
         time_stamp = images_list.user_ori_images_time
         #histograms = Image_processing.output_altered_histogram_data()
         images_arr = [user_images, image_names, image_names, filetype, time_stamp, None, None]
 
-        user_pro_images = images_list.user_processed_images
-        pro_images_type = images_list.image_pro_type
-        # filetype = Image_processing.Image.decode_filetype()
+        user_pro_images = images_list.pro_images
         #histograms = Image_processing.Image.show_histogram()
-        pro_images_arr = [user_pro_images , image_names, image_names, pro_images_type, time_stamp, None, None]
+        pro_images_arr = [user_pro_images , image_names, image_names, filetype, time_stamp, None, None]
 
         result = {
-            "user_email": images_list.user_email,
-            "name": images_list.user_names,
+            "user_email": images_list.email,
+            "name": images_list.name,
             "images": images_arr,
             "pro_images": pro_images_arr,
             "success":1
@@ -112,17 +110,17 @@ def images_post():
 
     r = request.get_json()
 
-    email = r["user_email"]
-    user_id = r["user_names"]
-    images = r["user_ori_images"]
+    user_email = r["email"]
+    user_id = r["name"]
+    images = r["images"]
 
-    if mainfunction.check_user(email):
-        mainfunction.add_images(email, user_id, images, datetime.datetime.now())
+    if mainfunction.check_user(user_email):
+        mainfunction.add_images(user_email, user_id, images, datetime.datetime.now())
         msg = {"warning": "User exist, do not need to add"}
         return jsonify(msg), 200
     else:
-        mainfunction.create_user(email, user_id)
-        mainfunction.add_images(email, user_id, images, datetime.datetime.now())
+        mainfunction.create_user(user_email, user_id)
+        mainfunction.add_images(user_email, user_id, images, datetime.datetime.now())
         return get_user(user_email), 200
 
 @app.route("/api/images/<user_email>/original/<images_id>", methods=["GET"])
@@ -132,9 +130,9 @@ def app_get_ori_images(user_ori_images):
         images_info = models.User.objects.raw({"_id": user_ori_images}).first()
         #images_gather = Image_processing.Image.gather_data()
         result = {
-            "user_ori_images": images_info.user_ori_images,
+            "user_ori_images": images_info.images,
             "user_ori_images_id": images_info.user_ori_images_id,
-            "user_ori_images_filetype": Image_processing.Image.get_file_ext(images_info.user_ori_images),
+            "user_ori_images_filetype": Image_processing.Image.get_file_ext(images_info.images),
             "user_ori_images_time": datetime.datetime.now(),
             "success": 1
             }
