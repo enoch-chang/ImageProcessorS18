@@ -20,25 +20,25 @@ def app_get_user(email):
     #r = request.get_json()
 
     try:
-        #user_data = mainfunction.print_user(user_email)
-        images_list = models.User.objects.raw({"_id": email}).first()
+        user_data = mainfunction.print_user(user_email)
+        #images_list = models.User.objects.raw({"_id": email}).first()
 
-        user_images = images_list.images
-        image_names = images_list.user_ori_images_id
-        filetype = Image_processing.Image.get_file_ext(user_images)
-        time_stamp = images_list.user_ori_images_time
+        #user_images = images_list.images
+        #image_names = images_list.user_ori_images_id
+        #filetype = Image_processing.Image.get_file_ext(user_images)
+        #time_stamp = images_list.user_ori_images_time
         #histograms = Image_processing.output_altered_histogram_data()
-        images_arr = [user_images, image_names, image_names, filetype, time_stamp, None, None]
+        #images_arr = [user_images, image_names, image_names, filetype, time_stamp, None, None]
 
-        user_pro_images = images_list.pro_images
+        #user_pro_images = images_list.pro_images
         #histograms = Image_processing.Image.show_histogram()
-        pro_images_arr = [user_pro_images , image_names, image_names, filetype, time_stamp, None, None]
+        #pro_images_arr = [user_pro_images , image_names, image_names, filetype, time_stamp, None, None]
 
         result = {
-            "email": images_list.email,
-            "name": images_list.name,
-            "images": images_arr,
-            "pro_images": pro_images_arr,
+            "email": user_email,
+            "name": user_data.name,
+            "images": user_data.images,
+            "pro_images": user_data.pro_images,
             "success":1
         }
     except pymodm.errors.DoesNotExist:
