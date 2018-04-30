@@ -14,7 +14,7 @@ connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/api/images/<email>", methods=["GET"])
+@app.route("/api/images/<user_email>", methods=["GET"])
 def app_get_user(user_email):
 
     #r = request.get_json()
