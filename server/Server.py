@@ -102,9 +102,6 @@ def create_user():
     }
     email = r["email"]
     name = r["name"]
-    images = [["No images", "No images", "No images", "No images", "--", [--, --], [[0, 0], [0, 0], [0, 0]]]]
-    pro_images = [["No images", "No images", "No images", "No images", "No images", [--, --], [[0, 0], [0, 0], [0, 0]]]]
-
 
     if mainfunction.check_user(email):
         result = {"warning": "User exist, do not need to add"}
