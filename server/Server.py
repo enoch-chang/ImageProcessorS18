@@ -15,7 +15,7 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route("/api/images/<email>", methods=["GET"])
-def app_get_user(email):
+def app_get_user(user_email):
 
     #r = request.get_json()
 
@@ -97,8 +97,6 @@ def create_user():
     result = {
             "email": r["email"],
             "name": r["name"],
-            "images": r["images"],
-            "pro_images": r["pro_images"]
     }
     email = r["email"]
     name = r["name"]
