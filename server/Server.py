@@ -96,14 +96,14 @@ def create_user():
 
     r = request.get_json()
 
-    email = r["user_email"]
-    user_id = r["user_names"]
+    user_email = r["email"]
+    user_names = r["name"]
 
-    if mainfunction.check_user(email):
+    if mainfunction.check_user(user_email):
         msg = {"warning": "User exist, do not need to add"}
         return jsonify(msg), 400
     else:
-        mainfunction.create_user(email, user_id)
+        mainfunction.create_user(user_email, user_names)
         logging.info("Images added to new user.")
         return get_user(user_email), 200
 
