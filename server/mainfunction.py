@@ -50,11 +50,12 @@ def create_user(email, name):
     :param heart_rate: number initial heart_rate of this new user
     :param time: datetime of the initial heart rate measurement
     """
-
     u = models.User(email, name, [], [])  # create a new User instance
-    u.images.append(["No images", "No images", "No images", "No images", "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
-    u.pro_images.append("No images", "No images", "No images", "No images", "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
-    # u.name = name
+    u.images.append(["No images", "No images", "No images", "No images", "No images",
+                     [0, 0], [[0, 0], [0, 0], [0, 0]]])
+    u.pro_images.append("No images", "No images", "No images", "No images", "No images",
+                        [0, 0], [[0, 0], [0, 0], [0, 0]]])
+    #u.name = name
     u.save() # save the user to the database
 
 def check_user(user_email):
