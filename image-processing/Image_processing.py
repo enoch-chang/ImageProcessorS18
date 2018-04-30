@@ -15,7 +15,7 @@ from skimage import data, img_as_float
 from skimage import exposure
 from skimage import util
 
-with open('greyscale_image_test.JPEG', 'rb') as imageFile:
+with open('color_image_test.JPEG', 'rb') as imageFile:
     string = base64.b64encode(imageFile.read())
 
 
@@ -138,6 +138,7 @@ class Image:
     def log_compression(self):
         log_comp = np.zeros_like(self.image_array)
         scaling_const = 255/(np.log(255)+1)  # assumes max val is 255
+        print(scaling_const)
         rows, columns, channels = self.image_array.shape
 
         for row in range(0, rows):
@@ -167,6 +168,7 @@ class Image:
                           plugin=None)
         self.rev_video_array = inverted
         return self.rev_video_array
+
 
 # Encode created images into Base64
 def encode_string(filename, file_ext):
@@ -260,6 +262,12 @@ def log_compression_complete(image_string):
     return red_hist, blue_hist, green_hist, x_vals, base64_string
 
 
-test = Image(image_as_string=string)
-test.gather_data()
-test.log_compression()
+# Output histogram data for unaltered image
+def histogram_data(image_string):
+    image = initialize_image(image_string)
+    red_hist, blue_hist, green_hist, x_vals = image.output_histogram_data(
+        'original')
+    return red_hist, blue_hist, green_hist, x_vals
+
+
+histogram_data(string)
