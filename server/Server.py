@@ -96,7 +96,7 @@ def pre_processing(images):
 
     r = request.get_json()
 
-    images = r["image"]
+    images = r["images"]
     images_names = r["filename"]
     filetype = Image_processing.Image.get_file_ext(images)
     time_stamp = datetime.datetime.now()
