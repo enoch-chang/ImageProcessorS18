@@ -8,13 +8,14 @@ import numpy as np
 import cv2
 import base64
 import imghdr
+import math
 
 from skimage import io
 from skimage import data, img_as_float
 from skimage import exposure
 from skimage import util
 
-with open('IMG_0115.png', 'rb') as imageFile:
+with open('greyscale_image_test.JPEG', 'rb') as imageFile:
     string = base64.b64encode(imageFile.read())
 
 
@@ -25,7 +26,7 @@ class Image:
                  image_array=None, dimensions=None,
                  contrast_stretch_array=None, hist_eq_array=None,
                  rev_video_array=None, image_as_string=None,
-                 log_comp_array=None):
+                 log_comp_array=None, max_intensity_val=None):
         self.file_name = file_name
         self.file_ext = file_ext
         self.color_type = color_type
@@ -36,6 +37,7 @@ class Image:
         self.dimensions = dimensions
         self.image_as_string = image_as_string
         self.log_comp_array = log_comp_array
+        self.max_intensity_val = max_intensity_val
 
     # Load and Gather Image Data (Size, color / greyscale, file type)
     def gather_data(self):
@@ -132,6 +134,24 @@ class Image:
                           self.contrast_stretch_array, plugin=None)
         return self.contrast_stretch_array
 
+    # Logarithmic Compression
+    def log_compression(self):
+        log_comp = np.zeros_like(self.image_array)
+        scaling_const = 255/(np.log(255)+1)  # assumes max val is 255
+        rows, columns, channels = self.image_array.shape
+
+        for row in range(0, rows):
+            for column in range(0, columns):
+                log_comp[row, column] = scaling_const*np.log((
+                                                             np.absolute(self.
+                                                            image_array[
+                                                            row, column])))
+
+        self.log_comp_array = log_comp
+        skimage.io.imsave('log_compressed'+self.file_ext,
+                          self.log_comp_array, plugin=None)
+        return self.log_comp_array
+
     # Reverse Video
     def reverse_video(self):
         inverted = np.zeros_like(self.image_array)
@@ -147,7 +167,6 @@ class Image:
                           plugin=None)
         self.rev_video_array = inverted
         return self.rev_video_array
-
 
 # Encode created images into Base64
 def encode_string(filename, file_ext):
@@ -226,9 +245,21 @@ def reverse_video_complete(image_string):
     red_hist, blue_hist, green_hist, x_vals = \
         output_altered_histogram_data('rev_vid', image.file_ext)
     base64_string = encode_string('reverse_video', image.file_ext)
+    plt.plot(x_vals, red_hist)
+    plt.show()
     return red_hist, blue_hist, green_hist, x_vals, base64_string
 
+
+# Log Compression - Callable Function
+def log_compression_complete(image_string):
+    image = initialize_image(image_string)
+    image.log_compression()
+    red_hist, blue_hist, green_hist, x_vals = \
+        output_altered_histogram_data('log_comp', image.file_ext)
+    base64_string = encode_string('log_compressed', image.file_ext)
+    return red_hist, blue_hist, green_hist, x_vals, base64_string
+
+
 test = Image(image_as_string=string)
-test.decode_string()
 test.gather_data()
-reverse_video_complete(string)
+test.log_compression()
