@@ -96,8 +96,8 @@ def pre_processing(images, filename):
 
     images = images
     images_names = filename
-    image_function = Image_processing.Image()
-    filetype = image_function.get_file_ext(images)
+    image_function = Image_processing.Image(image_as_string=images)
+    filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
     base64_str = transfer_decode(images)
     imgdata = base64.b64decode(base64_str)
