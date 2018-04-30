@@ -58,17 +58,17 @@ def create_user(email, name):
     #u.name = name
     u.save() # save the user to the database
 
-def check_user(user_email):
-    return models.User.objects.raw({"_id": user_email}).count()>0
+def check_user(email):
+    return models.User.objects.raw({"_id": email}).count()>0
 
-def print_user(user_email):
+def print_user(email):
     """
     Prints the user with the specified email
     :param email: str email of the user of interest
     :return:
     """
-    user = models.User.objects.raw({"_id": user_email}).first()  # Get the first user where _id=email
-    print(user.user_email)
+    user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
+    print(user.email, user.name, user.images, user.pro_images)
 
 if __name__ == "__main__":
-    connect("mongodb://vcm-3539.vm.duke.edu:27017/fp_images")  # open up connection to db
+    connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")  # open up connection to db
