@@ -51,7 +51,11 @@ def create_user(user_email, user_names):
     :param time: datetime of the initial heart rate measurement
     """
 
-    u = models.User(user_email, user_names, [], [])  # create a new User instance
+    u = models.User(user_email,
+                    user_names,
+                    ["No images", "No images", "No images", "No images", "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]],
+                    ["No images", "No images", "No images", "No images", "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]]
+                    )  # create a new User instance
     u.user_names = user_names
     u.save() # save the user to the database
 

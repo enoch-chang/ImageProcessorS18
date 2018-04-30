@@ -14,6 +14,7 @@ class User(MongoModel):
         user_images_log = fields.ListField(field=fields.CharField())
         user_images_reverse = fields.ListField(field=fields.CharField())
         user_images_pro_time = fields.ListField(field=fields.DateTimeField())
+        image_pro_type = fields.CharField()
 
         def user_info(self):
 
