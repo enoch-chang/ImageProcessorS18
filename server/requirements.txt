@@ -6,3 +6,5 @@ pytest
 pytest-pep8
 sphinx
 flask_cors
+PIL
+
