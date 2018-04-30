@@ -26,7 +26,7 @@ def processed_reverse(email, images, timing):
     user.user_images_pro_time.append(timing)
     user.save()
 
-def add_images(user_email, user_names, images, times):
+def add_images(email, image_info):
     """
     Appends a heart_rate measurement at a specified time to the user specified by
     email. It is assumed that the user specified by email exists already.
@@ -34,10 +34,8 @@ def add_images(user_email, user_names, images, times):
     :param heart_rate: number heart_rate measurement of the user
     :param time: the datetime of the heart_rate measurement
     """
-    user = models.User.objects.raw({"_id": user_email}).first()  # Get the first user where _id=email
-    user.user_names = user_names
-    user.user_ori_images.append(images)  # append the current time to the user's list of heart rate times
-    user.user_ori_images_time.append(times)  # append the current time to the user's list of images
+    user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
+    user.images.append(image_info)  # append image to the user's list of images
     user.save()  # save the user to the database
 
 
@@ -58,17 +56,18 @@ def create_user(email, name):
     #u.name = name
     u.save() # save the user to the database
 
-def check_user(user_email):
-    return models.User.objects.raw({"_id": user_email}).count()>0
+def check_user(email):
+    return models.User.objects.raw({"_id": email}).count()>0
 
-def print_user(user_email):
+def print_user(email):
     """
     Prints the user with the specified email
     :param email: str email of the user of interest
     :return:
     """
-    user = models.User.objects.raw({"_id": user_email}).first()  # Get the first user where _id=email
-    print(user.user_email)
+    user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
+    print(user.email, user.name, user.images, user.pro_images)
+    return user
 
 if __name__ == "__main__":
-    connect("mongodb://vcm-3539.vm.duke.edu:27017/fp_images")  # open up connection to db
+    connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")  # open up connection to db
