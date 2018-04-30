@@ -14,7 +14,7 @@ connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/api/images/<user_email>", methods=["GET"])
+@app.route("/api/images/<email>", methods=["GET"])
 def app_get_user(email):
 
     #r = request.get_json()
@@ -35,7 +35,7 @@ def app_get_user(email):
         pro_images_arr = [user_pro_images , image_names, image_names, filetype, time_stamp, None, None]
 
         result = {
-            "user_email": images_list.email,
+            "email": images_list.email,
             "name": images_list.name,
             "images": images_arr,
             "pro_images": pro_images_arr,
@@ -77,7 +77,7 @@ def get_user(email):
         pro_images_arr = [user_pro_images , image_names, image_names, filetype, time_stamp, None, None]
 
         result = {
-            "user_email": images_list.email,
+            "email": images_list.email,
             "name": images_list.name,
             "images": images_arr,
             "pro_images": pro_images_arr,
@@ -100,14 +100,14 @@ def create_user():
             "image_info": r["image_info"],
             "pro_image_info": r["pro_image_info"]
     }
-    user_email = r["email"]
-    user_names = r["name"]
+    email = r["email"]
+    name = r["name"]
 
-    if mainfunction.check_user(user_email):
+    if mainfunction.check_user(email):
         result = {"warning": "User exist, do not need to add"}
         return jsonify(result), 400
     else:
-        mainfunction.create_user(user_email, user_names)
+        mainfunction.create_user(email, name)
         logging.info("Images added to new user.")
         return jsonify(result), 200
 
@@ -116,20 +116,20 @@ def images_post():
 
     r = request.get_json()
 
-    user_email = r["email"]
+    email = r["email"]
     user_id = r["name"]
     images = r["images"]
 
-    if mainfunction.check_user(user_email):
-        mainfunction.add_images(user_email, user_id, images, datetime.datetime.now())
+    if mainfunction.check_user(email):
+        mainfunction.add_images(email, user_id, images, datetime.datetime.now())
         msg = {"warning": "User exist, do not need to add"}
         return jsonify(msg), 200
     else:
-        mainfunction.create_user(user_email, user_id)
-        mainfunction.add_images(user_email, user_id, images, datetime.datetime.now())
-        return get_user(user_email), 200
+        mainfunction.create_user(email, user_id)
+        mainfunction.add_images(email, user_id, images, datetime.datetime.now())
+        return get_user(email), 200
 
-@app.route("/api/images/<user_email>/original/<images_id>", methods=["GET"])
+@app.route("/api/images/<email>/original/<images_id>", methods=["GET"])
 def app_get_ori_images(user_ori_images):
 
     try:
