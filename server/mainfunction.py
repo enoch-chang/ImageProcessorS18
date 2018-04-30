@@ -51,6 +51,7 @@ def create_user(email, name):
     :param time: datetime of the initial heart rate measurement
     """
 
+
     u = models.User(email,
                     name,
                     [["No images", "No images", "No images", "No images", "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]]],
