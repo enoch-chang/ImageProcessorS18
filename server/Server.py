@@ -94,16 +94,22 @@ def create_user():
 
     r = request.get_json()
 
+    result = {
+            "email": r["email"],
+            "name": r["name"],
+            "image_info": r["image_info"],
+            "pro_image_info": r["pro_image_info"]
+    }
     user_email = r["email"]
     user_names = r["name"]
 
     if mainfunction.check_user(user_email):
-        msg = {"warning": "User exist, do not need to add"}
-        return jsonify(msg), 400
+        result = {"warning": "User exist, do not need to add"}
+        return jsonify(result), 400
     else:
         mainfunction.create_user(user_email, user_names)
         logging.info("Images added to new user.")
-        return get_user(user_email), 200
+        return jsonify(result), 200
 
 @app.route("/api/images/upload", methods=["POST"])
 def images_post():
