@@ -69,6 +69,7 @@ def print_user(email):
     """
     user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
     print(user.email, user.name, user.images, user.pro_images)
+    return user
 
 if __name__ == "__main__":
     connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")  # open up connection to db
