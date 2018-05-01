@@ -77,16 +77,16 @@ def pre_processing(images, filename):
     :param images: base64 str of the image
     :param filename: str of the name of the image
     """
-    images = images
+    image64 = images
     images_names = filename
     image_function = Image_processing.Image(image_as_string=images)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
-    imgdata = base64.b64decode(images)
+    imgdata = base64.b64decode(images[0])
     im = Image.open(io.BytesIO(imgdata))
     image_size = [im.size]
     #histograms = [Image_processing.histogram_data(images)]
-    images_arr = [images, images_names, image_names, filetype, time_stamp, image_size, [[0, 0], [0, 0], [0, 0]]]
+    images_arr = [image64, images_names, image_names, filetype, time_stamp, image_size, [[0, 0], [0, 0], [0, 0]]]
 
     return images_arr
 
