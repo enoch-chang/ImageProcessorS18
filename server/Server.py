@@ -25,18 +25,6 @@ def app_get_user(user_email):
 
     try:
         user_data = mainfunction.print_user(user_email)
-        #images_list = models.User.objects.raw({"_id": email}).first()
-
-        #user_images = images_list.images
-        #image_names = images_list.user_ori_images_id
-        #filetype = Image_processing.Image.get_file_ext(user_images)
-        #time_stamp = images_list.user_ori_images_time
-        #histograms = Image_processing.output_altered_histogram_data()
-        #images_arr = [user_images, image_names, image_names, filetype, time_stamp, None, None]
-
-        #user_pro_images = images_list.pro_images
-        #histograms = Image_processing.Image.show_histogram()
-        #pro_images_arr = [user_pro_images , image_names, image_names, filetype, time_stamp, None, None]
 
         result = {
             "email": user_email,
@@ -67,18 +55,6 @@ def get_user(user_email):
 
     try:
         user_data = mainfunction.print_user(user_email)
-        #images_list = models.User.objects.raw({"_id": email}).first()
-
-        #user_images = images_list.images
-        #image_names = images_list.user_ori_images_id
-        #filetype = Image_processing.Image.get_file_ext(user_images)
-        #time_stamp = images_list.user_ori_images_time
-        #histograms = Image_processing.output_altered_histogram_data()
-        #images_arr = [user_images, image_names, image_names, filetype, time_stamp, None, None]
-
-        #user_pro_images = images_list.pro_images
-        #histograms = Image_processing.Image.show_histogram()
-        #pro_images_arr = [user_pro_images , image_names, image_names, filetype, time_stamp, None, None]
 
         result = {
             "email": user_email,
@@ -94,7 +70,13 @@ def get_user(user_email):
     return jsonify(result), 200
 
 def pre_processing(images, filename):
-
+    """
+    Do the pre-processing method for images that are about to be uploaded. After processing, this
+    would return a image array including the corresponding information of the image, including:
+    base64 str of the images, filename, id, filetype, time stamp, image size and unaltered histograms.
+    :param images: base64 str of the image
+    :param filename: str of the name of the image
+    """
     images = images
     images_names = filename
     image_function = Image_processing.Image(image_as_string=images)
@@ -108,8 +90,17 @@ def pre_processing(images, filename):
 
     return images_arr
 
-def eq_processing(images, filename, protype):
-
+def aft_processing(images, filename, protype):
+    """
+    After the specific image processing, this function process all the information regarding this image.
+    After processing, this would return a image array including the corresponding information of the
+    image, including:
+    base64 str of the images, filename, id, rocess type, time stamp, time duration and
+    processed histograms.
+    :param images: base64 str of the image
+    :param filename: str of the name of the image
+    :param protype: list of the post-processed image histogram
+    """
     images = images
     images_names = filename
     #image_function = Image_processing.Image(image_as_string=images)
