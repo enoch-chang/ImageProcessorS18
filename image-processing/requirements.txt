@@ -3,4 +3,5 @@ numpy
 matplotlib
 Pillow
 pypng
-cv2
+opencv-python
+pytest-pep8
