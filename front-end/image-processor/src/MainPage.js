@@ -109,7 +109,7 @@ class MainPage extends React.Component {
             console.log(response);
             console.log(response.status);
 
-            if (this.state.logged_in == 2){
+            if (this.state.logged_in == 2 && response.status == 200){
                 this.setState({
                     "name": response.data["name"],
                     "images": response.data["images"],
@@ -117,7 +117,7 @@ class MainPage extends React.Component {
                 });
             }
 
-            if (response.data["success"] == 1) {
+            if (response.data["success"] == 1 && response.status == 200) {
 
                 this.setState({
                     "name": response.data["name"],
@@ -127,7 +127,7 @@ class MainPage extends React.Component {
                     "disp_images": response.data["images"],
                 });
             }
-            if (response.data["success"] == 0) {
+            if (response.data["success"] == 0 && response.status == 200) {
                 this.setState({"logged_in":1});
             }
 
@@ -139,9 +139,12 @@ class MainPage extends React.Component {
         var URL = "http://vcm-3608.vm.duke.edu:5000/api/images/create"
         axios.post(URL,
                {"name":this.state.name,
-               "email":this.state.email})
-        this.setState({"logged_in":2});
-        this.logIn()
+               "email":this.state.email}).then((response) => {
+                   if (response.status == 200) {
+                       this.setState({"logged_in": 2});
+                       this.logIn()
+                   }
+        })
     }
 
     onFileLoad = (e, files) => {
@@ -155,7 +158,7 @@ class MainPage extends React.Component {
 
         //var base64result = file_list.split(',')[1];
 
-        this.setState({"to_upload":[file_list],"to_upload_names":[files.name]});
+        this.setState({"to_upload":file_list,"to_upload_names":files.name});
 
         // this.setState({"current_image":e.target.result}); // Given that uploadPOST works
 
@@ -183,10 +186,13 @@ class MainPage extends React.Component {
             {"images":this.state.to_upload,
                 "email":this.state.email,
                 "filename": this.state.to_upload_names
-            })
+            }).then((response) => {
 
-            this.logIn()
-            this.setState({"current_image":this.state.images[(this.state.images).length-1]});
+            if (response.status == 200) {
+                this.logIn()
+                this.setState({"current_image": this.state.images[(this.state.images).length - 1]});
+            }
+        })
             console.log(this.state)
        // }
     }
@@ -194,9 +200,9 @@ class MainPage extends React.Component {
 
     processPOST = () => {
         var URL = "http://vcm-3608.vm.duke.edu:5000/api/images/upload".concat(this.state.email)
-            .concat("/").concat(this.state.current_image[0]).concat("/").concat(this.state.process) //change to ID
+            .concat("/").concat(this.state.current_image[1]).concat("/").concat(this.state.process) //change to ID
 
-        axios.post(URL,{"image_id":this.state.current_image[0], "process":this.state.process}) //change to ID
+        axios.post(URL,{"image_id":this.state.current_image[1], "process":this.state.process}) //change to ID
 
         this.logIn()
         this.setState({"current_image_processed":(this.pro_images)[(this.pro_images).length-1]});
@@ -301,20 +307,28 @@ class MainPage extends React.Component {
                                        color="secondary"
 
                             />
-                            <TextField id="name"
+                        </div>
+                        <div style={{"padding": "20px",
+                            "marginLeft": "auto",
+                            "marginRight": "auto"}}>
+
+                        <TextField id="name"
                                        label="Name"
                                        value={this.state.name}
                                        onChange={this.TypeInputName}
                                        color="secondary"
-
                             />
                             <Button variant="raised" onClick={this.createUser}
-                                    style={{"float": "right"}}
+                                    style={{"padding": "20px",
+                                        "marginLeft": "auto",
+                                        "marginRight": "auto",}}
                                     color="secondary">
                                 CREATE NEW USER
                             </Button>
                             <Button variant="raised" onClick={this.resetUser}
-                                    style={{"float": "right"}}
+                                    style={{"padding": "20px",
+                                        "marginLeft": "auto",
+                                        "marginRight": "auto",}}
                                     color="secondary">
                                 BACK
                             </Button>
@@ -419,8 +433,6 @@ class MainPage extends React.Component {
 
                     <div style={styles.blockStyle}>
                         <Paper style = {{"width":"600px", "margin": "auto"}} >
-                            <img src={this.state.current_image[0]} style={{"width":"550px", "marginLeft":"20px", "marginTop":"20px", "marginRight":"20px"}} />
-
 
                             <AppBar position="static" color="default">
                                 <Tabs
@@ -439,6 +451,8 @@ class MainPage extends React.Component {
                                 onChangeIndex={this.handleChangeIndex}
                             >
                                 <TabContainer>
+                                    <img src={this.state.current_image[0]} style={{"width":"550px", "marginLeft":"20px", "marginTop":"20px", "marginRight":"20px"}} />
+
                                     <LineChart width={550} height={200}
                                                data={(this.state.images).map(n => {
                                                    return (
@@ -471,6 +485,7 @@ class MainPage extends React.Component {
                                     </Card>
                                 </TabContainer>
                                 <TabContainer>
+                                    <img src={this.state.current_image_processed[0]} style={{"width":"550px", "marginLeft":"20px", "marginTop":"20px", "marginRight":"20px"}} />
                                     <LineChart width={550} height={200}
                                                data={(this.state.images).map(n => {
                                                    return (
@@ -520,11 +535,11 @@ class MainPage extends React.Component {
                             />}
                             style={{"marginTop":"20px", "marginBottom":"20px"}}
                         >
-                            <MenuItem value={"histogram"}><Typography component="p">
+                            <MenuItem value={"histogram eq"}><Typography component="p">
                                 Histogram Equalization </Typography></MenuItem>
-                            <MenuItem value={"contrast"}><Typography component="p">Contrast Stretching</Typography></MenuItem>
-                            <MenuItem value={"log"}><Typography component="p">Log Compression</Typography></MenuItem>
-                            <MenuItem value={"reverse"}><Typography component="p">Reverse Video</Typography></MenuItem>
+                            <MenuItem value={"contrast stretching"}><Typography component="p">Contrast Stretching</Typography></MenuItem>
+                            <MenuItem value={"log compression"}><Typography component="p">Log Compression</Typography></MenuItem>
+                            <MenuItem value={"reverse video"}><Typography component="p">Reverse Video</Typography></MenuItem>
 
                         </Select>
 
