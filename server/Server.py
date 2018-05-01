@@ -178,11 +178,11 @@ def pro_images_post_his(user_email, image_id):
         protype = Image_processing.histogram_eq_complete(images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
-    result = {
-        "images":
-    }
+ #   result = {
+ #       "images":
+ #   }
 
-    return jsonify(result), 200
+ #   return jsonify(result), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
