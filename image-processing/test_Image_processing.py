@@ -23,7 +23,7 @@ def test_reverse_video():
 
 def test_gather_data():
     # Test JPEG File
-    test = Image(image_as_string=jpeg_string
+    test = Image(image_as_string=jpeg_string)
     test.gather_data()
     assert test.dimensions == (777, 1200)
     assert test.color_type == 'color'
