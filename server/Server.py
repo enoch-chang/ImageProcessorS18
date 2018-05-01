@@ -86,7 +86,7 @@ def pre_processing(images, filename):
     im = Image.open(io.BytesIO(imgdata))
     image_size = [im.size]
     #histograms = [Image_processing.histogram_data(images)]
-    images_arr = [image64, images_names, image_names, filetype, time_stamp, image_size, [[0, 0], [0, 0], [0, 0]]]
+    images_arr = [image64, images_names, images_names, filetype, time_stamp, image_size, [[0, 0], [0, 0], [0, 0]]]
 
     return images_arr
 
