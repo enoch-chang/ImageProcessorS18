@@ -2,17 +2,9 @@ from pymodm import fields, MongoModel
 
 class User(MongoModel):
         email = fields.EmailField(primary_key=True)
-        #user_names = fields.ListField(field=fields.CharField())
         name = fields.CharField()
         images = fields.ListField()
         pro_images = fields.ListField()
-        #images_info = fields.ListField()
-        #pro_images_info = fields.ListField()
-        #user_ori_images_id = fields.ListField(field=fields.CharField())
-        #user_ori_images_time = fields.ListField(field=fields.DateTimeField())
-        #user_ori_images_filetype = fields.ListField(field=fields.CharField())
-        #user_images_pro_time = fields.ListField(field=fields.DateTimeField())
-        #image_pro_type = fields.CharField()
 
         def image_info(self):
 

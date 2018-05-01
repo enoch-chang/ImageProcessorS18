@@ -15,9 +15,6 @@ from skimage import data, img_as_float
 from skimage import exposure
 from skimage import util
 
-#with open('color_image_test.JPEG', 'rb') as imageFile:
-#    string = base64.b64encode(imageFile.read())
-
 
 class Image:
 
@@ -268,9 +265,3 @@ def histogram_data(image_string):
     red_hist, blue_hist, green_hist, x_vals = image.output_histogram_data(
         'original')
     return [red_hist, blue_hist, green_hist, x_vals]
-
-
-#histogram_data(string)
-#test = Image(image_as_string=string)
-#test.gather_data()
-#test.log_compression()

@@ -14,14 +14,11 @@ import PIL
 from PIL import Image
 
 connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")
-#connect("mongodb://localhost:27017/images")
 app = Flask(__name__)
 CORS(app)
 
 @app.route("/api/images/<user_email>", methods=["GET"])
 def app_get_user(user_email):
-
-    #r = request.get_json()
 
     try:
         user_data = mainfunction.print_user(user_email)
@@ -51,8 +48,6 @@ def decode_image(image_bytes, image_id):
 
 def get_user(user_email):
 
-    #r = request.get_json()
-
     try:
         user_data = mainfunction.print_user(user_email)
 
@@ -77,7 +72,6 @@ def pre_processing(noheader_images, filename, images):
     :param images: base64 str of the image
     :param filename: str of the name of the image
     """
-    #image64 = noheader_images
     images_names = filename
     image_function = Image_processing.Image(image_as_string=noheader_images)
     filetype = image_function.get_file_ext()
@@ -118,10 +112,6 @@ def create_user():
     email = r["email"]
     name = r["name"]
 
-#    if mainfunction.check_user(email):
-#        result = {"warning": "User exist, do not need to add"}
-#        return jsonify(result), 400
-#    else:
     mainfunction.create_user(email, name)
     result = {"sucess": "create user"}
     return jsonify(result), 200
@@ -141,7 +131,7 @@ def images_post():
     images = r["images"]
     filename = r["filename"]
 
-    #for i in enumerate(images, filename):
+    #for i,  in enumerate(images, filename):
     no_header_im = rm_strheader(images)
     images_info = pre_processing(no_header_im, filename, images)
     mainfunction.add_images(email, images_info)
@@ -150,7 +140,7 @@ def images_post():
     return jsonify(result), 200
 
 @app.route("/api/images/<user_email>/<image_id>/process", methods=["POST"])
-def pro_images_post_his(user_email, image_id):
+def pro_images_post_his():
 
     r = request.get_json()
 
@@ -164,26 +154,42 @@ def pro_images_post_his(user_email, image_id):
         protype = Image_processing.reverse_video_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
+        result = {
+            "images": images
+            "pro_images": images_info[4]
+        }
+        return jsonify(result), 200
 
     elif image_pro_type == "constrast stretching":
         protype = Image_processing.contrast_stretching_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
+        result = {
+            "images": images
+            "pro_images": images_info[4]
+        }
+        return jsonify(result), 200
 
     elif image_pro_type == "log compression":
         protype = Image_processing.log_compression_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
+        result = {
+            "images": images
+            "pro_images": images_info[4]
+        }
+        return jsonify(result), 200
 
     elif image_pro_type == "histogram eq":
         protype = Image_processing.histogram_eq_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
- #   result = {
- #       "images":
- #   }
+        result = {
+            "images": images
+            "pro_images": images_info[4]
+        }
+        return jsonify(result), 200
 
- #   return jsonify(result), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
