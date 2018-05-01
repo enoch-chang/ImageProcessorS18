@@ -131,7 +131,7 @@ def images_post():
     images = r["images"]
     filename = r["filename"]
 
-    #for i,  in enumerate(images, filename):
+    #for i, t in enumerate(images, filename):
     no_header_im = rm_strheader(images)
     images_info = pre_processing(no_header_im, filename, images)
     mainfunction.add_images(email, images_info)
