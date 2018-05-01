@@ -115,7 +115,7 @@ class Image:
         blue_hist = blue_data[0]
         green_hist = green_data[0]
         x_vals = range(0, 256)
-        return red_hist, blue_hist, green_hist, x_vals
+        return [[red_hist], [bluehist], [green_hist], [x_vals]]
 
     # Equalization
     def hist_eq(self):

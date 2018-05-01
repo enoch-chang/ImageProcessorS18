@@ -101,15 +101,15 @@ def aft_processing(images, filename, protype):
     :param filename: str of the name of the image
     :param protype: list of the post-processed image histogram
     """
-    images = images
-    images_names = filename
+    #images = images
+    #images_names = filename
     #image_function = Image_processing.Image(image_as_string=images)
-    curr_time = datetime.datetime.now()
-    time_duration = curr_time - #how do i call the previous data
-    histograms = [protype]
-    pro_images_arr = [images, images_names, image_names, filetype, time_stamp, time_duration, histograms]
+    #curr_time = datetime.datetime.now()
+    #time_duration = curr_time - how do i call the previous data
+    #histograms = [protype]
+    #pro_images_arr = [images, images_names, image_names, filetype, time_stamp, time_duration, histograms]
 
-    return pro_images_arr
+    #return pro_images_arr
 
 @app.route("/api/images/create", methods=["POST"])
 def create_user():
