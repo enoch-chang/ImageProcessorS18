@@ -82,10 +82,10 @@ def pre_processing(images, filename):
     image_function = Image_processing.Image(image_as_string=images)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
-    imgdata = base64.b64decode(images + "==")
+    imgdata = base64.b64decode(images)
     im = Image.open(io.BytesIO(imgdata))
     image_size = [im.size]
-    histograms = Image_processing.histogram_data(images[0])
+    histograms = Image_processing.histogram_data(images)
     images_arr = [image64, images_names, images_names, filetype, time_stamp, image_size, histograms]
 
     return images_arr
@@ -130,7 +130,7 @@ def create_user():
 def rm_strheader(images):
     index = images.find(',')
     image_str = images[index + 1:]
-    base64bytes = image_str.encode() 
+    base64bytes = image_str.encode()
     return base64bytes
 
 @app.route("/api/images/upload", methods=["POST"])
