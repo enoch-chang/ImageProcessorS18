@@ -19,7 +19,7 @@ from skimage import util
 
 # Set up logger
 log_format = '%(levelname)s %(asctime)s %(message)s'
-logging.basicConfig(filename='divlog.txt', format=log_format,
+logging.basicConfig(filename='image_processing_log.txt', format=log_format,
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG,
                     filemode='w')
 logger = logging.getLogger()
