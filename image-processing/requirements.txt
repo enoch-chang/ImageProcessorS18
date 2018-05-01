@@ -1,4 +1,7 @@
 scikit-image
 numpy
 matplotlib
+Pillow
+pypng
 cv2
+pytest-pep8
