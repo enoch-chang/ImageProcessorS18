@@ -9,6 +9,7 @@ import cv2
 import base64
 import imghdr
 import math
+import timeit
 
 from skimage import io
 from skimage import data, img_as_float
@@ -119,26 +120,31 @@ class Image:
 
     # Equalization
     def hist_eq(self):
+        start_time = timeit.default_timer()
         self.hist_eq_array = exposure.equalize_hist(self.image_array)
         skimage.io.imsave('hist_equalized'+self.file_ext, self.hist_eq_array,
                           plugin=None)
-        return self.hist_eq_array
+        run_time = timeit.default_timer() - start_time
+        print(run_time)
+        return self.hist_eq_array, run_time
 
     # Contrast Stretching
     def contrast_stretch(self):
+        start_time = timeit.default_timer()
         p2 = np.percentile(self.image_array, 2)
         p98 = np.percentile(self.image_array, 98)
         self.contrast_stretch_array = exposure.rescale_intensity(
             self.image_array, in_range=(p2, p98))
         skimage.io.imsave('contrast_stretched'+self.file_ext,
                           self.contrast_stretch_array, plugin=None)
-        return self.contrast_stretch_array
+        run_time = timeit.default_timer() - start_time
+        return self.contrast_stretch_array, run_time
 
     # Logarithmic Compression
     def log_compression(self):
+        start_time = timeit.default_timer()
         log_comp = np.zeros_like(self.image_array)
         scaling_const = 255/(np.log(255)+1)  # assumes max val is 255
-        print(scaling_const)
         rows, columns, channels = self.image_array.shape
 
         for row in range(0, rows):
@@ -151,10 +157,12 @@ class Image:
         self.log_comp_array = log_comp
         skimage.io.imsave('log_compressed'+self.file_ext,
                           self.log_comp_array, plugin=None)
-        return self.log_comp_array
+        run_time = timeit.default_timer() - start_time
+        return self.log_comp_array, run_time
 
     # Reverse Video
     def reverse_video(self):
+        start_time = timeit.default_timer()
         inverted = np.zeros_like(self.image_array)
         if self.color_type == 'greyscale':
             inverted = util.invert(self.image_array)
@@ -167,7 +175,8 @@ class Image:
         skimage.io.imsave('reverse_video' + self.file_ext, inverted,
                           plugin=None)
         self.rev_video_array = inverted
-        return self.rev_video_array
+        run_time = timeit.default_timer() - start_time
+        return self.rev_video_array, run_time
 
 
 # Encode created images into Base64
@@ -186,7 +195,7 @@ def output_altered_histogram_data(hist_type, file_ext):
         filename = 'reverse_video'+file_ext
     elif hist_type == 'contrast_stretch':
         filename = 'contrast_stretched'+file_ext
-    elif hist_type == 'log_comp'+file_ext:
+    elif hist_type == 'log':
         filename = 'log_compressed'+file_ext
 
     image = io.imread(filename)
@@ -223,43 +232,41 @@ def initialize_image(image_string):
 # Histogram equalization - Callable Function
 def histogram_eq_complete(image_string):
     image = initialize_image(image_string)
-    image.hist_eq()
+    hist_eq_array, run_time = image.hist_eq()
     red_hist, blue_hist, green_hist, x_vals = output_altered_histogram_data(
         'hist_eq', image.file_ext)
     base64_string = encode_string('hist_equalized', image.file_ext)
-    return red_hist, blue_hist, green_hist, x_vals, base64_string
+    return red_hist, blue_hist, green_hist, x_vals, base64_string, run_time
 
 
 # Contrast stretching - Callable Function
 def contrast_stretching_complete(image_string):
     image = initialize_image(image_string)
-    image.contrast_stretch()
+    contrast_stretch_array, run_time = image.contrast_stretch()
     red_hist, blue_hist, green_hist, x_vals = \
         output_altered_histogram_data('contrast_stretch', image.file_ext)
     base64_string = encode_string('contrast_stretched', image.file_ext)
-    return red_hist, blue_hist, green_hist, x_vals, base64_string
+    return red_hist, blue_hist, green_hist, x_vals, base64_string, run_time
 
 
 # Reverse video - Callable Function
 def reverse_video_complete(image_string):
     image = initialize_image(image_string)
-    image.reverse_video()
+    reverse_video_array, run_time = image.reverse_video()
     red_hist, blue_hist, green_hist, x_vals = \
         output_altered_histogram_data('rev_vid', image.file_ext)
     base64_string = encode_string('reverse_video', image.file_ext)
-    plt.plot(x_vals, red_hist)
-    plt.show()
-    return red_hist, blue_hist, green_hist, x_vals, base64_string
+    return red_hist, blue_hist, green_hist, x_vals, base64_string, run_time
 
 
 # Log Compression - Callable Function
 def log_compression_complete(image_string):
     image = initialize_image(image_string)
-    image.log_compression()
+    log_comp_array, run_time = image.log_compression()
     red_hist, blue_hist, green_hist, x_vals = \
-        output_altered_histogram_data('log_comp', image.file_ext)
+        output_altered_histogram_data('log', image.file_ext)
     base64_string = encode_string('log_compressed', image.file_ext)
-    return red_hist, blue_hist, green_hist, x_vals, base64_string
+    return red_hist, blue_hist, green_hist, x_vals, base64_string, run_time
 
 
 # Output histogram data for unaltered image
@@ -270,4 +277,4 @@ def histogram_data(image_string):
     return red_hist, blue_hist, green_hist, x_vals
 
 
-histogram_data(string)
+log_compression_complete(string)
