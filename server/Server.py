@@ -17,6 +17,7 @@ connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route("/api/images/<user_email>", methods=["GET"])
 def app_get_user(user_email):
 
@@ -28,23 +29,27 @@ def app_get_user(user_email):
             "name": user_data.name,
             "images": user_data.images,
             "pro_images": user_data.pro_images,
-            "success":1
+            "success": 1
         }
     except pymodm.errors.DoesNotExist:
-        result = {"success":0}
+        result = {"success": 0}
         return jsonify(result), 200
 
     return jsonify(result), 200
+
 
 def transfer_decode(image_str):
     index = image_str.find(',')
     image_str = image_str[index + 1:]
     image_bytes = image_str.encode()
+
     return image_bytes
+
 
 def decode_image(image_bytes, image_id):
     with open(image_id, 'wb') as images:
         images.write(base64.b64decode(image_bytes))
+
 
 def get_user(user_email):
 
@@ -56,19 +61,22 @@ def get_user(user_email):
             "name": user_data.name,
             "images": user_data.images,
             "pro_images": user_data.pro_images,
-            "success":1
+            "success": 1
         }
     except pymodm.errors.DoesNotExist:
-        result = {"success":0}
+        result = {"success": 0}
         return jsonify(result), 200
 
     return jsonify(result), 200
 
+
 def pre_processing(noheader_images, filename, images):
     """
-    Do the pre-processing method for images that are about to be uploaded. After processing, this
-    would return a image array including the corresponding information of the image, including:
-    base64 str of the images, filename, id, filetype, time stamp, image size and unaltered histograms.
+    Do the pre-processing method for images that are about to be uploaded.
+    After processing, this would return a image array including the corres
+    -ponding information of the image, including: base64 str of the images,
+    filename, id, filetype, time stamp, image size and unaltered
+    histograms.
     :param images: base64 str of the image
     :param filename: str of the name of the image
     """
@@ -80,29 +88,33 @@ def pre_processing(noheader_images, filename, images):
     im = Image.open(io.BytesIO(imgdata))
     image_size = im.size
     histograms = Image_processing.histogram_data(noheader_images)
-    images_arr = [images, images_names, images_names, filetype, time_stamp, image_size, histograms]
+    images_arr = [images, images_names, images_names, filetype,
+                  time_stamp, image_size, histograms]
 
     return images_arr
 
+
 def aft_processing(images, filename, protype):
     """
-    After the specific image processing, this function process all the information regarding this image.
-    After processing, this would return a image array including the corresponding information of the
-    image, including:
-    base64 str of the images, filename, id, rocess type, time stamp, time duration and
-    processed histograms.
+    After the specific image processing, this function process all the
+    information regarding this image. After processing, this would return a
+    image array including the corresponding information of the image,
+    including: base64 str of the images, filename, id, rocess type, time
+    stamp, time duration and processed histograms.
     :param images: base64 str of the image
     :param filename: str of the name of the image
     :param protype: list of the post-processed image histogram
     """
-    #images = images
-    #images_names = filename
-    #time_stamp = datetime.datetime.now()
-    #time_duration = protype[5]
-    #histograms = [protype]
-    #pro_images_arr = [images, images_names, image_names, filetype, time_stamp, time_duration, histograms]
+    images = images
+    images_names = filename
+    time_stamp = datetime.datetime.now()
+    time_duration = protype[5]
+    histograms = [protype]
+    pro_images_arr = [images, images_names, image_names, filetype,
+                      time_stamp, time_duration, histograms]
 
-    #return pro_images_arr
+    return pro_images_arr
+
 
 @app.route("/api/images/create", methods=["POST"])
 def create_user():
@@ -114,13 +126,16 @@ def create_user():
 
     mainfunction.create_user(email, name)
     result = {"sucess": "create user"}
+
     return jsonify(result), 200
+
 
 def rm_strheader(images):
     index = images.find(',')
     image_str = images[index + 1:]
-    #base64bytes = image_str.encode()
+
     return image_str
+
 
 @app.route("/api/images/upload", methods=["POST"])
 def images_post():
@@ -138,6 +153,7 @@ def images_post():
     result = {"success": "Cong! uploading successful"}
 
     return jsonify(result), 200
+
 
 @app.route("/api/images/<user_email>/<image_id>/process", methods=["POST"])
 def pro_images_post_his():

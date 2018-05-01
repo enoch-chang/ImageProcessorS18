@@ -1,5 +1,6 @@
 from pymodm import fields, MongoModel
 
+
 class User(MongoModel):
         email = fields.EmailField(primary_key=True)
         name = fields.CharField()
