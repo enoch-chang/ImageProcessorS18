@@ -128,7 +128,7 @@ def create_user():
     return jsonify(result), 200
 
 def rm_strheader(images):
-    index = images.find(',')
+    index = images[0].find(',')
     image_str = images[index + 1:]
     return image_str
 
