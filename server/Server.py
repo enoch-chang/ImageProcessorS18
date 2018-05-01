@@ -84,7 +84,7 @@ def pre_processing(noheader_images, filename, images):
     time_stamp = datetime.datetime.now()
     imgdata = base64.b64decode(noheader_images)
     im = Image.open(io.BytesIO(imgdata))
-    image_size = [im.size]
+    image_size = im.size
     #histograms = Image_processing.histogram_data(images)
     images_arr = [images, images_names, images_names, filetype, time_stamp, image_size, [[0,0],[0,0],[0,0],[0,0]]]
 
