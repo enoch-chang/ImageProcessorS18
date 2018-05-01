@@ -2,11 +2,13 @@ from pymodm import connect
 import models
 import datetime
 
+
 def processed_his(email, images, timing):
     user = models.User.objects.raw({"_id": email}).first()
     user.user_images_his.append(images)
     user.user_images_pro_time.append(timing)
     user.save()
+
 
 def processed_contrast(email, images, timing):
     user = models.User.objects.raw({"_id": email}).first()
@@ -14,17 +16,20 @@ def processed_contrast(email, images, timing):
     user.user_images_pro_time.append(timing)
     user.save()
 
+
 def processed_log(email, images, timing):
     user = models.User.objects.raw({"_id": email}).first()
     user.user_images_log.append(images)
     user.user_images_pro_time.append(timing)
     user.save()
 
+
 def processed_reverse(email, images, timing):
     user = models.User.objects.raw({"_id": email}).first()
     user.user_images_reverse.append(images)
     user.user_images_pro_time.append(timing)
     user.save()
+
 
 def add_images(email, image_info):
     """
@@ -50,6 +55,7 @@ def add_pro_images(email, image_info):
     user.pro_images.append(image_info)  # append image to the user's list of images
     user.save()  # save the user to the database
 
+
 def create_user(email, name):
     """
     Creates a user with the specified email and name. If the user already exists in the DB this will
@@ -65,8 +71,10 @@ def create_user(email, name):
     #u.name = name
     u.save() # save the user to the database
 
+
 def check_user(email):
     return models.User.objects.raw({"_id": email}).count()>0
+
 
 def print_user(email):
     """
@@ -77,6 +85,7 @@ def print_user(email):
     user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
     print(user.email, user.name, user.images, user.pro_images)
     return user
+
 
 if __name__ == "__main__":
     connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")  # open up connection to db
