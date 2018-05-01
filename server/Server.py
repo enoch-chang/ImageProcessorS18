@@ -85,8 +85,8 @@ def pre_processing(noheader_images, filename, images):
     imgdata = base64.b64decode(noheader_images)
     im = Image.open(io.BytesIO(imgdata))
     image_size = im.size
-    #histograms = Image_processing.histogram_data(images)
-    images_arr = [images, images_names, images_names, filetype, time_stamp, image_size, [[0,0],[0,0],[0,0],[0,0]]]
+    histograms = Image_processing.histogram_data(noheader_images)
+    images_arr = [images, images_names, images_names, filetype, time_stamp, image_size, histograms]
 
     return images_arr
 
@@ -103,7 +103,6 @@ def aft_processing(images, filename, protype):
     """
     #images = images
     #images_names = filename
-    #image_function = Image_processing.Image(image_as_string=images)
     #time_stamp = datetime.datetime.now()
     #time_duration = protype[5]
     #histograms = [protype]
@@ -163,22 +162,22 @@ def pro_images_post_his(user_email, image_id):
     wk_images = rm_strheader(images)
     if image_pro_type == "reverse video":
         protype = Image_processing.reverse_video_complete(wk_images)
-        images_info = aft_processing(wk_images, filename, protype)
+        images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
 
     elif image_pro_type == "constrast stretching":
         protype = Image_processing.contrast_stretching_complete(wk_images)
-        images_info = aft_processing(wk_images, filename, protype)
+        images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
 
     elif image_pro_type == "log compression":
         protype = Image_processing.log_compression_complete(wk_images)
-        images_info = aft_processing(wk_images, filename, protype)
+        images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
 
     elif image_pro_type == "histogram eq":
         protype = Image_processing.histogram_eq_complete(wk_images)
-        images_info = aft_processing(wk_images, filename, protype)
+        images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
  #   result = {
  #       "images":
