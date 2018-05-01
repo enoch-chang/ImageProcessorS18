@@ -28,11 +28,10 @@ def processed_reverse(email, images, timing):
 
 def add_images(email, image_info):
     """
-    Appends a heart_rate measurement at a specified time to the user specified by
-    email. It is assumed that the user specified by email exists already.
+    Appends images to specific user email and the images corresponding information, including the
+    base64 str of the images, filename, id, filetype, time stamp, image size and unaltered histograms.
     :param email: str email of the user
-    :param heart_rate: number heart_rate measurement of the user
-    :param time: the datetime of the heart_rate measurement
+    :param image_info: a list of image information
     """
     user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
     user.images.append(image_info)  # append image to the user's list of images
@@ -40,11 +39,12 @@ def add_images(email, image_info):
 
 def add_pro_images(email, image_info):
     """
-    Appends a heart_rate measurement at a specified time to the user specified by
-    email. It is assumed that the user specified by email exists already.
+    After processing, this function is to appends images to specific user email and the images
+    corresponding information, including the
+    base64 str of the processed images, filename, id, process type, time stamp, time duration and
+    processed histograms.
     :param email: str email of the user
-    :param heart_rate: number heart_rate measurement of the user
-    :param time: the datetime of the heart_rate measurement
+    :param image_info: a list of image information
     """
     user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
     user.pro_images.append(image_info)  # append image to the user's list of images
@@ -52,12 +52,10 @@ def add_pro_images(email, image_info):
 
 def create_user(email, name):
     """
-    Creates a user with the specified email and age. If the user already exists in the DB this WILL
-    overwrite that user. It also adds the specified heart_rate to the user
+    Creates a user with the specified email and name. If the user already exists in the DB this will
+    overwrite that user.
     :param email: str email of the new user
-    :param age: number age of the new user
-    :param heart_rate: number initial heart_rate of this new user
-    :param time: datetime of the initial heart rate measurement
+    :param name: str name of the new user
     """
     u = models.User(email, name, [], [])  # create a new User instance
     u.images.append(["No images", "No images", "No images", "No images", "No images",

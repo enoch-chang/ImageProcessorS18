@@ -25,18 +25,6 @@ def app_get_user(user_email):
 
     try:
         user_data = mainfunction.print_user(user_email)
-        #images_list = models.User.objects.raw({"_id": email}).first()
-
-        #user_images = images_list.images
-        #image_names = images_list.user_ori_images_id
-        #filetype = Image_processing.Image.get_file_ext(user_images)
-        #time_stamp = images_list.user_ori_images_time
-        #histograms = Image_processing.output_altered_histogram_data()
-        #images_arr = [user_images, image_names, image_names, filetype, time_stamp, None, None]
-
-        #user_pro_images = images_list.pro_images
-        #histograms = Image_processing.Image.show_histogram()
-        #pro_images_arr = [user_pro_images , image_names, image_names, filetype, time_stamp, None, None]
 
         result = {
             "email": user_email,
@@ -67,18 +55,6 @@ def get_user(user_email):
 
     try:
         user_data = mainfunction.print_user(user_email)
-        #images_list = models.User.objects.raw({"_id": email}).first()
-
-        #user_images = images_list.images
-        #image_names = images_list.user_ori_images_id
-        #filetype = Image_processing.Image.get_file_ext(user_images)
-        #time_stamp = images_list.user_ori_images_time
-        #histograms = Image_processing.output_altered_histogram_data()
-        #images_arr = [user_images, image_names, image_names, filetype, time_stamp, None, None]
-
-        #user_pro_images = images_list.pro_images
-        #histograms = Image_processing.Image.show_histogram()
-        #pro_images_arr = [user_pro_images , image_names, image_names, filetype, time_stamp, None, None]
 
         result = {
             "email": user_email,
@@ -94,31 +70,46 @@ def get_user(user_email):
     return jsonify(result), 200
 
 def pre_processing(images, filename):
-
-    images = images
+    """
+    Do the pre-processing method for images that are about to be uploaded. After processing, this
+    would return a image array including the corresponding information of the image, including:
+    base64 str of the images, filename, id, filetype, time stamp, image size and unaltered histograms.
+    :param images: base64 str of the image
+    :param filename: str of the name of the image
+    """
+    image64 = images
     images_names = filename
     image_function = Image_processing.Image(image_as_string=images)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
-    imgdata = base64.b64decode(images)
+    imgdata = base64.b64decode(images[0])
     im = Image.open(io.BytesIO(imgdata))
     image_size = [im.size]
-    histograms = [Image_processing.histogram_data(images)]
-    images_arr = [images, images_names, image_names, filetype, time_stamp, image_size, histograms]
+    histograms = Image_processing.histogram_data(images[0])
+    images_arr = [image64, images_names, images_names, filetype, time_stamp, image_size, histograms]
 
     return images_arr
 
-def eq_processing(images, filename, protype):
-
-    images = images
-    images_names = filename
+def aft_processing(images, filename, protype):
+    """
+    After the specific image processing, this function process all the information regarding this image.
+    After processing, this would return a image array including the corresponding information of the
+    image, including:
+    base64 str of the images, filename, id, rocess type, time stamp, time duration and
+    processed histograms.
+    :param images: base64 str of the image
+    :param filename: str of the name of the image
+    :param protype: list of the post-processed image histogram
+    """
+    #images = images
+    #images_names = filename
     #image_function = Image_processing.Image(image_as_string=images)
-    curr_time = datetime.datetime.now()
-    time_duration = curr_time - #how do i call the previous data
-    histograms = [protype]
-    pro_images_arr = [images, images_names, image_names, filetype, time_stamp, time_duration, histograms]
+    #time_stamp = datetime.datetime.now()
+    #time_duration = protype[5]
+    #histograms = [protype]
+    #pro_images_arr = [images, images_names, image_names, filetype, time_stamp, time_duration, histograms]
 
-    return pro_images_arr
+    #return pro_images_arr
 
 @app.route("/api/images/create", methods=["POST"])
 def create_user():
@@ -136,6 +127,11 @@ def create_user():
     result = {"sucess": "create user"}
     return jsonify(result), 200
 
+def rm_strheader(images):
+    index = images.find(',')
+    image_str = images[index + 1:]
+    return image_str
+
 @app.route("/api/images/upload", methods=["POST"])
 def images_post():
 
@@ -144,9 +140,13 @@ def images_post():
     email = r["email"]
     images = r["images"]
     filename = r["filename"]
-    images_info = pre_processing(images, filename)
+
+    #for i in enumerate(images, filename):
+    no_header_im = rm_strheader(images)
+    images_info = pre_processing(no_header_im, filename)
     mainfunction.add_images(email, images_info)
     result = {"success": "Cong! uploading successful"}
+
     return jsonify(result), 200
 
 @app.route("/api/images/<user_email>/<image_id>/process", methods=["POST"])
@@ -178,7 +178,11 @@ def pro_images_post_his(user_email, image_id):
         protype = Image_processing.histogram_eq_complete(images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
+    result = {
+        "images":
+    }
 
+    return jsonify(result), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
