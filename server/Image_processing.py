@@ -15,9 +15,6 @@ from skimage import data, img_as_float
 from skimage import exposure
 from skimage import util
 
-#with open('color_image_test.JPEG', 'rb') as imageFile:
-#    string = base64.b64encode(imageFile.read())
-
 
 class Image:
 
@@ -227,7 +224,7 @@ def histogram_eq_complete(image_string):
     red_hist, blue_hist, green_hist, x_vals = output_altered_histogram_data(
         'hist_eq', image.file_ext)
     base64_string = encode_string('hist_equalized', image.file_ext)
-    return [[red_hist], [blue_hist], [green_hist], [x_vals], [base64_string]]
+    return [red_hist, blue_hist, green_hist, x_vals, base64_string]
 
 
 # Contrast stretching - Callable Function
@@ -237,7 +234,7 @@ def contrast_stretching_complete(image_string):
     red_hist, blue_hist, green_hist, x_vals = \
         output_altered_histogram_data('contrast_stretch', image.file_ext)
     base64_string = encode_string('contrast_stretched', image.file_ext)
-    return [[red_hist], [blue_hist], [green_hist], [x_vals], [base64_string]]
+    return [red_hist, blue_hist, green_hist, x_vals, base64_string]
 
 
 # Reverse video - Callable Function
@@ -249,7 +246,7 @@ def reverse_video_complete(image_string):
     base64_string = encode_string('reverse_video', image.file_ext)
     plt.plot(x_vals, red_hist)
     plt.show()
-    return [[red_hist], [blue_hist], [green_hist], [x_vals], [base64_string]]
+    return [red_hist, blue_hist, green_hist, x_vals, base64_string]
 
 
 # Log Compression - Callable Function
@@ -259,7 +256,7 @@ def log_compression_complete(image_string):
     red_hist, blue_hist, green_hist, x_vals = \
         output_altered_histogram_data('log_comp', image.file_ext)
     base64_string = encode_string('log_compressed', image.file_ext)
-    return [[red_hist], [blue_hist], [green_hist], [x_vals], [base64_string]]
+    return [red_hist, blue_hist, green_hist, x_vals, base64_string]
 
 
 # Output histogram data for unaltered image
@@ -267,10 +264,4 @@ def histogram_data(image_string):
     image = initialize_image(image_string)
     red_hist, blue_hist, green_hist, x_vals = image.output_histogram_data(
         'original')
-    return [[red_hist], [blue_hist], [green_hist], [x_vals]]
-
-
-#histogram_data(string)
-#test = Image(image_as_string=string)
-#test.gather_data()
-#test.log_compression()
+    return [red_hist, blue_hist, green_hist, x_vals]
