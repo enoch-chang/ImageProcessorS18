@@ -43,28 +43,35 @@ class MainPage extends React.Component {
         this.state = {
             "email": ["Enter your e-mail"],
             "name": ["Enter your name"],
-            "logged_in": 2,
-            "images": [['image64_1', "cat_1.jpg", "001", ".jpg", "15:05 04/20/2018",[1200,1600], [[23,14,15,18], [1, 2, 3, 4],
-                [63,75,54,35], [1, 2, 3, 4], [45,35,34,12], [1, 2, 3, 4]]],
-                ['image64_2', "dog_1.jpg", "002", ".jpg", "15:28 04/20/2018",[1200,1600], [[24,63,56,26], [1, 2, 3, 4],
-                    [3,63,65,73], [1, 2, 3, 4], [28,64,76,34], [1, 2, 3, 4]]],
-                    ['image64_3', "cat_2.png", "003", ".png", "16:20 04/20/2018",[1200,1600], [[87,47,83,25], [1, 2, 3, 4],
-                        [93,62,54,34], [1, 2, 3, 4], [22,63,23,46], [1, 2, 3, 4]]]], // test data
-            // [image, filename, image_id, filetype, time_stamp, image_size, histogram]
+            "logged_in": 0,
+            "images": [],
+
+            //["No images", "No images", "No images", "No images", "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]],
+
+            //     [['image64_1', "cat_1.jpg", "001", ".jpg", "15:05 04/20/2018",[1200,1600], [[23,14,15,18], [1, 2, 3, 4],
+            //     [63,75,54,35], [1, 2, 3, 4], [45,35,34,12], [1, 2, 3, 4]]],
+            //     ['image64_2', "dog_1.jpg", "002", ".jpg", "15:28 04/20/2018",[1200,1600], [[24,63,56,26], [1, 2, 3, 4],
+            //         [3,63,65,73], [1, 2, 3, 4], [28,64,76,34], [1, 2, 3, 4]]],
+            //         ['image64_3', "cat_2.png", "003", ".png", "16:20 04/20/2018",[1200,1600], [[87,47,83,25], [1, 2, 3, 4],
+            //             [93,62,54,34], [1, 2, 3, 4], [22,63,23,46], [1, 2, 3, 4]]]], // test data
+            // // [image, filename, image_id, filetype, time_stamp, image_size, histogram]
             // [   0  ,    1   ,    2    ,    3    ,     4     ,      5    ,    6     ]
             "disp_images": [],
             "disp": "original",
             "current_image":['', "No file selected.", "", "--", "--", ["--","--"], ""],
-            "processed_images":[['image64_3', "cat_1_histogram.jpg", "001", "histogram", "16:52 04/20/2018", "4", [1200,1600], [[87,47,83,25], [1, 2, 3, 4],
-            [93,62,54,34], [1, 2, 3, 4], [22,63,23,46], [1, 2, 3, 4]]],
-            ['image64_4', "cat_2_reverse.png", "003", "reverse", "16.55 04/20/2018", "2.3", [[23,14,15,18], [1, 2, 3, 4],
-                [63,75,54,35], [1, 2, 3, 4], [45,35,34,12], [1, 2, 3, 4]]]],
+            "pro_images": [],
+            //     [['image64_3', "cat_1_histogram.jpg", "001", "histogram", "16:52 04/20/2018", "4", [1200,1600], [[87,47,83,25], [1, 2, 3, 4],
+            // [93,62,54,34], [1, 2, 3, 4], [22,63,23,46], [1, 2, 3, 4]]],
+            // ['image64_4', "cat_2_reverse.png", "003", "reverse", "16.55 04/20/2018", "2.3", [[23,14,15,18], [1, 2, 3, 4],
+            //     [63,75,54,35], [1, 2, 3, 4], [45,35,34,12], [1, 2, 3, 4]]]],
             // [proc_image, filename, image_id, proc_type, time_stamp, time_duration, histogram]
             // [     0    ,     1   ,     2   ,     3    ,     4     ,       5      ,      6   ]
             "current_image_processed":['', "No file selected.", "", "--", "--", "--", ""],
             "process":[],
             "tab":0,
             "id":"",
+            "to_upload":[],
+            "to_upload_names":[]
         };
     }
 
@@ -87,7 +94,7 @@ class MainPage extends React.Component {
             "disp_images": [],
             "disp": "original",
             "current_image":['', "No file selected.", "", "--", "--", ["--","--"], ""],
-            "processed_images": [],
+            "pro_images": [],
             "current_image_processed":['', "No file selected.", "", "--", "--", "--", ""],
             "tab":0,
         })
@@ -106,8 +113,7 @@ class MainPage extends React.Component {
                 this.setState({
                     "name": response.data["name"],
                     "images": response.data["images"],
-                    "logged_in": response.data["success"],
-                    "processed_images": response.data["processed_images"],
+                    "pro_images": response.data["pro_images"],
                 });
             }
 
@@ -116,18 +122,14 @@ class MainPage extends React.Component {
                 this.setState({
                     "name": response.data["name"],
                     "images": response.data["images"],
-                    "logged_in": response.data["success"],
-                    "processed_images": response.data["processed_images"],
+                    "logged_in": 2,
+                    "pro_images": response.data["pro_images"],
                     "disp_images": response.data["images"],
-                    "logged_in": 2
                 });
             }
-            else {
+            if (response.data["success"] == 0) {
                 this.setState({"logged_in":1});
-
             }
-
-
 
             console.log(this.state)
         })
@@ -138,16 +140,22 @@ class MainPage extends React.Component {
         axios.post(URL,
                {"name":this.state.name,
                "email":this.state.email})
+        this.setState({"logged_in":2});
         this.logIn()
     }
 
     onFileLoad = (e, files) => {
+        var file_list = e.target.result;
 
-    var files = e.target.result;
+        // for (var i=0; i<files.length; i++){
+        //     var file = file_list[i]
+        //     this.uploadPOST("", file, files[i].name)
+        // }
 
-        for (var i=0; i<files.length; i++){
-            this.uploadPOST(files[i])
-        }
+
+        //var base64result = file_list.split(',')[1];
+
+        this.setState({"to_upload":[file_list],"to_upload_names":[files.name]});
 
         // this.setState({"current_image":e.target.result}); // Given that uploadPOST works
 
@@ -160,16 +168,27 @@ class MainPage extends React.Component {
         // }
     }
 
-    uploadPOST = (file) => {
-        var URL = "http://vcm-3608.vm.duke.edu:5000/api/images/"
+    uploadPOST = (event) => {
+        console.log("fuck")
+//for (var i=0; i<(this.state.to_upload).length; i++){
+
+            var URL = "http://vcm-3608.vm.duke.edu:5000/api/images/upload"
+            // axios.post(URL,
+            //     {"images":this.state.to_upload[i],
+            //      "email":this.state.email,
+            //      "filename": this.state.to_upload_names[i]
+            //     })
+
         axios.post(URL,
-            {"image":file,
-                "email":this.state.email})
+            {"images":this.state.to_upload,
+                "email":this.state.email,
+                "filename": this.state.to_upload_names
+            })
 
-        this.logIn()
-
-        this.setState({"current_image":file[file.length-1]});
-
+            this.logIn()
+            this.setState({"current_image":this.state.images[(this.state.images).length-1]});
+            console.log(this.state)
+       // }
     }
 
 
@@ -180,7 +199,7 @@ class MainPage extends React.Component {
         axios.post(URL,{"image_id":this.state.current_image[0], "process":this.state.process}) //change to ID
 
         this.logIn()
-        this.setState({"current_image_processed":(this.processed_images)[(this.processed_images).length-1]});
+        this.setState({"current_image_processed":(this.pro_images)[(this.pro_images).length-1]});
 
     }
 
@@ -189,14 +208,15 @@ class MainPage extends React.Component {
         this.setState({"current_image":image});
         var temp_image_list = [];
 
-        for (var i = 0; i < (this.state.processed_images).length; i++){
-            if (this.state.processed_images[i][2] == image[2]){
-                temp_image_list.push(this.state.processed_images[i])
+        for (var i = 0; i < (this.state.pro_images).length; i++){
+            if (this.state.pro_images[i][2] == image[2]){
+                temp_image_list.push(this.state.pro_images[i])
             }
         }
 
         this.setState({"disp_images":temp_image_list,
-                       "disp":"processed"});
+                       "disp":"processed",
+                       "current_image_processed":[]});
 
         console.log(this.state)
         this.handleChange("",0)
@@ -331,6 +351,11 @@ class MainPage extends React.Component {
                     <Paper style = {{"width":"600px", "margin": "auto"}} >
                         <div style={styles.blockStyle}>
                             <Upload label="Add"  onFileLoad={this.onFileLoad}/>
+                            <Button variant="raised" onClick={this.uploadPOST}
+                                    style={{"float": "right"}}
+                                    color="secondary">
+                                UPLOAD
+                            </Button>
                         </div>
                     </Paper>
 
@@ -417,7 +442,7 @@ class MainPage extends React.Component {
                                     <LineChart width={550} height={200}
                                                data={(this.state.images).map(n => {
                                                    return (
-                                                       {name: "", value: ""}
+                                                       {name: [0], value: [0]}
                                                    );
                                                })}
                                                margin={{ top: 15, right: 5, bottom: 5, left: 5 }}>
