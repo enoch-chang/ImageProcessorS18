@@ -51,8 +51,18 @@ class Image:
         :returns self.image_array: a numpy array containing the digital
         image data
         """
+ def gather_data(self):
+        """Gathers useful information about an input image and stores the data
+        as object attributes. Functions by taking in a base64 string,
+        decoding it then saving it as a numpy array
+
+        :returns self.color_type: a string stating 'greyscale' or 'color'
+        :returns self.dimensions: an array in the form of (rows, columns)
+        :returns self.image_array: a numpy array containing the digital
+        image data
+        """
         self.decode_string()
-        self.image_array = io.imread('working_image.JPEG')
+        self.image_array = io.imread('working_image' + self.file_ext)
         rows, columns, channels = self.image_array.shape
         self.dimensions = (rows, columns)
         logger.info('Image Dimensions: %s, %s' % (rows, columns))
