@@ -4,3 +4,4 @@ matplotlib
 Pillow
 pypng
 opencv-python
+pytest-pep8
