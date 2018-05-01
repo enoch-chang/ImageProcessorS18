@@ -226,7 +226,6 @@ class Image:
                     run_time)
         return self.log_comp_array, run_time
 
-    # Reverse Video
     def reverse_video(self):
         """
         Carries out reverse video on input image
@@ -243,8 +242,8 @@ class Image:
             rows, columns, channels = self.image_array.shape
             for row in range(0, rows):
                 for column in range(0, columns):
-                    inverted[row, column] = [255, 255, 255] - \
-                                            self.image_array[row, column]
+                    image_data = self.image_array[row, column]
+                    inverted[row, column] = [255, 255, 255] - image_data
         skimage.io.imsave('reverse_video' + self.file_ext, inverted,
                           plugin=None)
         self.rev_video_array = inverted
@@ -252,7 +251,6 @@ class Image:
         logger.info('Reverse video completed in %s seconds' %
                     run_time)
         return self.rev_video_array, run_time
-
 
 # Encode created images into Base64
 def encode_string(filename, file_ext):
