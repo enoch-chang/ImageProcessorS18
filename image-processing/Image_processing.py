@@ -82,7 +82,7 @@ class Image:
 
         """
         ext = self.get_file_ext()
-        fh = open('working_image'+ext, "wb")
+        fh = open('working_image' + ext, "wb")
         fh.write(self.image_as_string.decode('base64'))
         logger.info('Base64 image successfully decoded')
 
