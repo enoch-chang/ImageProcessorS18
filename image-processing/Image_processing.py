@@ -14,7 +14,7 @@ from skimage import util
 
 # Set up logger
 log_format = '%(levelname)s %(asctime)s %(message)s'
-logging.basicConfig(filename='image_processing_log.txt', format=log_format,
+logging.basicConfig(filename='divlog.txt', format=log_format,
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG,
                     filemode='w')
 logger = logging.getLogger()
@@ -42,16 +42,6 @@ class Image:
 
     # Load and Gather Image Data (Size, color / greyscale, file type)
     def gather_data(self):
-        """Gathers useful information about an input image and stores the data
-        as object attributes. Functions by taking in a base64 string,
-        decoding it then saving it as a numpy array
-
-        :returns self.color_type: a string stating 'greyscale' or 'color'
-        :returns self.dimensions: an array in the form of (rows, columns)
-        :returns self.image_array: a numpy array containing the digital
-        image data
-        """
- def gather_data(self):
         """Gathers useful information about an input image and stores the data
         as object attributes. Functions by taking in a base64 string,
         decoding it then saving it as a numpy array
@@ -91,7 +81,7 @@ class Image:
         """Reads base64 image data and determines image file type (
         PNG/JPEG)
 
-        :returns self.file_ext: string reading either '.JPG' or '.PNG'
+        :returns self.file_ext: string reading either '.JPEG' or '.PNG'
         """
         string = self.image_as_string
         if string[0] == '/':
@@ -448,3 +438,9 @@ def histogram_data(image_string):
     red_hist, blue_hist, green_hist, x_vals = image.output_histogram_data(
         'original')
     return red_hist, blue_hist, green_hist, x_vals
+
+
+file_png = open('image_test_png.txt')
+png_string = file_png.read()
+test = Image(image_as_string=png_string, file_ext='.jpeg')
+test.gather_data()
