@@ -33,43 +33,54 @@ def processed_reverse(email, images, timing):
 
 def add_images(email, image_info):
     """
-    Appends images to specific user email and the images corresponding information, including the
-    base64 str of the images, filename, id, filetype, time stamp, image size and unaltered histograms.
+    Appends images to specific user email and the images corresponding
+    information, including the base64 str of the images, filename, id,
+    filetype, time stamp, image size and unaltered histograms.
     :param email: str email of the user
     :param image_info: a list of image information
     """
-    user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
-    user.images.append(image_info)  # append image to the user's list of images
-    user.save()  # save the user to the database
+    user = models.User.objects.raw({"_id": email}).first()
+    # Get the first user where _id=email
+    user.images.append(image_info)
+    # append image to the user's list of images
+    user.save()
+    # save the user to the database
+
 
 def add_pro_images(email, image_info):
     """
-    After processing, this function is to appends images to specific user email and the images
-    corresponding information, including the
-    base64 str of the processed images, filename, id, process type, time stamp, time duration and
-    processed histograms.
+    After processing, this function is to appends images to specific user
+    email and the images corresponding information, including the
+    base64 str of the processed images, filename, id, process type,
+    time stamp, time duration and processed histograms.
     :param email: str email of the user
     :param image_info: a list of image information
     """
-    user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
-    user.pro_images.append(image_info)  # append image to the user's list of images
-    user.save()  # save the user to the database
+    user = models.User.objects.raw({"_id": email}).first()
+    # Get the first user where _id=email
+    user.pro_images.append(image_info)
+    # append image to the user's list of images
+    user.save()
+    # save the user to the database
 
 
 def create_user(email, name):
     """
-    Creates a user with the specified email and name. If the user already exists in the DB this will
-    overwrite that user.
+    Creates a user with the specified email and name. If the user already
+    exists in the DB this will overwrite that user.
     :param email: str email of the new user
     :param name: str name of the new user
     """
     u = models.User(email, name, [], [])  # create a new User instance
-    #u.images.append(["No images", "No images", "No images", "No images", "No images",
+    #u.images.append(["No images", "No images", "No images", "No images",
+    #  "No images",
     #                 [0, 0], [[0, 0], [0, 0], [0, 0]]])
-    #u.pro_images.append(["No images", "No images", "No images", "No images", "No images",
+    #u.pro_images.append(["No images", "No images", "No images", "No images",
+    #  "No images",
     #                    [0, 0], [[0, 0], [0, 0], [0, 0]]])
     #u.name = name
-    u.save() # save the user to the database
+    u.save()
+    # save the user to the database
 
 
 def check_user(email):
@@ -82,7 +93,8 @@ def print_user(email):
     :param email: str email of the user of interest
     :return:
     """
-    user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
+    user = models.User.objects.raw({"_id": email}).first()
+    # Get the first user where _id=email
     print(user.email, user.name, user.images, user.pro_images)
     return user
 
