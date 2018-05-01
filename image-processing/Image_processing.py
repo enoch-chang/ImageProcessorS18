@@ -1,6 +1,5 @@
 import skimage
 import matplotlib
-matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
@@ -11,6 +10,7 @@ import logging
 from skimage import io
 from skimage import exposure
 from skimage import util
+matplotlib.use('TkAgg')
 
 # Set up logger
 log_format = '%(levelname)s %(asctime)s %(message)s'
@@ -214,9 +214,7 @@ class Image:
         for row in range(0, rows):
             for column in range(0, columns):
                 log_comp[row, column] = scaling_const*np.log((
-                                                             np.absolute(self.
-                                                            image_array[
-                                                            row, column])))
+                                np.absolute(self.image_array[row, column])))
 
         self.log_comp_array = log_comp
         skimage.io.imsave('log_compressed'+self.file_ext,
@@ -226,6 +224,7 @@ class Image:
                     run_time)
         return self.log_comp_array, run_time
 
+    # Reverse Video
     def reverse_video(self):
         """
         Carries out reverse video on input image
@@ -251,6 +250,7 @@ class Image:
         logger.info('Reverse video completed in %s seconds' %
                     run_time)
         return self.rev_video_array, run_time
+
 
 # Encode created images into Base64
 def encode_string(filename, file_ext):
@@ -438,7 +438,8 @@ def histogram_data(image_string):
     return red_hist, blue_hist, green_hist, x_vals
 
 
-file_png = open('image_test_png.txt')
-png_string = file_png.read()
-test = Image(image_as_string=png_string, file_ext='.jpeg')
+file_jpeg = open('image_test_jpeg.txt')
+jpeg_string = file_jpeg.read()
+test = Image(image_as_string=jpeg_string)
 test.gather_data()
+test.reverse_video()
