@@ -5,12 +5,10 @@ import numpy as np
 import base64
 import Image_processing
 
-
-with open('image_test.JPEG', 'rb') as imageFile:
-    jpeg_string = base64.b64encode(imageFile.read())
-
-with open('image_test.png', 'rb') as imageFile:
-    png_string = base64.b64encode(imageFile.read())
+file_jpeg = open('image_test_jpeg.txt')
+jpeg_string = file_jpeg.read()
+file_png = open('image_test_png.txt')
+png_string = file_png.read()
 
 
 @pytest.mark.filterwarnings('ignore::RuntimeWarning')
