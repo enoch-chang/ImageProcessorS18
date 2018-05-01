@@ -24,7 +24,7 @@ def encode_string(filename, file_ext):
     return string
 
 def pre_processing():
-    with open('rich.png', 'rb') as imageFile:
+    with open('rich.PNG', 'rb') as imageFile:
         images = base64.b64encode(imageFile.read())
 
     images64 = images
@@ -38,7 +38,7 @@ def pre_processing():
     imgdata = base64.b64decode(images)
     im = Image.open(io.BytesIO(imgdata))
     image_size = [im.size]
-    histograms = Image_processing.histogram_data(base64_str)
+    histograms = Image_processing.histogram_data(images)
     images_arr = [images64, None, None, filetype, time_stamp, image_size, histograms]
     print(images)
     print(images_arr)

@@ -69,11 +69,6 @@ def get_user(user_email):
 
     return jsonify(result), 200
 
-def rm_strheader(images):
-    index = images.find(',')
-    image_str = images[index + 1:]
-    return image_str
-
 def pre_processing(images, filename):
     """
     Do the pre-processing method for images that are about to be uploaded. After processing, this
@@ -109,8 +104,8 @@ def aft_processing(images, filename, protype):
     #images = images
     #images_names = filename
     #image_function = Image_processing.Image(image_as_string=images)
-    #curr_time = datetime.datetime.now()
-    #time_duration = curr_time - how do i call the previous data
+    #time_stamp = datetime.datetime.now()
+    #time_duration = protype[5]
     #histograms = [protype]
     #pro_images_arr = [images, images_names, image_names, filetype, time_stamp, time_duration, histograms]
 
@@ -132,6 +127,11 @@ def create_user():
     result = {"sucess": "create user"}
     return jsonify(result), 200
 
+def rm_strheader(images):
+    index = images.find(',')
+    image_str = images[index + 1:]
+    return image_str
+
 @app.route("/api/images/upload", methods=["POST"])
 def images_post():
 
@@ -141,11 +141,12 @@ def images_post():
     images = r["images"]
     filename = r["filename"]
 
-    for i in enumerate(images, filename):
-        no_header_im = rm_strheader(images[i])
-        images_info = pre_processing(no_header_im, filename[i])
-        mainfunction.add_images(email, images_info)
-        result = {"success": "Cong! uploading successful"}
+    #for i in enumerate(images, filename):
+    no_header_im = rm_strheader(images)
+    images_info = pre_processing(no_header_im, filename)
+    mainfunction.add_images(email, images_info)
+    result = {"success": "Cong! uploading successful"}
+
     return jsonify(result), 200
 
 @app.route("/api/images/<user_email>/<image_id>/process", methods=["POST"])
@@ -177,7 +178,11 @@ def pro_images_post_his(user_email, image_id):
         protype = Image_processing.histogram_eq_complete(images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
+    result = {
+        "images":
+    }
 
+    return jsonify(result), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
