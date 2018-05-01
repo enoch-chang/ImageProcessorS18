@@ -14,17 +14,17 @@ class User(MongoModel):
         #user_images_pro_time = fields.ListField(field=fields.DateTimeField())
         #image_pro_type = fields.CharField()
 
-        def user_info(self):
+        def image_info(self):
 
                 user_info = {
-                        "email": self.email,
-                        "name": self.name,
                         "images": self.images,
+                        "filename": self.filename,
+                        "image_id": self.image_id,
                         "pro_images": self.pro_images
                 }
                 return user_info
 
-        def images_infomation(self):
+        def pos_images_infomation(self):
 
                 images_infomation = {
                         "images": self.images,
