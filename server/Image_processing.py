@@ -1,16 +1,12 @@
 import skimage
-import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import base64
 import timeit
 import logging
-
 from skimage import io
 from skimage import exposure
 from skimage import util
-matplotlib.use('TkAgg')
 
 # Set up logger
 log_format = '%(levelname)s %(asctime)s %(message)s'
