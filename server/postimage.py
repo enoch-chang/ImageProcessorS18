@@ -32,8 +32,8 @@ def pre_processing():
     imgdata = base64.b64decode(images)
     im = Image.open(io.BytesIO(imgdata))
     image_size = [im.size]
-    histograms = [Image_processing.histogram_data(images)]
-    images_arr = [images, None, None, filetype, time_stamp, image_size, histograms]
+    #histograms = Image_processing.histogram_data(images)
+    images_arr = [images, None, None, filetype, time_stamp, image_size, None]
     print(images)
     print(images_arr)
     return images_arr
