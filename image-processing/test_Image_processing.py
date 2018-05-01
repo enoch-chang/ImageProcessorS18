@@ -3,6 +3,7 @@ from skimage import io
 import pytest
 import numpy as np
 import base64
+import Image_processing
 
 
 with open('image_test.JPEG', 'rb') as imageFile:
