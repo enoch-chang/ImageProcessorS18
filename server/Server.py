@@ -69,6 +69,11 @@ def get_user(user_email):
 
     return jsonify(result), 200
 
+def rm_strheader(images):
+    index = images.find(',')
+    image_str = images[index + 1:]
+    return image_str
+
 def pre_processing(images, filename):
     """
     Do the pre-processing method for images that are about to be uploaded. After processing, this
@@ -135,9 +140,12 @@ def images_post():
     email = r["email"]
     images = r["images"]
     filename = r["filename"]
-    images_info = pre_processing(images, filename)
-    mainfunction.add_images(email, images_info)
-    result = {"success": "Cong! uploading successful"}
+
+    for i in enumerate(images, filename):
+        no_header_im = rm_strheader(images)
+        images_info = pre_processing(no_header_im, filename)
+        mainfunction.add_images(email, images_info)
+        result = {"success": "Cong! uploading successful"}
     return jsonify(result), 200
 
 @app.route("/api/images/<user_email>/<image_id>/process", methods=["POST"])

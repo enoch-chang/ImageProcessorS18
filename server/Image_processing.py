@@ -227,7 +227,7 @@ def histogram_eq_complete(image_string):
     red_hist, blue_hist, green_hist, x_vals = output_altered_histogram_data(
         'hist_eq', image.file_ext)
     base64_string = encode_string('hist_equalized', image.file_ext)
-    return red_hist, blue_hist, green_hist, x_vals, base64_string
+    return [[red_hist], [blue_hist], [green_hist], [x_vals], [base64_string]]
 
 
 # Contrast stretching - Callable Function
@@ -237,7 +237,7 @@ def contrast_stretching_complete(image_string):
     red_hist, blue_hist, green_hist, x_vals = \
         output_altered_histogram_data('contrast_stretch', image.file_ext)
     base64_string = encode_string('contrast_stretched', image.file_ext)
-    return red_hist, blue_hist, green_hist, x_vals, base64_string
+    return [[red_hist], [blue_hist], [green_hist], [x_vals], [base64_string]]
 
 
 # Reverse video - Callable Function
@@ -249,7 +249,7 @@ def reverse_video_complete(image_string):
     base64_string = encode_string('reverse_video', image.file_ext)
     plt.plot(x_vals, red_hist)
     plt.show()
-    return red_hist, blue_hist, green_hist, x_vals, base64_string
+    return [[red_hist], [blue_hist], [green_hist], [x_vals], [base64_string]]
 
 
 # Log Compression - Callable Function
@@ -259,7 +259,7 @@ def log_compression_complete(image_string):
     red_hist, blue_hist, green_hist, x_vals = \
         output_altered_histogram_data('log_comp', image.file_ext)
     base64_string = encode_string('log_compressed', image.file_ext)
-    return red_hist, blue_hist, green_hist, x_vals, base64_string
+    return [[red_hist], [blue_hist], [green_hist], [x_vals], [base64_string]]
 
 
 # Output histogram data for unaltered image
