@@ -1,19 +1,14 @@
-import os
 import skimage
-import numpy as np
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import base64
-import imghdr
-import math
 import timeit
 import logging
 
 from skimage import io
-from skimage import data, img_as_float
 from skimage import exposure
 from skimage import util
 
