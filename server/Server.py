@@ -9,6 +9,7 @@ import datetime
 import time
 import Image_processing
 import io
+import base64
 import PIL
 from PIL import Image
 
@@ -99,15 +100,25 @@ def pre_processing(images, filename):
     image_function = Image_processing.Image(image_as_string=images)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
-    base64_str = transfer_decode(images)
-    imgdata = base64.b64decode(base64_str)
+    imgdata = base64.b64decode(images)
     im = Image.open(io.BytesIO(imgdata))
     image_size = [im.size]
-    #histograms = Image_processing.output_altered_histogram_data()
-    images_arr = [images, images_names, image_names, filetype, time_stamp, image_size,
-                  [[0,0], [0,0], [0,0], [0,0]]]
+    histograms = [Image_processing.histogram_data(images)]
+    images_arr = [images, images_names, image_names, filetype, time_stamp, image_size, histograms]
 
     return images_arr
+
+def eq_processing(images, filename, protype):
+
+    images = images
+    images_names = filename
+    #image_function = Image_processing.Image(image_as_string=images)
+    curr_time = datetime.datetime.now()
+    time_duration = curr_time - #how do i call the previous data
+    histograms = [protype]
+    pro_images_arr = [images, images_names, image_names, filetype, time_stamp, time_duration, histograms]
+
+    return pro_images_arr
 
 @app.route("/api/images/create", methods=["POST"])
 def create_user():
@@ -135,39 +146,38 @@ def images_post():
     filename = r["filename"]
     images_info = pre_processing(images, filename)
     mainfunction.add_images(email, images_info)
-
-    return get_user(email), 200
-
-@app.route("/api/images/<email>/original/<images_id>", methods=["GET"])
-def app_get_ori_images(user_ori_images):
-
-    try:
-        images_info = models.User.objects.raw({"_id": user_ori_images}).first()
-        #images_gather = Image_processing.Image.gather_data()
-        result = {
-            "user_ori_images": images_info.images,
-            "user_ori_images_id": images_info.user_ori_images_id,
-            "user_ori_images_filetype": Image_processing.Image.get_file_ext(images_info.images),
-            "user_ori_images_time": datetime.datetime.now(),
-            "success": 1
-            }
-    except pymodm.errors.DoesNotExist:
-        result = {"success": 0}
-        return jsonify(result), 200
-
+    result = {"success": "Cong! uploading successful"}
     return jsonify(result), 200
 
-#@app.route("/api/images/<user_email>/<user_ori_images_id>/process", methods=["POST"])
-#def pro_images_post_his():
+@app.route("/api/images/<user_email>/<image_id>/process", methods=["POST"])
+def pro_images_post_his(user_email, image_id):
 
-#    r = request.get_json()
+    r = request.get_json()
 
-#    image_pro_type = r["image_pro_type"]
-#    image_id = r[""]
-#    if image_pro_type == "reverse video"
+    user_email = r["email"]
+    images = r["images"] #how to retrieve this string
+    image_id = r["image_id"] #how to get this info
+    image_pro_type = r["process"]
 
+    if image_pro_type == "reverse video":
+        protype = Image_processing.reverse_video_complete(images)
+        images_info = aft_processing(images, filename, protype)
+        mainfunction.add_pro_images(user_email, images_info)
 
+    elif image_pro_type == "constrast stretching":
+        protype = Image_processing.contrast_stretching_complete(images)
+        images_info = aft_processing(images, filename, protype)
+        mainfunction.add_pro_images(user_email, images_info)
 
+    elif image_pro_type == "log compression":
+        protype = Image_processing.log_compression_complete(images)
+        images_info = aft_processing(images, filename, protype)
+        mainfunction.add_pro_images(user_email, images_info)
+
+    elif image_pro_type == "histogram eq":
+        protype = Image_processing.histogram_eq_complete(images)
+        images_info = aft_processing(images, filename, protype)
+        mainfunction.add_pro_images(user_email, images_info)
 
 
 if __name__ == "__main__":

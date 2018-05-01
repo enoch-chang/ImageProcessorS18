@@ -38,6 +38,17 @@ def add_images(email, image_info):
     user.images.append(image_info)  # append image to the user's list of images
     user.save()  # save the user to the database
 
+def add_pro_images(email, image_info):
+    """
+    Appends a heart_rate measurement at a specified time to the user specified by
+    email. It is assumed that the user specified by email exists already.
+    :param email: str email of the user
+    :param heart_rate: number heart_rate measurement of the user
+    :param time: the datetime of the heart_rate measurement
+    """
+    user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
+    user.pro_images.append(image_info)  # append image to the user's list of images
+    user.save()  # save the user to the database
 
 def create_user(email, name):
     """
