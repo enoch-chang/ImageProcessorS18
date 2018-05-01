@@ -1,4 +1,3 @@
-before_install: cd server
 language: python
 python:
       - "3.6"
