@@ -13,7 +13,7 @@ import base64
 import PIL
 from PIL import Image
 
-connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")
+connect("mongodb://vcm-3608.vm.duke.edu:27017/tag_1.0.0")
 app = Flask(__name__)
 CORS(app)
 
