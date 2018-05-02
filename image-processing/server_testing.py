@@ -11,10 +11,6 @@ import base64
 import PIL
 from PIL import Image
 
-connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")
-app = Flask(__name__)
-CORS(app)
-
 
 def transfer_decode(image_str):
     index = image_str.find(',')
@@ -57,10 +53,6 @@ def pre_processing(noheader_images, filename, images):
 
 
 
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0")
     
 file = open('image_test_jpeg.txt', 'r') 
 string = file.read()
