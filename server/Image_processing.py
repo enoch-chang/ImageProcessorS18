@@ -71,8 +71,8 @@ class Image:
                            'as its removal may impact image quality')
 
         logger.info('Image Color: %s' % self.color_type)
-        return [self.color_type, self.dimensions, self.image_array,
-                self.alpha_channel]
+        return self.color_type, self.dimensions, self.image_array, \
+               self.alpha_channel
 
     # Remove alpha channel if present
     def remove_alpha_channel(self):
