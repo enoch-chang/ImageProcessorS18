@@ -111,9 +111,13 @@ def aft_processing(filename, protype):
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
     time_duration = protype[5]
-    #histograms = protype
+    red_his = protype[0]
+    blue_his = protype[1]
+    green_his = protype[2]
+    x_vals = protype[3]
     pro_images_arr = [image_type, images_names, images_names, filetype,
-                      time_stamp, time_duration, [[0,0],[0,0],[0,0],[0,0]]]
+                      time_stamp, time_duration,
+                      [red_his, blue_his, green_his, x_vals]]
 
     return pro_images_arr
 
@@ -149,9 +153,18 @@ def images_post():
     filename = r["filename"]
 
     #for im, nm in zip(images, filename):
-    no_header_im = rm_strheader(images)
-    images_info = pre_processing(no_header_im, filename, images)
-    mainfunction.add_images(email, images_info)
+    noheader_images = rm_strheader(images)
+    images_names = filename
+    image_function = Image_processing.Image(image_as_string=noheader_images)
+    filetype = image_function.get_file_ext()
+    time_stamp = datetime.datetime.now()
+    image_data = image_function.gather_data()
+    image_size = image_data[1]
+    histograms = Image_processing.histogram_data(noheader_images)
+    images_arr = [images, images_names, images_names, filetype,
+                  time_stamp, image_size, histograms]
+    #images_info = pre_processing(no_header_im, filename, images)
+    mainfunction.add_images(email, images_arr)
     result = {"success": "Cong! uploading successful"}
 
     return jsonify(result), 200
