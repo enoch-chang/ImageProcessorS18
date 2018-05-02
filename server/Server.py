@@ -157,14 +157,14 @@ def images_post():
     return jsonify(result), 200
 
 
-@app.route("/api/images/<email>/<image_id>/process", methods=["POST"])
+@app.route("/api/images/<email>/<filename>/process", methods=["POST"])
 def pro_images_post_his():
 
     r = request.get_json()
 
     email = r["email"]
     images = r["images"]
-    filename = r["image_id"]
+    filename = r["filename"]
     image_pro_type = r["process"]
 
     wk_images = rm_strheader(images)
