@@ -65,6 +65,6 @@ dimen = image_data[1]
 print(dimen)
 #a = Image_processing.contrast_stretching_complete(jpeg_string)
 #red_data = a[0]
-#b = Image_processing.histogram_data(jpeg_string)
-#print(b[0])
+b = Image_processing.histogram_data(jpeg_string)
+print(b[0])
 #print(range(0, 256))
