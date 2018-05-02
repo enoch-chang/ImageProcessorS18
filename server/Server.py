@@ -158,7 +158,7 @@ def images_post():
 
 
 @app.route("/api/images/<email>/<filename>/process", methods=["POST"])
-def pro_images_post_his():
+def pro_images_post_his(email, filename):
 
     r = request.get_json()
 
