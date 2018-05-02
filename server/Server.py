@@ -188,41 +188,45 @@ def pro_images_post_his(email, filename):
         protype = Image_processing.reverse_video_complete(wk_images)
         images_info = aft_processing(filename_str, protype)
         mainfunction.add_pro_images(email, images_info)
-        #result = {
+        result = {
+            "hope this works": "Yes it works"
         #    "images": images,
         #    "pro_images": images_info[4]
-        #}
-        return 200
+        }
+        return jsonify(result), 200
 
     elif image_pro_type == "Constrast Stretching":
         protype = Image_processing.contrast_stretching_complete(wk_images)
         images_info = aft_processing(filename_str, protype)
         mainfunction.add_pro_images(email, images_info)
-        #result = {
-        #    "images": images,
-        #    "pro_images": images_info[4]
-        #}
-        return 200
+        result = {
+            "hope this works": "Yes it works"
+            #    "images": images,
+            #    "pro_images": images_info[4]
+        }
+        return jsonify(result), 200
 
     elif image_pro_type == "Log Compression":
         protype = Image_processing.log_compression_complete(wk_images)
         images_info = aft_processing(filename_str, protype)
         mainfunction.add_pro_images(email, images_info)
-        #result = {
-        #    "images": images,
-        #    "pro_images": images_info[4]
-        #}
-        return 200
+        result = {
+            "hope this works": "Yes it works"
+            #    "images": images,
+            #    "pro_images": images_info[4]
+        }
+        return jsonify(result), 200
 
     elif image_pro_type == "Histogram Equalization":
         protype = Image_processing.histogram_eq_complete(wk_images)
         images_info = aft_processing(filename_str, protype)
         mainfunction.add_pro_images(email, images_info)
-        #result = {
-        #    "images": images,
-        #    "pro_images": images_info[4]
-        #}
-        return 200
+        result = {
+            "hope this works": "Yes it works"
+            #    "images": images,
+            #    "pro_images": images_info[4]
+        }
+        return jsonify(result), 200
 
 
 if __name__ == "__main__":
