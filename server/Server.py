@@ -93,7 +93,7 @@ def pre_processing(noheader_images, filename, images):
     return images_arr
 
 
-def aft_processing(images, filename, protype):
+def aft_processing(filename, protype):
     """
     After the specific image processing, this function process all the
     information regarding this image. After processing, this would return a
@@ -104,7 +104,7 @@ def aft_processing(images, filename, protype):
     :param filename: str of the name of the image
     :param protype: list of the post-processed image histogram
     """
-    images_str = images
+    images = protype[4]
     images_names = filename
     no_headerim = rm_strheader(images)
     image_function = Image_processing.Image(image_as_string=no_headerim)
@@ -112,7 +112,7 @@ def aft_processing(images, filename, protype):
     time_stamp = datetime.datetime.now()
     time_duration = protype[5]
     #histograms = protype
-    pro_images_arr = [images_str, images_names, image_names, filetype,
+    pro_images_arr = [images, images_names, image_names, filetype,
                       time_stamp, time_duration, [[0,0],[0,0],[0,0],[0,0]]]
 
     return pro_images_arr
@@ -170,7 +170,7 @@ def pro_images_post_his():
     wk_images = rm_strheader(images)
     if image_pro_type == "Reverse Video":
         protype = Image_processing.reverse_video_complete(wk_images)
-        images_info = aft_processing(images, filename, protype)
+        images_info = aft_processing(filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
         result = {
             "images": images,
@@ -180,7 +180,7 @@ def pro_images_post_his():
 
     elif image_pro_type == "Constrast Stretching":
         protype = Image_processing.contrast_stretching_complete(wk_images)
-        images_info = aft_processing(images, filename, protype)
+        images_info = aft_processing(filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
         result = {
             "images": images,
@@ -190,7 +190,7 @@ def pro_images_post_his():
 
     elif image_pro_type == "Log Compression":
         protype = Image_processing.log_compression_complete(wk_images)
-        images_info = aft_processing(images, filename, protype)
+        images_info = aft_processing(filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
         result = {
             "images": images,
@@ -200,7 +200,7 @@ def pro_images_post_his():
 
     elif image_pro_type == "Histogram Equalization":
         protype = Image_processing.histogram_eq_complete(wk_images)
-        images_info = aft_processing(images, filename, protype)
+        images_info = aft_processing(filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
         result = {
             "images": images,
