@@ -71,7 +71,8 @@ class MainPage extends React.Component {
             "tab":0,
             "id":"",
             "to_upload":[],
-            "to_upload_names":[]
+            "to_upload_names":[],
+            "histogram_test": [[3,63,65,73],[93,62,54,34],[28,64,76,34],[2, 4, 6, 8],[0, 1, 2, 3]]
         };
     }
 
@@ -202,10 +203,15 @@ class MainPage extends React.Component {
         var URL = "http://vcm-3608.vm.duke.edu:5000/api/images/upload".concat(this.state.email)
             .concat("/").concat(this.state.current_image[1]).concat("/").concat(this.state.process) //change to ID
 
-        axios.post(URL,{"image_id":this.state.current_image[1], "process":this.state.process}) //change to ID
+        axios.post(URL,{"image_id":this.state.current_image[1], "process":this.state.process}).then((response) => { //change to ID
 
-        this.logIn()
-        this.setState({"current_image_processed":(this.pro_images)[(this.pro_images).length-1]});
+            if (response.status == 200) {
+
+            this.logIn()
+            this.setState({"current_image_processed": (this.pro_images)[(this.pro_images).length - 1]});
+            }
+
+        })
 
     }
 
@@ -454,9 +460,12 @@ class MainPage extends React.Component {
                                     <img src={this.state.current_image[0]} style={{"width":"550px", "marginLeft":"20px", "marginTop":"20px", "marginRight":"20px"}} />
 
                                     <LineChart width={550} height={200}
-                                               data={(this.state.images).map(n => {
+                                               data={(this.state.histogram_test[4]).map(n => {
                                                    return (
-                                                       {name: [0], value: [0]}
+                                                       {name: this.state.histogram_test[3][n],
+                                                           r: this.state.histogram_test[0][n],
+                                                           g: this.state.histogram_test[1][n],
+                                                           b: this.state.histogram_test[2][n]}
                                                    );
                                                })}
                                                margin={{ top: 15, right: 5, bottom: 5, left: 5 }}>
@@ -464,7 +473,10 @@ class MainPage extends React.Component {
                                         <XAxis dataKey="name" />
                                         <YAxis />
                                         <Tooltip />
-                                        <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{r: 8}} />
+                                        <Line type="monotone" dataKey="r" stroke="#8884d8" activeDot={{r: 8}} />
+                                        <Line type="monotone" dataKey="g" stroke="#8884d8" activeDot={{r: 8}} />
+                                        <Line type="monotone" dataKey="b" stroke="#8884d8" activeDot={{r: 8}} />
+
                                     </LineChart>
 
                                     <Card>
