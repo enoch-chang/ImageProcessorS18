@@ -148,10 +148,10 @@ def images_post():
     images = r["images"]
     filename = r["filename"]
 
-    for im, nm in zip(images, filename):
-        no_header_im = rm_strheader(im)
-        images_info = pre_processing(no_header_im, nm, im)
-        mainfunction.add_images(email, images_info)
+    #for im, nm in zip(images, filename):
+    no_header_im = rm_strheader(images)
+    images_info = pre_processing(no_header_im, filename, images)
+    mainfunction.add_images(email, images_info)
     result = {"success": "Cong! uploading successful"}
 
     return jsonify(result), 200

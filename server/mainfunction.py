@@ -81,6 +81,15 @@ def create_user(email, name):
     # save the user to the database
 
 
+def delete_init():
+    user = models.User.objects.raw({"_id": email}).first()
+    user.images.remove(["No images", "No images", "No images", "No images",
+                     "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
+    user.pro_images(["No images", "No images", "No images", "No images",
+                         "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
+    u.save()
+
+
 def check_user(email):
     return models.User.objects.raw({"_id": email}).count() > 0
 
