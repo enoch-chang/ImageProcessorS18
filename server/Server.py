@@ -111,9 +111,9 @@ def aft_processing(images, filename, protype):
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
     time_duration = protype[5]
-    histograms = protype
+    #histograms = protype
     pro_images_arr = [images_str, images_names, image_names, filetype,
-                      time_stamp, time_duration, histograms]
+                      time_stamp, time_duration, [[0,0],[0,0],[0,0],[0,0]]]
 
     return pro_images_arr
 
