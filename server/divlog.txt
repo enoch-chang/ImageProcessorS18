@@ -1,24 +1,8 @@
-INFO 05/02/2018 02:16:50 AM Image file extension: .PNG
-INFO 05/02/2018 02:16:50 AM Base64 image successfully decoded
-DEBUG 05/02/2018 02:16:50 AM STREAM b'IHDR' 16 13
-DEBUG 05/02/2018 02:16:50 AM STREAM b'pHYs' 41 9
-DEBUG 05/02/2018 02:16:50 AM STREAM b'tEXt' 62 70
-DEBUG 05/02/2018 02:16:50 AM STREAM b'vpAg' 144 9
-DEBUG 05/02/2018 02:16:50 AM b'vpAg' 144 9 (unknown)
-DEBUG 05/02/2018 02:16:50 AM STREAM b'IDAT' 165 32768
-INFO 05/02/2018 02:16:50 AM Image Dimensions: 239, 300
-INFO 05/02/2018 02:16:50 AM Image Color: color
-INFO 05/02/2018 02:16:50 AM Image initialized as instance of Image class
-INFO 05/02/2018 02:16:50 AM Image file extension: .PNG
-INFO 05/02/2018 02:16:50 AM Base64 image successfully decoded
-INFO 05/02/2018 02:16:50 AM Image file extension: .PNG
-INFO 05/02/2018 02:16:50 AM Base64 image successfully decoded
-DEBUG 05/02/2018 02:16:50 AM STREAM b'IHDR' 16 13
-DEBUG 05/02/2018 02:16:50 AM STREAM b'pHYs' 41 9
-DEBUG 05/02/2018 02:16:50 AM STREAM b'tEXt' 62 70
-DEBUG 05/02/2018 02:16:50 AM STREAM b'vpAg' 144 9
-DEBUG 05/02/2018 02:16:50 AM b'vpAg' 144 9 (unknown)
-DEBUG 05/02/2018 02:16:50 AM STREAM b'IDAT' 165 32768
-INFO 05/02/2018 02:16:50 AM Image Dimensions: 239, 300
-INFO 05/02/2018 02:16:50 AM Image Color: color
-INFO 05/02/2018 02:16:50 AM Histogram data generated
+INFO 05/02/2018 02:54:02 AM Image initialized as instance of Image class
+INFO 05/02/2018 02:54:02 AM Image file extension: .JPEG
+INFO 05/02/2018 02:54:02 AM Base64 image successfully decoded
+INFO 05/02/2018 02:54:02 AM Image file extension: .JPEG
+INFO 05/02/2018 02:54:02 AM Base64 image successfully decoded
+INFO 05/02/2018 02:54:02 AM Image Dimensions: 777, 1200
+INFO 05/02/2018 02:54:02 AM Image Color: color
+INFO 05/02/2018 02:54:04 AM Histogram data generated

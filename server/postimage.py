@@ -18,9 +18,8 @@ def rm_strheader(images):
     print(type(images))
     index = images.find(',')
     image_str = images[index + 1:]
-    base64bytes = image_str.encode()
-    print(type(base64bytes))
-    return base64bytes
+
+    return image_str
 
 
 def encode_string(filename, file_ext):
@@ -57,15 +56,19 @@ def pre_processing():
 
 
 #image = pre_processing()
-file_jpeg = open('image_test_png.txt')
+file_jpeg = open('image_test_jpeg.txt')
 jpeg_string = file_jpeg.read()
+con = "data:image/jpeg;base64," + jpeg_string
 #image_function = Image_processing.Image(image_as_string=jpeg_string)
 #image_data = image_function.gather_data()
 #dimen = image_data[1]
 #print(dimen)
 #a = Image_processing.contrast_stretching_complete(jpeg_string)
 #red_data = a[0]
+#a = rm_strheader(con)
+#print(con)
+#print(a)
 b = Image_processing.histogram_data(jpeg_string)
-print(jpeg_string)
+#print(jpeg_string)
 print(b[0])
 #print(range(0, 256))
