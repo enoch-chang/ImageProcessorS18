@@ -87,9 +87,9 @@ def pre_processing(noheader_images, filename, images):
     imgdata = base64.b64decode(noheader_images)
     im = Image.open(io.BytesIO(imgdata))
     image_size = im.size
-    histograms = Image_processing.histogram_data(noheader_images)
+    #histograms = Image_processing.histogram_data(noheader_images)
     images_arr = [images, images_names, images_names, filetype,
-                  time_stamp, image_size, histograms]
+                  time_stamp, image_size, [[0,0],[0,0],[0,0],[0,0]]]
 
     return images_arr
 
@@ -164,8 +164,8 @@ def pro_images_post_his():
     r = request.get_json()
 
     user_email = r["email"]
-    images = r["images"] #how to retrieve this string
-    image_id = r["image_id"] #how to get this info
+    images = r["images"]  #how to retrieve this string
+    image_id = r["image_id"]  #how to get this info
     image_pro_type = r["process"]
 
     wk_images = rm_strheader(images)
