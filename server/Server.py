@@ -111,10 +111,10 @@ def aft_processing(filename, protype):
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
     time_duration = protype[1]
-    #red_his = protype[0]
-    #blue_his = protype[1]
-    #green_his = protype[2]
-    #x_vals = protype[3]
+    #red_his_str = str(protype[0])
+    #blue_his_str = str(protype[1])
+    #green_his_str = str(protype[2])
+    #x_vals_str = str(protype[3])
     pro_images_arr = [image_type, images_names, images_names, filetype,
                       time_stamp, time_duration,
                       [[0, 0], [0, 0], [0, 0], [0, 0]]]
@@ -161,8 +161,13 @@ def images_post():
     image_data = image_function.gather_data()
     image_size = image_data[1]
     histograms = Image_processing.histogram_data(noheader_images)
+    red_his_str = str(histograms[0])
+    blue_his_str = str(histograms[1])
+    green_his_str = str(histograms[2])
+    x_vals_str = str(histograms[3])
     images_arr = [images, images_names, images_names, filetype,
-                  time_stamp, image_size, histograms]
+                  time_stamp, image_size,
+                  [red_his_str, blue_his_str, green_his_str, x_vals_str]]
     #images_info = pre_processing(no_header_im, filename, images)
     mainfunction.add_images(email, images_arr)
     result = {"success": "Cong! uploading successful"}
@@ -175,10 +180,10 @@ def pro_images_post_his(email, filename):
 
     r = request.get_json()
 
-    images = r["images"]
+    images_str = r["images"]
     image_pro_type = r["process"]
 
-    wk_images = rm_strheader(images)
+    wk_images = rm_strheader(images_str)
     if image_pro_type == "Reverse Video":
         protype = Image_processing.reverse_video_complete(wk_images)
         images_info = aft_processing(filename, protype)
