@@ -41,8 +41,9 @@ def app_get_user(user_email):
 def transfer_decode(image_str):
     index = image_str.find(',')
     image_str = image_str[index + 1:]
+    base64bytes = image_str.encode()
 
-    return image_str
+    return base64bytes
 
 
 def decode_image(image_bytes, image_id):
@@ -135,7 +136,7 @@ def rm_strheader(images):
     index = images.find(',')
     image_str = images[index + 1:]
 
-    return base64bytes
+    return image_str
 
 
 @app.route("/api/images/upload", methods=["POST"])

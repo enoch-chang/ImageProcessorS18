@@ -48,6 +48,8 @@ class Image:
         :returns self.dimensions: an array in the form of (rows, columns)
         :returns self.image_array: a numpy array containing the digital
         image data
+        :returns self.alpha_channel: a yes or no string indicating whether
+        the contains an alpha channel
         """
         self.decode_string()
         self.image_array = io.imread('working_image' + self.file_ext)
@@ -69,7 +71,8 @@ class Image:
                            'as its removal may impact image quality')
 
         logger.info('Image Color: %s' % self.color_type)
-        return [self.color_type, self.dimensions, self.image_array]
+        return [self.color_type, self.dimensions, self.image_array,
+                self.alpha_channel]
 
     # Remove alpha channel if present
     def remove_alpha_channel(self):
