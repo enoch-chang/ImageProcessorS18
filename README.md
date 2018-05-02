@@ -9,7 +9,8 @@ The backend code of this project runs off a module named Image_processing.py, wh
 * histogram_equalization_complete(image_string)
 * contrast_stretching_complete(image_string)
 * reverse_video_complete(image_string)
-* log_compression_complete(image_string)
+* log_compression_complete(image_string)  
+
 Each of these functions takes in a base64 string encoding for an image, carries out the specified image processing technique, then returns a base64 string encoding for the altered image along with the image's histogram data and the time it took to run the technique. 
 ## Setup Instructions
 First, log into your VCM then spin up the database using the command "sudo mongod." After the database is running, open a new terminal window, log into your VCM again, cd into the folder titled "ImageProcessorS18", then run the flask applcation with the command "gunicorn --bind 0.0.0.0:5000 main:app". If you wish to use this application for an extended period, open these in a screen. If you set up the database on a machine other than http://vcm-3608.vm.duke.edu, specify the machine in Server.py. 
