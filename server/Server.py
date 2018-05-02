@@ -86,9 +86,9 @@ def pre_processing(noheader_images, filename, images):
     time_stamp = datetime.datetime.now()
     image_data = image_function.gather_data()
     image_size = image_data[1]
-    histograms = Image_processing.histogram_data(noheader_images)
+    #histograms = Image_processing.histogram_data(noheader_images)
     images_arr = [images, images_names, images_names, filetype,
-                  time_stamp, image_size, [histograms]]
+                  time_stamp, image_size, [[0,0],[0,0],[0,0],[0,0]]]
 
     return images_arr
 
@@ -104,7 +104,7 @@ def aft_processing(images, filename, protype):
     :param filename: str of the name of the image
     :param protype: list of the post-processed image histogram
     """
-    images = images
+    images_str = images
     images_names = filename
     no_headerim = rm_strheader(images)
     image_function = Image_processing.Image(image_as_string=no_headerim)
@@ -112,7 +112,7 @@ def aft_processing(images, filename, protype):
     time_stamp = datetime.datetime.now()
     time_duration = protype[5]
     histograms = protype
-    pro_images_arr = [images, images_names, image_names, filetype,
+    pro_images_arr = [images_str, images_names, image_names, filetype,
                       time_stamp, time_duration, histograms]
 
     return pro_images_arr
