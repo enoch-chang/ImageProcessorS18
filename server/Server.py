@@ -205,9 +205,6 @@ def pro_images_post_his(email, filename):
         }
         return jsonify(result), 200
 
-file = open('image_test_png.txt', 'r')
-string = file.read()
-output = pre_processing(string, string, string)
-print(output[6])
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
