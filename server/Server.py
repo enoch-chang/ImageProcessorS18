@@ -41,8 +41,8 @@ def app_get_user(user_email):
 def transfer_decode(image_str):
     index = image_str.find(b',')
     image_str = image_str[index + 1:]
-
-    return image_str
+    image_type = str(image_str, 'utf-8')
+    return image_type
 
 
 def decode_image(image_bytes, image_id):
