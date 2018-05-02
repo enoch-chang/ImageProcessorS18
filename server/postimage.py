@@ -19,6 +19,7 @@ def rm_strheader(images):
     index = images.find(',')
     image_str = images[index + 1:]
     base64bytes = image_str.encode()
+    print(type(base64bytes))
     return base64bytes
 
 

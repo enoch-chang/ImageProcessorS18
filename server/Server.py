@@ -41,9 +41,8 @@ def app_get_user(user_email):
 def transfer_decode(image_str):
     index = image_str.find(',')
     image_str = image_str[index + 1:]
-    image_bytes = image_str.encode()
 
-    return image_bytes
+    return image_str
 
 
 def decode_image(image_bytes, image_id):
@@ -84,12 +83,11 @@ def pre_processing(noheader_images, filename, images):
     image_function = Image_processing.Image(image_as_string=noheader_images)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
-    imgdata = base64.b64decode(noheader_images)
-    im = Image.open(io.BytesIO(imgdata))
-    image_size = im.size
-    #histograms = Image_processing.histogram_data(noheader_images)
+    image_data = image_function.gather_data()
+    image_size = image_data[1]
+    histograms = Image_processing.histogram_data(noheader_images)
     images_arr = [images, images_names, images_names, filetype,
-                  time_stamp, image_size, [[0,0],[0,0],[0,0],[0,0]]]
+                  time_stamp, image_size, histograms]
 
     return images_arr
 
@@ -136,7 +134,6 @@ def create_user():
 def rm_strheader(images):
     index = images.find(',')
     image_str = images[index + 1:]
-    base64bytes = image_str.encode()
 
     return base64bytes
 
