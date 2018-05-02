@@ -1,1 +1,26 @@
-INFO 05/02/2018 04:55:52 AM Image file extension: None
+INFO 05/02/2018 10:54:06 AM Image file extension: .PNG
+INFO 05/02/2018 10:54:06 AM Image file extension: .PNG
+INFO 05/02/2018 10:54:06 AM Base64 image successfully decoded
+DEBUG 05/02/2018 10:54:06 AM STREAM b'IHDR' 16 13
+DEBUG 05/02/2018 10:54:06 AM STREAM b'pHYs' 41 9
+DEBUG 05/02/2018 10:54:06 AM STREAM b'tEXt' 62 70
+DEBUG 05/02/2018 10:54:06 AM STREAM b'vpAg' 144 9
+DEBUG 05/02/2018 10:54:06 AM b'vpAg' 144 9 (unknown)
+DEBUG 05/02/2018 10:54:06 AM STREAM b'IDAT' 165 32768
+INFO 05/02/2018 10:54:06 AM Image Dimensions: 239, 300
+INFO 05/02/2018 10:54:06 AM Image Color: color
+INFO 05/02/2018 10:54:06 AM Image initialized as instance of Image class
+INFO 05/02/2018 10:54:06 AM Image file extension: .PNG
+INFO 05/02/2018 10:54:06 AM Base64 image successfully decoded
+INFO 05/02/2018 10:54:06 AM Image file extension: .PNG
+INFO 05/02/2018 10:54:06 AM Base64 image successfully decoded
+DEBUG 05/02/2018 10:54:06 AM STREAM b'IHDR' 16 13
+DEBUG 05/02/2018 10:54:06 AM STREAM b'pHYs' 41 9
+DEBUG 05/02/2018 10:54:06 AM STREAM b'tEXt' 62 70
+DEBUG 05/02/2018 10:54:06 AM STREAM b'vpAg' 144 9
+DEBUG 05/02/2018 10:54:06 AM b'vpAg' 144 9 (unknown)
+DEBUG 05/02/2018 10:54:06 AM STREAM b'IDAT' 165 32768
+INFO 05/02/2018 10:54:06 AM Image Dimensions: 239, 300
+INFO 05/02/2018 10:54:06 AM Image Color: color
+INFO 05/02/2018 10:54:06 AM Histogram data generated
+INFO 05/02/2018 10:54:06 AM  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)

@@ -85,9 +85,9 @@ def pre_processing(noheader_images, filename, images):
     time_stamp = datetime.datetime.now()
     image_data = image_function.gather_data()
     image_size = image_data[1]
-    #histograms = Image_processing.histogram_data(noheader_images)
+    histograms = Image_processing.histogram_data(noheader_images)
     images_arr = [images, images_names, images_names, filetype,
-                  time_stamp, image_size, [[0,0],[0,0],[0,0],[0,0]]]
+                  time_stamp, image_size, histograms]
 
     return images_arr
 
@@ -111,7 +111,7 @@ def aft_processing(filename, protype):
     time_stamp = datetime.datetime.now()
     time_duration = protype[5]
     #histograms = protype
-    pro_images_arr = [images, images_names, image_names, filetype,
+    pro_images_arr = [images, images_names, images_names, filetype,
                       time_stamp, time_duration, [[0,0],[0,0],[0,0],[0,0]]]
 
     return pro_images_arr
@@ -205,6 +205,9 @@ def pro_images_post_his(email, filename):
         }
         return jsonify(result), 200
 
-
+file = open('image_test_png.txt', 'r')
+string = file.read()
+output = pre_processing(string, string, string)
+print(output[6])
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
