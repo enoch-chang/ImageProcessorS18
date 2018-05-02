@@ -88,7 +88,7 @@ def pre_processing(noheader_images, filename, images):
     image_size = image_data[1]
     histograms = Image_processing.histogram_data(noheader_images)
     images_arr = [images, images_names, images_names, filetype,
-                  time_stamp, image_size, histograms]
+                  time_stamp, image_size, [histograms]]
 
     return images_arr
 
