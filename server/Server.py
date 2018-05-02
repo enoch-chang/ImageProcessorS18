@@ -104,6 +104,7 @@ def aft_processing(filename, protype):
     :param protype: list of the post-processed image histogram
     """
     images = protype[4]
+    image_type = str(images, 'utf-8')
     images_names = filename
     no_headerim = transfer_decode(images)
     image_function = Image_processing.Image(image_as_string=no_headerim)
@@ -111,7 +112,7 @@ def aft_processing(filename, protype):
     time_stamp = datetime.datetime.now()
     time_duration = protype[5]
     #histograms = protype
-    pro_images_arr = [images, images_names, images_names, filetype,
+    pro_images_arr = [image_type, images_names, images_names, filetype,
                       time_stamp, time_duration, [[0,0],[0,0],[0,0],[0,0]]]
 
     return pro_images_arr
