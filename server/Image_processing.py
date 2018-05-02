@@ -399,10 +399,10 @@ def reverse_video_complete(image_string):
     """
     image = initialize_image(image_string)
     reverse_video_array, run_time = image.reverse_video()
-    red_hist, blue_hist, green_hist, x_vals = \
-        output_altered_histogram_data('rev_vid', image.file_ext)
+    #red_hist, blue_hist, green_hist, x_vals = \
+    #    output_altered_histogram_data('rev_vid', image.file_ext)
     base64_string = encode_string('reverse_video', image.file_ext)
-    return red_hist, blue_hist, green_hist, x_vals, base64_string, run_time
+    return base64_string, run_time
 
 
 # Log Compression - Callable Function
