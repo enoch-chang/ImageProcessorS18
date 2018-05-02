@@ -168,7 +168,7 @@ def pro_images_post_his():
     image_pro_type = r["process"]
 
     wk_images = rm_strheader(images)
-    if image_pro_type == "reverse video":
+    if image_pro_type == "Reverse Video":
         protype = Image_processing.reverse_video_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
@@ -178,7 +178,7 @@ def pro_images_post_his():
         }
         return jsonify(result), 200
 
-    elif image_pro_type == "constrast stretching":
+    elif image_pro_type == "Constrast Stretching":
         protype = Image_processing.contrast_stretching_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
@@ -188,7 +188,7 @@ def pro_images_post_his():
         }
         return jsonify(result), 200
 
-    elif image_pro_type == "log compression":
+    elif image_pro_type == "Log Compression":
         protype = Image_processing.log_compression_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
@@ -198,7 +198,7 @@ def pro_images_post_his():
         }
         return jsonify(result), 200
 
-    elif image_pro_type == "histogram eq":
+    elif image_pro_type == "Histogram Equalization":
         protype = Image_processing.histogram_eq_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
