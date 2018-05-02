@@ -213,6 +213,7 @@ def pro_images_post_his():
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
     
-string = open(“image_test_jpeg.txt”, “r”) 
+file = open('image_test_jpeg.txt', 'r') 
+string = file.read()
 histograms = Image_processing.histogram_data(string)
 print(histograms)
