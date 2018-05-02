@@ -1,8 +1,0 @@
-INFO 05/02/2018 02:54:02 AM Image initialized as instance of Image class
-INFO 05/02/2018 02:54:02 AM Image file extension: .JPEG
-INFO 05/02/2018 02:54:02 AM Base64 image successfully decoded
-INFO 05/02/2018 02:54:02 AM Image file extension: .JPEG
-INFO 05/02/2018 02:54:02 AM Base64 image successfully decoded
-INFO 05/02/2018 02:54:02 AM Image Dimensions: 777, 1200
-INFO 05/02/2018 02:54:02 AM Image Color: color
-INFO 05/02/2018 02:54:04 AM Histogram data generated

@@ -39,11 +39,10 @@ def app_get_user(user_email):
 
 
 def transfer_decode(image_str):
-    index = image_str.find(',')
+    index = image_str.find(b',')
     image_str = image_str[index + 1:]
-    base64bytes = image_str.encode()
 
-    return base64bytes
+    return image_str
 
 
 def decode_image(image_bytes, image_id):
@@ -106,7 +105,7 @@ def aft_processing(filename, protype):
     """
     images = protype[4]
     images_names = filename
-    no_headerim = rm_strheader(images)
+    no_headerim = transfer_decode(images)
     image_function = Image_processing.Image(image_as_string=no_headerim)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
