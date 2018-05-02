@@ -39,11 +39,10 @@ def app_get_user(user_email):
 
 
 def transfer_decode(image_str):
-    index = image_str.find(',')
+    index = image_str.find(b',')
     image_str = image_str[index + 1:]
-    image_bytes = image_str.encode()
-
-    return image_bytes
+    image_type = str(image_str, 'utf-8')
+    return image_type
 
 
 def decode_image(image_bytes, image_id):
@@ -84,9 +83,8 @@ def pre_processing(noheader_images, filename, images):
     image_function = Image_processing.Image(image_as_string=noheader_images)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
-    imgdata = base64.b64decode(noheader_images)
-    im = Image.open(io.BytesIO(imgdata))
-    image_size = im.size
+    image_data = image_function.gather_data()
+    image_size = image_data[1]
     #histograms = Image_processing.histogram_data(noheader_images)
     images_arr = [images, images_names, images_names, filetype,
                   time_stamp, image_size, [[0,0],[0,0],[0,0],[0,0]]]
@@ -94,7 +92,7 @@ def pre_processing(noheader_images, filename, images):
     return images_arr
 
 
-def aft_processing(images, filename, protype):
+def aft_processing(filename, protype):
     """
     After the specific image processing, this function process all the
     information regarding this image. After processing, this would return a
@@ -105,16 +103,16 @@ def aft_processing(images, filename, protype):
     :param filename: str of the name of the image
     :param protype: list of the post-processed image histogram
     """
-    images = images
+    images = protype[4]
     images_names = filename
-    no_headerim = rm_strheader(images)
+    no_headerim = transfer_decode(images)
     image_function = Image_processing.Image(image_as_string=no_headerim)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
     time_duration = protype[5]
-    histograms = protype
+    #histograms = protype
     pro_images_arr = [images, images_names, image_names, filetype,
-                      time_stamp, time_duration, histograms]
+                      time_stamp, time_duration, [[0,0],[0,0],[0,0],[0,0]]]
 
     return pro_images_arr
 
@@ -149,60 +147,58 @@ def images_post():
     images = r["images"]
     filename = r["filename"]
 
-    for im, nm in zip(images, filename):
-        no_header_im = rm_strheader(im)
-        images_info = pre_processing(no_header_im, nm, im)
-        mainfunction.add_images(email, images_info)
+    #for im, nm in zip(images, filename):
+    no_header_im = rm_strheader(images)
+    images_info = pre_processing(no_header_im, filename, images)
+    mainfunction.add_images(email, images_info)
     result = {"success": "Cong! uploading successful"}
 
     return jsonify(result), 200
 
 
-@app.route("/api/images/<user_email>/<image_id>/process", methods=["POST"])
-def pro_images_post_his():
+@app.route("/api/images/<email>/<filename>/process", methods=["POST"])
+def pro_images_post_his(email, filename):
 
     r = request.get_json()
 
-    user_email = r["email"]
-    images = r["images"]  #how to retrieve this string
-    image_id = r["image_id"]  #how to get this info
+    images = r["images"]
     image_pro_type = r["process"]
 
     wk_images = rm_strheader(images)
-    if image_pro_type == "reverse video":
+    if image_pro_type == "Reverse Video":
         protype = Image_processing.reverse_video_complete(wk_images)
-        images_info = aft_processing(images, filename, protype)
-        mainfunction.add_pro_images(user_email, images_info)
+        images_info = aft_processing(filename, protype)
+        mainfunction.add_pro_images(email, images_info)
         result = {
             "images": images,
             "pro_images": images_info[4]
         }
         return jsonify(result), 200
 
-    elif image_pro_type == "constrast stretching":
+    elif image_pro_type == "Constrast Stretching":
         protype = Image_processing.contrast_stretching_complete(wk_images)
-        images_info = aft_processing(images, filename, protype)
-        mainfunction.add_pro_images(user_email, images_info)
+        images_info = aft_processing(filename, protype)
+        mainfunction.add_pro_images(email, images_info)
         result = {
             "images": images,
             "pro_images": images_info[4]
         }
         return jsonify(result), 200
 
-    elif image_pro_type == "log compression":
+    elif image_pro_type == "Log Compression":
         protype = Image_processing.log_compression_complete(wk_images)
-        images_info = aft_processing(images, filename, protype)
-        mainfunction.add_pro_images(user_email, images_info)
+        images_info = aft_processing(filename, protype)
+        mainfunction.add_pro_images(email, images_info)
         result = {
             "images": images,
             "pro_images": images_info[4]
         }
         return jsonify(result), 200
 
-    elif image_pro_type == "histogram eq":
+    elif image_pro_type == "Histogram Equalization":
         protype = Image_processing.histogram_eq_complete(wk_images)
-        images_info = aft_processing(images, filename, protype)
-        mainfunction.add_pro_images(user_email, images_info)
+        images_info = aft_processing(filename, protype)
+        mainfunction.add_pro_images(email, images_info)
         result = {
             "images": images,
             "pro_images": images_info[4]

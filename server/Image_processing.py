@@ -48,6 +48,8 @@ class Image:
         :returns self.dimensions: an array in the form of (rows, columns)
         :returns self.image_array: a numpy array containing the digital
         image data
+        :returns self.alpha_channel: a yes or no string indicating whether
+        the contains an alpha channel
         """
         self.decode_string()
         self.image_array = io.imread('working_image' + self.file_ext)
@@ -69,7 +71,8 @@ class Image:
                            'as its removal may impact image quality')
 
         logger.info('Image Color: %s' % self.color_type)
-        return self.color_type, self.dimensions, self.image_array
+        return self.color_type, self.dimensions, self.image_array, \
+               self.alpha_channel
 
     # Remove alpha channel if present
     def remove_alpha_channel(self):
@@ -353,7 +356,7 @@ def histogram_eq_complete(image_string):
     red_hist, blue_hist, green_hist, x_vals = output_altered_histogram_data(
         'hist_eq', image.file_ext)
     base64_string = encode_string('hist_equalized', image.file_ext)
-    return [red_hist, blue_hist, green_hist, x_vals, base64_string, run_time]
+    return red_hist, blue_hist, green_hist, x_vals, base64_string, run_time
 
 
 # Contrast stretching - Callable Function
@@ -376,7 +379,7 @@ def contrast_stretching_complete(image_string):
     red_hist, blue_hist, green_hist, x_vals = \
         output_altered_histogram_data('contrast_stretch', image.file_ext)
     base64_string = encode_string('contrast_stretched', image.file_ext)
-    return [red_hist, blue_hist, green_hist, x_vals, base64_string, run_time]
+    return red_hist, blue_hist, green_hist, x_vals, base64_string, run_time
 
 
 # Reverse video - Callable Function
@@ -399,7 +402,7 @@ def reverse_video_complete(image_string):
     red_hist, blue_hist, green_hist, x_vals = \
         output_altered_histogram_data('rev_vid', image.file_ext)
     base64_string = encode_string('reverse_video', image.file_ext)
-    return [red_hist, blue_hist, green_hist, x_vals, base64_string, run_time]
+    return red_hist, blue_hist, green_hist, x_vals, base64_string, run_time
 
 
 # Log Compression - Callable Function
@@ -422,7 +425,7 @@ def log_compression_complete(image_string):
     red_hist, blue_hist, green_hist, x_vals = \
         output_altered_histogram_data('log', image.file_ext)
     base64_string = encode_string('log_compressed', image.file_ext)
-    return [red_hist, blue_hist, green_hist, x_vals, base64_string, run_time]
+    return red_hist, blue_hist, green_hist, x_vals, base64_string, run_time
 
 
 # Output histogram data for unaltered image
@@ -439,4 +442,4 @@ def histogram_data(image_string):
     image = initialize_image(image_string)
     red_hist, blue_hist, green_hist, x_vals = image.output_histogram_data(
         'original')
-    return [red_hist, blue_hist, green_hist, x_vals]
+    return red_hist, blue_hist, green_hist, x_vals

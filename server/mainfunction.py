@@ -72,8 +72,22 @@ def create_user(email, name):
     :param name: str name of the new user
     """
     u = models.User(email, name, [], [])  # create a new User instance
+    u.images.append(["No images", "No images", "No images", "No images",
+                     "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
+    u.pro_images.append(["No images", "No images", "No images", "No images",
+                         "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
+    # u.name = name
     u.save()
     # save the user to the database
+
+
+def delete_init():
+    user = models.User.objects.raw({"_id": email}).first()
+    user.images.remove(["No images", "No images", "No images", "No images",
+                        "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
+    user.pro_images.remove(["No images", "No images", "No images", "No images",
+                     "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
+    u.save()
 
 
 def check_user(email):
