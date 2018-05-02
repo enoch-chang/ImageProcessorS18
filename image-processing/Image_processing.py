@@ -1,6 +1,4 @@
 import skimage
-import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import base64
@@ -10,7 +8,6 @@ import logging
 from skimage import io
 from skimage import exposure
 from skimage import util
-matplotlib.use('TkAgg')
 
 # Set up logger
 log_format = '%(levelname)s %(asctime)s %(message)s'
@@ -27,7 +24,8 @@ class Image:
                  image_array=None, dimensions=None,
                  contrast_stretch_array=None, hist_eq_array=None,
                  rev_video_array=None, image_as_string=None,
-                 log_comp_array=None, max_intensity_val=None):
+                 log_comp_array=None, max_intensity_val=None,
+                 alpha_channel='no'):
         self.file_name = file_name
         self.file_ext = file_ext
         self.color_type = color_type
@@ -39,6 +37,7 @@ class Image:
         self.image_as_string = image_as_string
         self.log_comp_array = log_comp_array
         self.max_intensity_val = max_intensity_val
+        self.alpha_channel = alpha_channel
 
     # Load and Gather Image Data (Size, color / greyscale, file type)
     def gather_data(self):
@@ -55,13 +54,34 @@ class Image:
         self.image_array = io.imread('working_image' + self.file_ext)
         rows, columns, channels = self.image_array.shape
         self.dimensions = (rows, columns)
+
         logger.info('Image Dimensions: %s, %s' % (rows, columns))
         if channels == 1:
             self.color_type = 'greyscale'
-        else:
+        elif channels == 3:
             self.color_type = 'color'
+        elif channels == 4:
+            self.color_type = 'color'
+            self.alpha_channel = 'yes'
+            self.image_array = self.remove_alpha_channel()
+            logger.warning('This image contains an alpha channel, '
+                           'which will be automatically removed. Consider '
+                           'trying an image without an alpha channel, '
+                           'as its removal may impact image quality')
+
         logger.info('Image Color: %s' % self.color_type)
         return self.color_type, self.dimensions, self.image_array
+
+    # Remove alpha channel if present
+    def remove_alpha_channel(self):
+        """ Removes alpha channel from image data array
+
+        :returns self.image_array: image data array with alpha channel
+        values removed
+        """
+        no_alpha = self.image_array[:, :, :3]
+        self.image_array = no_alpha
+        return self.image_array
 
     # Decode Base64 string into workable image
     def decode_string(self):
@@ -235,9 +255,10 @@ class Image:
         """
         start_time = timeit.default_timer()
         inverted = np.zeros_like(self.image_array)
+
         if self.color_type == 'greyscale':
             inverted = util.invert(self.image_array)
-        elif self.color_type == 'color':
+        else:
             rows, columns, channels = self.image_array.shape
             for row in range(0, rows):
                 for column in range(0, columns):
@@ -301,10 +322,10 @@ def output_altered_histogram_data(hist_type, file_ext):
 
     for row in range(0, rows):
         for column in range(0, columns):
-            red_val, blue_val, green_val = image[row, column]
-            red[row, column] = red_val
-            green[row, column] = green_val
-            blue[row, column] = blue_val
+                red_val, blue_val, green_val = image[row, column]
+                red[row, column] = red_val
+                green[row, column] = green_val
+                blue[row, column] = blue_val
     red_data = np.histogram(red, bins=256)
     blue_data = np.histogram(blue, bins=256)
     green_data = np.histogram(green, bins=256)
@@ -436,10 +457,3 @@ def histogram_data(image_string):
     red_hist, blue_hist, green_hist, x_vals = image.output_histogram_data(
         'original')
     return red_hist, blue_hist, green_hist, x_vals
-
-
-file_jpeg = open('image_test_jpeg.txt')
-jpeg_string = file_jpeg.read()
-test = Image(image_as_string=jpeg_string)
-test.gather_data()
-test.reverse_video()
