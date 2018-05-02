@@ -13,7 +13,7 @@ import base64
 import PIL
 from PIL import Image
 
-connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")
+connect("mongodb://vcm-3608.vm.duke.edu:27017/tag1.0.0")
 app = Flask(__name__)
 CORS(app)
 
@@ -114,15 +114,12 @@ def aft_processing(filename, protype, proc_cmd):
     time_stamp = datetime.datetime.now()
     time_duration = protype[5]
     red_his_str = str(protype[0])
-    updated_redhis = str(red_his_str[1:len(red_his_str) - 1])
     blue_his_str = str(protype[1])
-    updated_bluehis = str(blue_his_str[1:len(blue_his_str) - 1])
     green_his_str = str(protype[2])
-    updated_greenhis = str(green_his_str[1:len(green_his_str) - 1])
     x_vals_str = str(protype[3])
     pro_images_arr = [image_type, aft_name, images_names, filetype,
                       time_stamp, time_duration,
-                      updated_redhis, updated_bluehis, updated_greenhis, x_vals_str]
+                      [red_his_str, blue_his_str, green_his_str, x_vals_str]]
 
     return pro_images_arr
 
@@ -167,15 +164,12 @@ def images_post():
     image_size = image_data[1]
     histograms = Image_processing.histogram_data(noheader_images)
     red_his_str = str(histograms[0])
-    updated_redhis =  str(red_his_str[1:len(red_his_str) - 1])
     blue_his_str = str(histograms[1])
-    updated_bluehis = str(blue_his_str[1:len(blue_his_str) - 1])
     green_his_str = str(histograms[2])
-    updated_greenhis = str(green_his_str[1:len(green_his_str) - 1])
     x_vals_str = str(histograms[3])
     images_arr = [images, images_names, images_names, filetype,
                   time_stamp, image_size,
-                  updated_redhis, updated_bluehis, updated_greenhis, x_vals_str]
+                  [red_his_str, blue_his_str, green_his_str, x_vals_str]]
     mainfunction.add_images(email, images_arr)
     result = {"success": "Cong! uploading successful"}
 
