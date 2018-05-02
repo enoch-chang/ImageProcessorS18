@@ -84,9 +84,9 @@ def create_user(email, name):
 def delete_init():
     user = models.User.objects.raw({"_id": email}).first()
     user.images.remove(["No images", "No images", "No images", "No images",
+                        "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
+    user.pro_images.remove(["No images", "No images", "No images", "No images",
                      "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
-    user.pro_images(["No images", "No images", "No images", "No images",
-                         "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
     u.save()
 
 

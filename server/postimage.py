@@ -59,12 +59,13 @@ def pre_processing():
 #image = pre_processing()
 file_jpeg = open('image_test_png.txt')
 jpeg_string = file_jpeg.read()
-image_function = Image_processing.Image(image_as_string=jpeg_string)
-image_data = image_function.gather_data()
-dimen = image_data[1]
-print(dimen)
+#image_function = Image_processing.Image(image_as_string=jpeg_string)
+#image_data = image_function.gather_data()
+#dimen = image_data[1]
+#print(dimen)
 #a = Image_processing.contrast_stretching_complete(jpeg_string)
 #red_data = a[0]
 b = Image_processing.histogram_data(jpeg_string)
+print(jpeg_string)
 print(b[0])
 #print(range(0, 256))
