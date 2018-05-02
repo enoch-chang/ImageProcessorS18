@@ -54,7 +54,7 @@ def pre_processing(noheader_images, filename, images):
 
 
     
-file = open('image_test_jpeg.txt', 'r') 
+file = open('image_test_jpeg.png', 'r') 
 string = file.read()
 histograms = Image_processing.histogram_data(string)
 print(histograms)
