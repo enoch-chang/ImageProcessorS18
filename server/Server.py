@@ -111,10 +111,10 @@ def aft_processing(filename, protype):
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
     time_duration = protype[5]
-    red_his_str = str(protype[0].toList)
-    blue_his_str = str(protype[1].toList)
-    green_his_str = str(protype[2].toList)
-    x_vals_str = str(protype[3].toList)
+    red_his_str = str(protype[0].tolist)
+    blue_his_str = str(protype[1].tolist)
+    green_his_str = str(protype[2].tolist)
+    x_vals_str = str(protype[3].tolist)
     pro_images_arr = [image_type, images_names, images_names, filetype,
                       time_stamp, time_duration,
                       [red_his_str, blue_his_str, green_his_str, x_vals_str]]
@@ -161,10 +161,10 @@ def images_post():
     image_data = image_function.gather_data()
     image_size = image_data[1]
     histograms = Image_processing.histogram_data(noheader_images)
-    red_his_str = str(histograms[0].toList)
-    blue_his_str = str(histograms[1].toList)
-    green_his_str = str(histograms[2].toList)
-    x_vals_str = str(histograms[3].toList)
+    red_his_str = str(histograms[0].tolist())
+    blue_his_str = str(histograms[1].tolist())
+    green_his_str = str(histograms[2].tolist())
+    x_vals_str = str(histograms[3].tolist())
     images_arr = [images, images_names, images_names, filetype,
                   time_stamp, image_size,
                   [red_his_str, blue_his_str, green_his_str, x_vals_str]]

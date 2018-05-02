@@ -22,12 +22,12 @@ from PIL import Image
 #    return image_str
 
 def rm_strheader(images):
-    print(type(images))
+    #print(type(images))
     index = images.find(b',')
     image_str = images[index + 1:]
-    print(type(image_str))
+    #print(type(image_str))
     test = str(image_str, 'utf-8')
-    print(type(test))
+    #print(type(test))
     return test
 
 def encode_string(filename, file_ext):
@@ -63,9 +63,9 @@ def pre_processing():
 
 
 
-image = pre_processing()
-#file_jpeg = open('image_test_png.txt')
-#jpeg_string = file_jpeg.read()
+#image = pre_processing()
+file_jpeg = open('image_test_png.txt')
+jpeg_string = file_jpeg.read()
 #con = "data:image/jpeg;base64," + jpeg_string
 #image_function = Image_processing.Image(image_as_string=jpeg_string)
 #image_data = image_function.gather_data()
@@ -76,7 +76,8 @@ image = pre_processing()
 #a = rm_strheader(con)
 #print(con)
 #print(a)
-#b = Image_processing.histogram_data(jpeg_string)
+b = Image_processing.histogram_data(jpeg_string)
 #print(jpeg_string)
-#print(b[0])
+a = b[0]
+print(a.tolist())
 #print(range(0, 256))
