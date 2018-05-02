@@ -40,7 +40,7 @@ class Image:
         self.alpha_channel = alpha_channel
 
     # Load and Gather Image Data (Size, color / greyscale, file type)
-    def gather_data(self):
+        def gather_data(self):
         """Gathers useful information about an input image and stores the data
         as object attributes. Functions by taking in a base64 string,
         decoding it then saving it as a numpy array
@@ -70,8 +70,9 @@ class Image:
                            'as its removal may impact image quality')
 
         logger.info('Image Color: %s' % self.color_type)
-        return self.color_type, self.dimensions, self.image_array
-
+        return self.color_type, self.dimensions, self.image_array,\
+            self.alpha_channel
+        
     # Remove alpha channel if present
     def remove_alpha_channel(self):
         """ Removes alpha channel from image data array
