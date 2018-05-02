@@ -163,7 +163,7 @@ def pro_images_post_his():
     r = request.get_json()
 
     images = r["images"]
-    filename = r["filename"]
+    image_pro_type = r["process"]
 
     wk_images = rm_strheader(images)
     if image_pro_type == "Reverse Video":
