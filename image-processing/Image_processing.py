@@ -49,6 +49,8 @@ class Image:
         :returns self.dimensions: an array in the form of (rows, columns)
         :returns self.image_array: a numpy array containing the digital
         image data
+        :returns self.alpha_channel: a yes or no string indicating whether 
+        the contains an alpha channel
         """
         self.decode_string()
         self.image_array = io.imread('working_image' + self.file_ext)
