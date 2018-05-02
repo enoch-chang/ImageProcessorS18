@@ -117,7 +117,7 @@ def aft_processing(filename, protype, proc_cmd):
     blue_his_str = str(protype[1])
     green_his_str = str(protype[2])
     x_vals_str = str(protype[3])
-    pro_images_arr = [image_type, aft_name, aft_name, filetype,
+    pro_images_arr = [image_type, images_names, aft_name, filetype,
                       time_stamp, time_duration,
                       [red_his_str, blue_his_str, green_his_str, x_vals_str]]
 
