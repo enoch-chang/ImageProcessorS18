@@ -30,6 +30,7 @@ def encode_string(filename, file_ext):
 with open('coach.jpeg', 'rb') as imageFile:
     images = base64.b64encode(imageFile.read())
 
+
 def pre_processing():
     with open('coach.jpeg', 'rb') as imageFile:
         images = base64.b64encode(imageFile.read())

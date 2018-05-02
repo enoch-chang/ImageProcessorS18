@@ -72,19 +72,12 @@ def create_user(email, name):
     :param name: str name of the new user
     """
     u = models.User(email, name, [], [])  # create a new User instance
-    #u.images.append(["No images", "No images", "No images", "No images",
-    #  "No images",
-    #                 [0, 0], [[0, 0], [0, 0], [0, 0]]])
-    #u.pro_images.append(["No images", "No images", "No images", "No images",
-    #  "No images",
-    #                    [0, 0], [[0, 0], [0, 0], [0, 0]]])
-    #u.name = name
     u.save()
     # save the user to the database
 
 
 def check_user(email):
-    return models.User.objects.raw({"_id": email}).count()>0
+    return models.User.objects.raw({"_id": email}).count() > 0
 
 
 def print_user(email):
@@ -100,4 +93,5 @@ def print_user(email):
 
 
 if __name__ == "__main__":
-    connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")  # open up connection to db
+    connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")
+    # open up connection to db
