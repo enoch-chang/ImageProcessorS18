@@ -173,10 +173,9 @@ def pro_images_post_his():
         protype = Image_processing.reverse_video_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
-        list = images_info
         result = {
-            "images": images
-            "pro_images": list[4]
+            "images": images,
+            "pro_images": images_info[4]
         }
         return jsonify(result), 200
 
@@ -184,10 +183,9 @@ def pro_images_post_his():
         protype = Image_processing.contrast_stretching_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
-        list = images_info
         result = {
-            "images": images
-            "pro_images": list[4]
+            "images": images,
+            "pro_images": images_info[4]
         }
         return jsonify(result), 200
 
@@ -195,10 +193,9 @@ def pro_images_post_his():
         protype = Image_processing.log_compression_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
-        list = images_info
         result = {
-            "images": images
-            "pro_images": list[4]
+            "images": images,
+            "pro_images": images_info[4]
         }
         return jsonify(result), 200
 
@@ -206,10 +203,9 @@ def pro_images_post_his():
         protype = Image_processing.histogram_eq_complete(wk_images)
         images_info = aft_processing(images, filename, protype)
         mainfunction.add_pro_images(user_email, images_info)
-        list = images_info
         result = {
-            "images": images
-            "pro_images": list[4]
+            "images": images,
+            "pro_images": images_info[4]
         }
         return jsonify(result), 200
 
