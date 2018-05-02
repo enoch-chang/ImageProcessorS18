@@ -107,9 +107,12 @@ def aft_processing(images, filename, protype):
     """
     images = images
     images_names = filename
+    no_headerim = rm_strheader(images)
+    image_function = Image_processing.Image(image_as_string=no_headerim)
+    filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
     time_duration = protype[5]
-    histograms = [protype]
+    histograms = protype
     pro_images_arr = [images, images_names, image_names, filetype,
                       time_stamp, time_duration, histograms]
 
@@ -146,10 +149,10 @@ def images_post():
     images = r["images"]
     filename = r["filename"]
 
-    #for i, t in enumerate(images, filename):
-    no_header_im = rm_strheader(images)
-    images_info = pre_processing(no_header_im, filename, images)
-    mainfunction.add_images(email, images_info)
+    for im, nm in zip(images, filename):
+        no_header_im = rm_strheader(im)
+        images_info = pre_processing(no_header_im, nm, im)
+        mainfunction.add_images(email, images_info)
     result = {"success": "Cong! uploading successful"}
 
     return jsonify(result), 200
