@@ -3,7 +3,6 @@ from flask_cors import CORS
 import pymodm
 from pymodm import connect
 import numpy as np
-import models
 import datetime
 import time
 import Image_processing
