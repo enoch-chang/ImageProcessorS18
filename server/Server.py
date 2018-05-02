@@ -81,15 +81,15 @@ def pre_processing(noheader_images, filename, images):
     :param filename: str of the name of the image
     """
     images_names = filename
-    image_function = Image_processing.Image(image_as_string=images)
+    image_function = Image_processing.Image(image_as_string=noheader_images)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
-    imgdata = base64.b64decode(images)
+    imgdata = base64.b64decode(noheader_images)
     im = Image.open(io.BytesIO(imgdata))
     image_size = im.size
-    histograms = Image_processing.histogram_data(noheader_images)
+    #histograms = Image_processing.histogram_data(noheader_images)
     images_arr = [images, images_names, images_names, filetype,
-                  time_stamp, image_size, histograms]
+                  time_stamp, image_size, [[0,0],[0,0],[0,0],[0,0]]]
 
     return images_arr
 
