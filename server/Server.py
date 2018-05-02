@@ -119,7 +119,7 @@ def aft_processing(filename, protype, proc_cmd):
     x_vals_str = str(protype[3])
     pro_images_arr = [image_type, aft_name, images_names, filetype,
                       time_stamp, time_duration,
-                      [red_his_str, blue_his_str, green_his_str, x_vals_str]]
+                      red_his_str, blue_his_str, green_his_str, x_vals_str]
 
     return pro_images_arr
 
@@ -169,7 +169,7 @@ def images_post():
     x_vals_str = str(histograms[3])
     images_arr = [images, images_names, images_names, filetype,
                   time_stamp, image_size,
-                  [red_his_str, blue_his_str, green_his_str, x_vals_str]]
+                  red_his_str, blue_his_str, green_his_str, x_vals_str]
     mainfunction.add_images(email, images_arr)
     result = {"success": "Cong! uploading successful"}
 
