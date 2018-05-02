@@ -3,34 +3,6 @@ import models
 import datetime
 
 
-def processed_his(email, images, timing):
-    user = models.User.objects.raw({"_id": email}).first()
-    user.user_images_his.append(images)
-    user.user_images_pro_time.append(timing)
-    user.save()
-
-
-def processed_contrast(email, images, timing):
-    user = models.User.objects.raw({"_id": email}).first()
-    user.user_images_contrast.append(images)
-    user.user_images_pro_time.append(timing)
-    user.save()
-
-
-def processed_log(email, images, timing):
-    user = models.User.objects.raw({"_id": email}).first()
-    user.user_images_log.append(images)
-    user.user_images_pro_time.append(timing)
-    user.save()
-
-
-def processed_reverse(email, images, timing):
-    user = models.User.objects.raw({"_id": email}).first()
-    user.user_images_reverse.append(images)
-    user.user_images_pro_time.append(timing)
-    user.save()
-
-
 def add_images(email, image_info):
     """
     Appends images to specific user email and the images corresponding
@@ -76,7 +48,7 @@ def create_user(email, name):
                      "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
     u.pro_images.append(["No images", "No images", "No images", "No images",
                          "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
-    # u.name = name
+    # initialization of the images and processed images lists
     u.save()
     # save the user to the database
 
@@ -91,6 +63,11 @@ def delete_init():
 
 
 def check_user(email):
+    """
+    Check if the user exists in the database. If user exists, this will
+    return > 0, if not it would be 0.
+    :param email: str email of the new user
+    """
     return models.User.objects.raw({"_id": email}).count() > 0
 
 
