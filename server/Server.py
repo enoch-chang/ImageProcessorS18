@@ -92,7 +92,7 @@ def pre_processing(noheader_images, filename, images):
     return images_arr
 
 
-def aft_processing(filename, protype):
+def aft_processing(filename, protype, proc_cmd):
     """
     After the specific image processing, this function process all the
     information regarding this image. After processing, this would return a
@@ -106,16 +106,18 @@ def aft_processing(filename, protype):
     images = protype[4]
     image_type = str(images, 'utf-8')
     images_names = filename
+    index = images_names.find('.')
+    aft_name = images_names[:index] + ' ' + proc_cmd + images_names[index:]
     no_headerim = transfer_decode(images)
     image_function = Image_processing.Image(image_as_string=no_headerim)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
     time_duration = protype[5]
-    red_his_str = str(protype[0].tolist)
-    blue_his_str = str(protype[1].tolist)
-    green_his_str = str(protype[2].tolist)
+    red_his_str = str(protype[0])
+    blue_his_str = str(protype[1])
+    green_his_str = str(protype[2])
     x_vals_str = str(protype[3])
-    pro_images_arr = [image_type, images_names, images_names, filetype,
+    pro_images_arr = [image_type, aft_name, aft_name, filetype,
                       time_stamp, time_duration,
                       [red_his_str, blue_his_str, green_his_str, x_vals_str]]
 
@@ -161,14 +163,13 @@ def images_post():
     image_data = image_function.gather_data()
     image_size = image_data[1]
     histograms = Image_processing.histogram_data(noheader_images)
-    red_his_str = str(histograms[0].tolist())
-    blue_his_str = str(histograms[1].tolist())
-    green_his_str = str(histograms[2].tolist())
+    red_his_str = str(histograms[0])
+    blue_his_str = str(histograms[1])
+    green_his_str = str(histograms[2])
     x_vals_str = str(histograms[3])
     images_arr = [images, images_names, images_names, filetype,
                   time_stamp, image_size,
                   [red_his_str, blue_his_str, green_his_str, x_vals_str]]
-    #images_info = pre_processing(no_header_im, filename, images)
     mainfunction.add_images(email, images_arr)
     result = {"success": "Cong! uploading successful"}
 
@@ -186,7 +187,7 @@ def pro_images_post_his(email, filename):
     wk_images = rm_strheader(images_str)
     if image_pro_type == "Reverse Video":
         protype = Image_processing.reverse_video_complete(wk_images)
-        images_info = aft_processing(filename_str, protype)
+        images_info = aft_processing(filename_str, protype, image_pro_type)
         mainfunction.add_pro_images(email, images_info)
         result = {
             "hope this works": "Yes it works"
@@ -197,7 +198,7 @@ def pro_images_post_his(email, filename):
 
     elif image_pro_type == "Constrast Stretching":
         protype = Image_processing.contrast_stretching_complete(wk_images)
-        images_info = aft_processing(filename_str, protype)
+        images_info = aft_processing(filename_str, protype, image_pro_type)
         mainfunction.add_pro_images(email, images_info)
         result = {
             "hope this works": "Yes it works"
@@ -208,7 +209,7 @@ def pro_images_post_his(email, filename):
 
     elif image_pro_type == "Log Compression":
         protype = Image_processing.log_compression_complete(wk_images)
-        images_info = aft_processing(filename_str, protype)
+        images_info = aft_processing(filename_str, protype, image_pro_type)
         mainfunction.add_pro_images(email, images_info)
         result = {
             "hope this works": "Yes it works"
@@ -219,7 +220,7 @@ def pro_images_post_his(email, filename):
 
     elif image_pro_type == "Histogram Equalization":
         protype = Image_processing.histogram_eq_complete(wk_images)
-        images_info = aft_processing(filename_str, protype)
+        images_info = aft_processing(filename_str, protype, image_pro_type)
         mainfunction.add_pro_images(email, images_info)
         result = {
             "hope this works": "Yes it works"
