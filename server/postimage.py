@@ -56,7 +56,7 @@ def pre_processing():
 
 
 #image = pre_processing()
-file_jpeg = open('image_test_jpeg.txt')
+file_jpeg = open('coach.jepg')
 jpeg_string = file_jpeg.read()
 con = "data:image/jpeg;base64," + jpeg_string
 #image_function = Image_processing.Image(image_as_string=jpeg_string)

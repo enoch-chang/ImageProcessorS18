@@ -157,12 +157,12 @@ def images_post():
     return jsonify(result), 200
 
 
-@app.route("/api/images/<user_email>/<image_id>/process", methods=["POST"])
+@app.route("/api/images/<email>/<image_id>/process", methods=["POST"])
 def pro_images_post_his():
 
     r = request.get_json()
 
-    user_email = r["email"]
+    email = r["email"]
     images = r["images"]
     filename = r["image_id"]
     image_pro_type = r["process"]
@@ -171,7 +171,7 @@ def pro_images_post_his():
     if image_pro_type == "Reverse Video":
         protype = Image_processing.reverse_video_complete(wk_images)
         images_info = aft_processing(filename, protype)
-        mainfunction.add_pro_images(user_email, images_info)
+        mainfunction.add_pro_images(email, images_info)
         result = {
             "images": images,
             "pro_images": images_info[4]
@@ -181,7 +181,7 @@ def pro_images_post_his():
     elif image_pro_type == "Constrast Stretching":
         protype = Image_processing.contrast_stretching_complete(wk_images)
         images_info = aft_processing(filename, protype)
-        mainfunction.add_pro_images(user_email, images_info)
+        mainfunction.add_pro_images(email, images_info)
         result = {
             "images": images,
             "pro_images": images_info[4]
@@ -191,7 +191,7 @@ def pro_images_post_his():
     elif image_pro_type == "Log Compression":
         protype = Image_processing.log_compression_complete(wk_images)
         images_info = aft_processing(filename, protype)
-        mainfunction.add_pro_images(user_email, images_info)
+        mainfunction.add_pro_images(email, images_info)
         result = {
             "images": images,
             "pro_images": images_info[4]
@@ -201,7 +201,7 @@ def pro_images_post_his():
     elif image_pro_type == "Histogram Equalization":
         protype = Image_processing.histogram_eq_complete(wk_images)
         images_info = aft_processing(filename, protype)
-        mainfunction.add_pro_images(user_email, images_info)
+        mainfunction.add_pro_images(email, images_info)
         result = {
             "images": images,
             "pro_images": images_info[4]
