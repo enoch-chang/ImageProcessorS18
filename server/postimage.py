@@ -16,9 +16,10 @@ from PIL import Image
 
 def rm_strheader(images):
     print(type(images))
-    index = images.find(b',')
+    index = images.find(',')
     image_str = images[index + 1:]
-    return image_str
+    base64bytes = image_str.encode()
+    return base64bytes
 
 
 def encode_string(filename, file_ext):
@@ -35,28 +36,29 @@ def pre_processing():
     with open('coach.jpeg', 'rb') as imageFile:
         images = base64.b64encode(imageFile.read())
     images64 = images
-    images_names = filename
+    #images_names = filename
     image_function = Image_processing.Image(image_as_string=images)
     filetype = image_function.get_file_ext()
     time_stamp = datetime.datetime.now()
-    base64_str = images[images.find(",")+1:]
-    base64_str = rm_strheader(images)
-    base64result = images(images.indexOf(',') + 1)
-    imgdata = base64.b64decode(images)
+    #base64_str = images[images.find(",")+1:]
+    base64_bytes = rm_strheader(images)
+    #base64result = images(images.indexOf(',') + 1)
+    imgdata = base64.b64decode(base64_bytes)
     im = Image.open(io.BytesIO(imgdata))
     image_size = im.size
-    histograms = Image_processing.histogram_data(images)
+    #histograms = Image_processing.histogram_data(images)
     images_arr = [images64, None, None, filetype,
-                  time_stamp, image_size, histograms]
+                  time_stamp, image_size, None]
     print(images)
     print(images_arr)
     return images_arr
 
 
-file_jpeg = open('image_test_png.txt')
-jpeg_string = file_jpeg.read()
-a = Image_processing.contrast_stretching_complete(jpeg_string)
-red_data = a[0]
-b = Image_processing.histogram_data(jpeg_string)
-print(b[0])
-print(range(0, 256))
+image = pre_processing()
+#file_jpeg = open('image_test_png.txt')
+#jpeg_string = file_jpeg.read()
+#a = Image_processing.contrast_stretching_complete(jpeg_string)
+#red_data = a[0]
+#b = Image_processing.histogram_data(jpeg_string)
+#print(b[0])
+#print(range(0, 256))

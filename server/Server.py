@@ -136,8 +136,9 @@ def create_user():
 def rm_strheader(images):
     index = images.find(',')
     image_str = images[index + 1:]
+    base64bytes = image_str.encode()
 
-    return image_str
+    return base64bytes
 
 
 @app.route("/api/images/upload", methods=["POST"])
