@@ -114,7 +114,7 @@ def aft_processing(filename, protype):
     red_his_str = str(protype[0].tolist)
     blue_his_str = str(protype[1].tolist)
     green_his_str = str(protype[2].tolist)
-    x_vals_str = str(protype[3].tolist)
+    x_vals_str = str(protype[3])
     pro_images_arr = [image_type, images_names, images_names, filetype,
                       time_stamp, time_duration,
                       [red_his_str, blue_his_str, green_his_str, x_vals_str]]
@@ -164,7 +164,7 @@ def images_post():
     red_his_str = str(histograms[0].tolist())
     blue_his_str = str(histograms[1].tolist())
     green_his_str = str(histograms[2].tolist())
-    x_vals_str = str(histograms[3].tolist())
+    x_vals_str = str(histograms[3])
     images_arr = [images, images_names, images_names, filetype,
                   time_stamp, image_size,
                   [red_his_str, blue_his_str, green_his_str, x_vals_str]]
