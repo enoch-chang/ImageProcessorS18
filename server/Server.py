@@ -196,7 +196,7 @@ def pro_images_post_his(email, filename):
         }
         return jsonify(result), 200
 
-    elif image_pro_type == "Constrast Stretching":
+    elif image_pro_type == "Contrast Stretching":
         protype = Image_processing.contrast_stretching_complete(wk_images)
         images_info = aft_processing(filename_str, protype, image_pro_type)
         mainfunction.add_pro_images(email, images_info)
