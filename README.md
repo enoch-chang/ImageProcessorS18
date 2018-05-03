@@ -1,4 +1,4 @@
-# ImageProcessorS18[![Build Status](https://travis-ci.org/enoch-chang/ImageProcessorS18.svg?branch=master)](https://travis-ci.org/enoch-chang/ImageProcessorS18) [![Documentation Status](https://readthedocs.org/projects/imageprocessings18/badge/?version=latest)](http://imageprocessings18.readthedocs.io/en/latest/?badge=latest)
+# ImageProcessorS18[![Build Status](https://travis-ci.org/enoch-chang/ImageProcessorS18.svg?branch=master)](https://travis-ci.org/enoch-chang/ImageProcessorS18) [![Documentation Status](https://readthedocs.org/projects/imageprocessings18/badge/?version=latest)](http://imageprocessings18.readthedocs.io/en/latest/?badge=latest) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **BME590 Final Project MyLittlePony**  
 **Created by:** Enoch Chang, Anthony Schneider, Rich Wang
