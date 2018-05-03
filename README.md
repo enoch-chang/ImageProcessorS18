@@ -1,4 +1,5 @@
-# ImageProcessorS18[![Build Status](https://travis-ci.org/enoch-chang/ImageProcessorS18.svg?branch=master)](https://travis-ci.org/enoch-chang/ImageProcessorS18)
+# ImageProcessorS18[![Build Status](https://travis-ci.org/enoch-chang/ImageProcessorS18.svg?branch=master)](https://travis-ci.org/enoch-chang/ImageProcessorS18) [![Documentation Status](https://readthedocs.org/projects/imageprocessings18/badge/?version=latest)](http://imageprocessings18.readthedocs.io/en/latest/?badge=latest)
+
 BME590 Final Project MyLittlePony 
 ## About this Software
 ### Introduction
