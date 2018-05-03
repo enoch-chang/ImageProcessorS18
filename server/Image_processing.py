@@ -1,4 +1,4 @@
-gimport skimage
+import skimage
 import numpy as np
 import cv2
 import base64
@@ -44,6 +44,7 @@ class Image:
         """Gathers useful information about an input image and stores the data
         as object attributes. Functions by taking in a base64 string,
         decoding it then saving it as a numpy array
+
         :returns: self.color_type a string stating 'greyscale' or 'color'
         :returns: self.dimensions an array in the form of (rows, columns)
         :returns: self.image_array: a numpy array containing the digital
@@ -72,11 +73,12 @@ class Image:
 
         logger.info('Image Color: %s' % self.color_type)
         return self.color_type, self.dimensions, self.image_array,\
-               self.alpha_channel
+            self.alpha_channel
 
     # Remove alpha channel if present
     def remove_alpha_channel(self):
         """ Removes alpha channel from image data array
+
         :returns: self.image_array - image data array with alpha channel
         values removed
         """
@@ -90,6 +92,7 @@ class Image:
         file type (either PNG or JPEG) based off this info, then saves the
         image to disc under the name 'working_image' with the same file
         extension as the input file
+
         """
         ext = self.get_file_ext()
         fh = open('working_image' + ext, "wb")
@@ -100,6 +103,7 @@ class Image:
     def get_file_ext(self):
         """Reads base64 image data and determines image file type (
         PNG/JPEG)
+
         :returns: self.file_ext - string reading either '.JPEG' or '.PNG'
         """
         string = self.image_as_string
@@ -134,14 +138,14 @@ class Image:
     # Generate plottable histogram data
     def output_histogram_data(self, hist_type):
         """ Outputs image histogram data as arrays
+
         :param hist_type: the type of data for which the histogram is being
         produced ('orignal' - unaltered image, 'hist_eq' - image altered by
         histogram equalization, 'rev_vid' - image altered by reverse video,
         'contrast_stretch' - image altered by contrast stretching,
         'log_comp' - image altered by logarithmic compression
         :returns: red_hist - the red frequency values of the image's histogram
-        :returns: blue_hist - the blue frequency values of the image's
-        histogram
+        :returns: blue_hist-the blue frequency values of the image's histogram
         :returns: green_hist - the green frequency values of the image's
         histogram
         :returns: x_vals - the intensity values of the image (0-255)
@@ -181,13 +185,14 @@ class Image:
     def hist_eq(self):
         """
         Carries out histogram equalization on input image
+
         :returns: self.hist_eq_array - numpy array containing image data of
         altered image
         :returns: run_time - the time it took to run this method in seconds
         """
         start_time = timeit.default_timer()
         self.hist_eq_array = exposure.equalize_hist(self.image_array)
-        skimage.io.imsave('hist_equalized' + self.file_ext, self.hist_eq_array,
+        skimage.io.imsave('hist_equalized'+self.file_ext, self.hist_eq_array,
                           plugin=None)
         run_time = timeit.default_timer() - start_time
         logger.info('Histogram equalization completed in %s seconds' %
@@ -198,6 +203,7 @@ class Image:
     def contrast_stretch(self):
         """
         Carries out contrast stretching on input image
+
         :returns: self.contrast_stretch_array - numpy array containing image
         data of altered image
         :returns: run_time - the time it took to run this method in seconds
@@ -207,7 +213,7 @@ class Image:
         p98 = np.percentile(self.image_array, 98)
         self.contrast_stretch_array = exposure.rescale_intensity(
             self.image_array, in_range=(p2, p98))
-        skimage.io.imsave('contrast_stretched' + self.file_ext,
+        skimage.io.imsave('contrast_stretched'+self.file_ext,
                           self.contrast_stretch_array, plugin=None)
         run_time = timeit.default_timer() - start_time
         logger.info('Contrast stretching completed in %s seconds' %
@@ -218,22 +224,23 @@ class Image:
     def log_compression(self):
         """
         Carries out logarithmic compression on input image
+
         :returns: self.log_comp_array - numpy array containing image
         data of altered image
         :returns: run_time - the time it took to run this method in seconds
         """
         start_time = timeit.default_timer()
         log_comp = np.zeros_like(self.image_array)
-        scaling_const = 255 / (np.log(255) + 1)  # assumes max val is 255
+        scaling_const = 255/(np.log(255)+1)  # assumes max val is 255
         rows, columns, channels = self.image_array.shape
 
         for row in range(0, rows):
             for column in range(0, columns):
-                log_comp[row, column] = scaling_const * np.log((
-                    np.absolute(self.image_array[row, column])))
+                log_comp[row, column] = scaling_const*np.log((
+                                np.absolute(self.image_array[row, column])))
 
         self.log_comp_array = log_comp
-        skimage.io.imsave('log_compressed' + self.file_ext,
+        skimage.io.imsave('log_compressed'+self.file_ext,
                           self.log_comp_array, plugin=None)
         run_time = timeit.default_timer() - start_time
         logger.info('Logarithmic compression completed in %s seconds' %
@@ -244,6 +251,7 @@ class Image:
     def reverse_video(self):
         """
         Carries out reverse video on input image
+
         :return: self.rev_video_array - numpy array containing image
         data of altered image
         :return: run_time - the time it took to run this method in seconds
@@ -271,6 +279,7 @@ class Image:
 # Encode created images into Base64
 def encode_string(filename, file_ext):
     """Encodes image saved on disc into a base64 string
+
     :param filename: filename  of image on disc which is to be encoded
     :param file_ext: file extension of filename (.PNG/.JPEG)
     :returns: string - base64 encoded image string
@@ -284,6 +293,7 @@ def encode_string(filename, file_ext):
 # Generate plottable histogram data
 def output_altered_histogram_data(hist_type, file_ext):
     """Outputs arrays containing histogram data of altered images
+
     :param hist_type: the type of data for which the histogram is being
         produced ('orignal' - unaltered image, 'hist_eq' - image altered by
         histogram equalization, 'rev_vid' - image altered by reverse video,
@@ -298,13 +308,13 @@ def output_altered_histogram_data(hist_type, file_ext):
     """
     filename = ''
     if hist_type == 'hist_eq':
-        filename = 'hist_equalized' + file_ext
+        filename = 'hist_equalized'+file_ext
     elif hist_type == 'rev_vid':
-        filename = 'reverse_video' + file_ext
+        filename = 'reverse_video'+file_ext
     elif hist_type == 'contrast_stretch':
-        filename = 'contrast_stretched' + file_ext
+        filename = 'contrast_stretched'+file_ext
     elif hist_type == 'log':
-        filename = 'log_compressed' + file_ext
+        filename = 'log_compressed'+file_ext
 
     image = io.imread(filename)
     rows, columns, channels = image.shape
@@ -315,10 +325,10 @@ def output_altered_histogram_data(hist_type, file_ext):
 
     for row in range(0, rows):
         for column in range(0, columns):
-            red_val, blue_val, green_val = image[row, column]
-            red[row, column] = red_val
-            green[row, column] = green_val
-            blue[row, column] = blue_val
+                red_val, blue_val, green_val = image[row, column]
+                red[row, column] = red_val
+                green[row, column] = green_val
+                blue[row, column] = blue_val
     red_data = np.histogram(red, bins=256)
     blue_data = np.histogram(blue, bins=256)
     green_data = np.histogram(green, bins=256)
@@ -334,6 +344,7 @@ def output_altered_histogram_data(hist_type, file_ext):
 def initialize_image(image_string):
     """ Creates instance of Image class called 'image' with the input
     base64 string as the image_as_string attribute
+
     :param image_string: base64 string containing image data
     :returns: image - instance of Image class
     """
@@ -349,6 +360,7 @@ def histogram_eq_complete(image_string):
     """ Takes in base64 string, initializes an instance of Image class
     using this data, carries out histogram equalization, and generates
     plottable histogram data
+
     :param image_string: base64 string containing image data
     :returns: image - instance of Image class
     """
@@ -365,6 +377,7 @@ def contrast_stretching_complete(image_string):
     """ Takes in base64 string, initializes an instance of Image class
     using this data, carries out contrast stretching, and generates
     plottable histogram data
+
     :param image_string: base64 string containing image data
     :returns: red_his - the red frequency values of the image's histogram
     :returns: blue_hist - the blue frequency values of the image's histogram
@@ -388,6 +401,7 @@ def reverse_video_complete(image_string):
     """ Takes in base64 string, initializes an instance of Image class
     using this data, carries out reverse video, and generates
     plottable histogram data
+
     :param image_string: base64 string containing image data
     :returns: red_hist - the red frequency values of the image's histogram
     :returns: blue_hist - the blue frequency values of the image's histogram
@@ -411,6 +425,7 @@ def log_compression_complete(image_string):
     """ Takes in base64 string, initializes an instance of Image class
     using this data, carries out logarithmic compression, and generates
     plottable histogram data
+
     :param image_string: base64 string containing image data
     :returns: red_hist - the red frequency values of the image's histogram
     :returns: blue_hist - the blue frequency values of the image's histogram
@@ -433,6 +448,7 @@ def log_compression_complete(image_string):
 def histogram_data(image_string):
     """ Takes in base64 string, initializes an instance of Image class
     using this data, and generates plottable histogram data
+
     :param image_string: base64 string containing image data
     :returns: red_hist - the red frequency values of the image's histogram
     :returns: blue_hist - the blue frequency values of the image's histogram
