@@ -58,7 +58,7 @@ def delete_init():
     user.images.remove(["No images", "No images", "No images", "No images",
                         "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
     user.pro_images.remove(["No images", "No images", "No images", "No images",
-                     "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
+                            "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
     u.save()
 
 
@@ -86,3 +86,4 @@ def print_user(email):
 if __name__ == "__main__":
     connect("mongodb://vcm-3608.vm.duke.edu:27017/fp_images")
     # open up connection to db
+    
