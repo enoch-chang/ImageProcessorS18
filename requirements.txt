@@ -1,0 +1,16 @@
+scikit-image
+numpy
+matplotlib
+Pillow
+pypng
+opencv-python
+pytest-pep8
+pymodm
+flask
+numpy
+datetime
+pytest
+pytest-pep8
+sphinx
+flask_cors
+pillow
