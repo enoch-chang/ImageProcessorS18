@@ -35,11 +35,17 @@ The backend code of this project runs off a module named Image_processing.py, wh
 * reverse_video_complete(image_string)
 * log_compression_complete(image_string)  
 
-Each of these functions takes in a base64 string encoding for an image, carries out the specified image processing technique, then returns a base64 string encoding for the altered image along with the image's histogram data and the time it took to run the technique. 
+Each of these functions takes in a base64 string encoding for an image, carries out the specified image processing technique, then returns a base64 string encoding for the altered image along with the image's histogram data and the time it took to run the technique.
+
+## Back End 
+This program is running by Duke VCM. The backend code combines Server.py, mainfunction.py and models.py. The Server.py contains ```GET``` and ```POST``` connecting front end and image processing modules. ```GET /api/images/<user_email>
+``` is for user to retrieve their data from this program database, MongoDB container. ```POST /api/images/create``` is for user creating their information in program database, which takes input user email and user name. ```POST /api/images/upload
+ ```   is for the connection between front end and database. This function can help user store their uploading images in program database with the image information, including base64 string, filename, filetype, time stamp, image size and the original image histogram. ```POST /api/images/<email>/<filename>/process``` takes front end input image and image process type. After processing, this function will store the processed image information such as base64 string, processed image name with process type, original image name, time stamp, processing time duration and optional processed histogram. 
+
 ## Setup Instructions
 The current version of the code interacts with a server located on a continuously running VCM service (```http://vcm-3608.vm.duke.edu:5000```).
 
-To deploy the server and back-end algorithms on a different machine, log into your VCM then spin up the database using the command "sudo mongod." After the database is running, open a new terminal window, log into your VCM again, cd into the folder titled "ImageProcessorS18", then run the flask applcation with the command "gunicorn --bind 0.0.0.0:5000 main:app". If you wish to use this application for an extended period, open these in a screen. If you set up the database on a machine other than http://vcm-3608.vm.duke.edu, specify the machine in Server.py. 
+To deploy the server and back-end algorithms on a different machine, log into your VCM then spin up the database using the command "sudo mongod." After the database is running, open a new terminal window, log into your VCM again, cd into the folder titled "ImageProcessorS18", then run the flask applcation with the command ```"gunicorn --bind 0.0.0.0:5000 main:app"```. If you wish to use this application for an extended period, open these in a screen. If you set up the database on a machine other than ```http://vcm-3608.vm.duke.edu```, specify the machine in Server.py. 
 ## Using the Software
 ## Other Notes
 Due to volatility and unpredictability of the performance of the VCM, please expect high latency and fail rate of all GET/POST requests. Multiple attempts WILL be required for every request.
