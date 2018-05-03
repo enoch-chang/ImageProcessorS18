@@ -19,3 +19,4 @@ First, log into your VCM then spin up the database using the command "sudo mongo
 ## Other Notes
 ### Project Documentation
 RFC: https://docs.google.com/document/d/1Mu7KEPWHF65n9_sypfO7raDynyUtr3FiK_S0V3Ok178/edit?usp=sharing
+Software Documentation: imageprocessings18.readthedocs.io
