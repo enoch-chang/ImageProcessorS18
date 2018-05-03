@@ -1,0 +1,10 @@
+pymodm
+flask
+numpy
+datetime
+pytest
+pytest-pep8
+sphinx
+flask_cors
+pillow
+
