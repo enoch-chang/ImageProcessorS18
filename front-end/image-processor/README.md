@@ -1,0 +1,2 @@
+# ImageProcessorS18
+This repository contains an image processing web application that contains the front-end (React application), back-end (Flask) and associated algorithms. Users can create accounts to upload images, access previously uploaded images saved under their e-mail and perform image processing. Additional metrics and  
