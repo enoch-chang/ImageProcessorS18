@@ -13,6 +13,7 @@ import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar'
 import SwipeableViews from 'react-swipeable-views';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import Select from 'material-ui/Select';
@@ -40,30 +41,23 @@ var styles = {
 class MainPage extends React.Component {
     constructor() {
         super();
+
+        var histogram_x = []
+        for (var i=0; i<=255; i++){
+            histogram_x.push(i)
+        }
+
         this.state = {
             "email": ["Enter your e-mail"],
             "name": ["Enter your name"],
             "logged_in": 0,
             "images": [],
-
-            //["No images", "No images", "No images", "No images", "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]],
-
-            //     [['image64_1', "cat_1.jpg", "001", ".jpg", "15:05 04/20/2018",[1200,1600], [[23,14,15,18], [1, 2, 3, 4],
-            //     [63,75,54,35], [1, 2, 3, 4], [45,35,34,12], [1, 2, 3, 4]]],
-            //     ['image64_2', "dog_1.jpg", "002", ".jpg", "15:28 04/20/2018",[1200,1600], [[24,63,56,26], [1, 2, 3, 4],
-            //         [3,63,65,73], [1, 2, 3, 4], [28,64,76,34], [1, 2, 3, 4]]],
-            //         ['image64_3', "cat_2.png", "003", ".png", "16:20 04/20/2018",[1200,1600], [[87,47,83,25], [1, 2, 3, 4],
-            //             [93,62,54,34], [1, 2, 3, 4], [22,63,23,46], [1, 2, 3, 4]]]], // test data
             // // [image, filename, image_id, filetype, time_stamp, image_size, histogram]
             // [   0  ,    1   ,    2    ,    3    ,     4     ,      5    ,    6     ]
             "disp_images": [],
             "disp": "original",
-            "current_image":['', "No file selected.", "", "--", "--", ["--","--"], ""],
+            "current_image":['', "No file selected.", "", "--", "--", ["--","--"], [["0 0 0"],["0 0 0"],["0 0 0"]]],
             "pro_images": [],
-            //     [['image64_3', "cat_1_histogram.jpg", "001", "histogram", "16:52 04/20/2018", "4", [1200,1600], [[87,47,83,25], [1, 2, 3, 4],
-            // [93,62,54,34], [1, 2, 3, 4], [22,63,23,46], [1, 2, 3, 4]]],
-            // ['image64_4', "cat_2_reverse.png", "003", "reverse", "16.55 04/20/2018", "2.3", [[23,14,15,18], [1, 2, 3, 4],
-            //     [63,75,54,35], [1, 2, 3, 4], [45,35,34,12], [1, 2, 3, 4]]]],
             // [proc_image, filename, image_id, proc_type, time_stamp, time_duration, histogram]
             // [     0    ,     1   ,     2   ,     3    ,     4     ,       5      ,      6   ]
             "current_image_processed":['', "No file selected.", "", "--", "--", "--", ""],
@@ -72,8 +66,12 @@ class MainPage extends React.Component {
             "id":"",
             "to_upload":[],
             "to_upload_names":[],
-            "histogram_test": [[3,63,65,73],[93,62,54,34],[28,64,76,34],[2, 4, 6, 8],[0, 1, 2, 3]]
+            "histogram_x": histogram_x,
+            "histogram_ori":[[],[],[]],
+            "histogram_test": [["3","63","65","73"],[93,62,54,34],[28,64,76,34],[2, 4, 6, 8],[0, 1, 2, 3]],
+            "histogram_pro":[[],[],[]]
         };
+
     }
 
     TypeInputEmail = (event) => {
@@ -110,15 +108,27 @@ class MainPage extends React.Component {
             console.log(response);
             console.log(response.status);
 
-            if (this.state.logged_in == 2 && response.status == 200){
+            if (this.state.logged_in == 2 && response.status == 200){ // ALREADY LOGGED-IN/REFRESH
                 this.setState({
                     "name": response.data["name"],
                     "images": response.data["images"],
                     "pro_images": response.data["pro_images"],
                 });
+                if ((this.state.images).length>0) {
+                    this.setState({"current_image": this.state.images[((this.state.images).length) - 1]});
+                }
+
+                if ((this.state.pro_images).length>0) {
+                    this.setState({"current_image_processed": this.state.pro_images[((this.state.pro_images).length) - 1]});
+                }
+
+                if (this.state.disp == "original"){
+                    this.setState({"disp_images": response.data["images"]});
+                }
+
             }
 
-            if (response.data["success"] == 1 && response.status == 200) {
+            if (response.data["success"] == 1 && this.state.logged_in != 2 && response.status == 200) { // SUCCESSFUL LOG-IN
 
                 this.setState({
                     "name": response.data["name"],
@@ -128,7 +138,8 @@ class MainPage extends React.Component {
                     "disp_images": response.data["images"],
                 });
             }
-            if (response.data["success"] == 0 && response.status == 200) {
+
+            if (response.data["success"] == 0 && response.status == 200) { // USER DOES NOT EXIST YET
                 this.setState({"logged_in":1});
             }
 
@@ -142,7 +153,7 @@ class MainPage extends React.Component {
                {"name":this.state.name,
                "email":this.state.email}).then((response) => {
                    if (response.status == 200) {
-                       this.setState({"logged_in": 2});
+                  //     this.setState({"success": 2});
                        this.logIn()
                    }
         })
@@ -150,76 +161,96 @@ class MainPage extends React.Component {
 
     onFileLoad = (e, files) => {
         var file_list = e.target.result;
-
-        // for (var i=0; i<files.length; i++){
-        //     var file = file_list[i]
-        //     this.uploadPOST("", file, files[i].name)
-        // }
-
-
-        //var base64result = file_list.split(',')[1];
-
         this.setState({"to_upload":file_list,"to_upload_names":files.name});
 
-        // this.setState({"current_image":e.target.result}); // Given that uploadPOST works
-
-        // const reader = new FileReader()
-        // const file = files[0]
-        // reader.readAsDataURL(file);
-        // reader.onloadend = () => {
-        //     console.log(reader.result);
-        //     this.setState({"current_image": reader.result})
-        // }
     }
 
     uploadPOST = (event) => {
-        console.log("fuck")
-//for (var i=0; i<(this.state.to_upload).length; i++){
-
             var URL = "http://vcm-3608.vm.duke.edu:5000/api/images/upload"
-            // axios.post(URL,
-            //     {"images":this.state.to_upload[i],
-            //      "email":this.state.email,
-            //      "filename": this.state.to_upload_names[i]
-            //     })
 
         axios.post(URL,
             {"images":this.state.to_upload,
                 "email":this.state.email,
                 "filename": this.state.to_upload_names
-            }).then((response) => {
-
-            if (response.status == 200) {
-                this.logIn()
-                this.setState({"current_image": this.state.images[(this.state.images).length - 1]});
-            }
-        })
+            })
             console.log(this.state)
-       // }
     }
 
 
     processPOST = () => {
-        var URL = "http://vcm-3608.vm.duke.edu:5000/api/images/upload".concat(this.state.email)
-            .concat("/").concat(this.state.current_image[1]).concat("/").concat(this.state.process) //change to ID
+        var URL = "http://vcm-3608.vm.duke.edu:5000/api/images/".concat(this.state.email)
+            .concat("/").concat(this.state.current_image[1]).concat("/process") //change to ID
 
-        axios.post(URL,{"image_id":this.state.current_image[1], "process":this.state.process}).then((response) => { //change to ID
+        this.setState({"to_upload":this.state.current_image[0]});
+        console.log(this.state)
+
+        axios.post(URL,{"images":this.state.to_upload,
+                        "process":this.state.process}).then((response) => { //change to ID
 
             if (response.status == 200) {
 
             this.logIn()
-            this.setState({"current_image_processed": (this.pro_images)[(this.pro_images).length - 1]});
             }
 
         })
 
     }
 
+    parseHistogram = (image) => {
+
+        var r = (image[6][0]).split(" ");
+        var g = (image[6][1]).split(" ");
+        var b = (image[6][2]).split(" ");
+
+
+        var r_mod = []
+
+        for (var i = 1; i < r.length-1; i++) {
+            if (r[i]) {
+                r_mod.push(r[i]);
+            }
+        }
+
+        var g_mod = []
+
+        for (var i = 1; i < g.length-1; i++) {
+            if (g[i]) {
+                g_mod.push(g[i]);
+            }
+        }
+
+
+        var b_mod = []
+
+        for (var i = 1; i < b.length-1; i++) {
+            if (b[i]) {
+                b_mod.push(b[i]);
+            }
+        }
+
+
+        var temp_max = 0;
+
+        for (var i=0; i< r.length; i++){
+            if (Number(r_mod[i]) > temp_max){
+                temp_max = Number(r_mod[i]);}
+            if (Number(g_mod[i]) > temp_max){
+                temp_max = Number(g_mod[i]);}
+            if (Number(b_mod[i]) > temp_max){
+                temp_max = Number(b_mod[i]);}
+        }
+
+            return [r_mod, g_mod, b_mod, temp_max]
+
+    }
+
+
     onListClick1 = (image) => { //holds original image array
 
         this.setState({"current_image":image});
-        var temp_image_list = [];
-
+        this.setState({"histogram_ori":this.parseHistogram(image)});
+        var temp_image_list = [[]];
+        console.log(image)
         for (var i = 0; i < (this.state.pro_images).length; i++){
             if (this.state.pro_images[i][2] == image[2]){
                 temp_image_list.push(this.state.pro_images[i])
@@ -238,6 +269,7 @@ class MainPage extends React.Component {
     onListClick2 = (image) => { //holds processed image array
 
         this.setState({"current_image_processed":image}); // set to index of image
+        this.setState({"histogram_pro":this.parseHistogram(image)});
         console.log(this.state)
         this.handleChange("",1)
 
@@ -312,33 +344,27 @@ class MainPage extends React.Component {
                                        onChange={this.TypeInputEmail}
                                        color="secondary"
 
-                            />
-                        </div>
-                        <div style={{"padding": "20px",
-                            "marginLeft": "auto",
-                            "marginRight": "auto"}}>
-
+                            /> {' '}
                         <TextField id="name"
                                        label="Name"
                                        value={this.state.name}
                                        onChange={this.TypeInputName}
                                        color="secondary"
+                                       style = {{"marginLeft":"50px"}}
                             />
+                        </div>
+                            <div style={{"margin":"auto", "textAlign":"center"}}>
                             <Button variant="raised" onClick={this.createUser}
-                                    style={{"padding": "20px",
-                                        "marginLeft": "auto",
-                                        "marginRight": "auto",}}
+                                    style={{ "margin": "5px","marginBottom":"20px"}}
                                     color="secondary">
                                 CREATE NEW USER
-                            </Button>
+                            </Button> {' '}
                             <Button variant="raised" onClick={this.resetUser}
-                                    style={{"padding": "20px",
-                                        "marginLeft": "auto",
-                                        "marginRight": "auto",}}
+                                    style={{"margin": "5px","marginBottom":"20px"}}
                                     color="secondary">
                                 BACK
                             </Button>
-                        </div>
+                            </div>
                     </Paper>
 
                 </div>
@@ -350,7 +376,7 @@ class MainPage extends React.Component {
 
             return (
                 <div>
-                    <Paper style={{"width": "600px", "margin": "auto"}}>
+                    <Paper style={{"width": "600px", "height":"100px","margin": "auto"}}>
                         <div style={styles.blockStyle}>
 
                             <Typography component="p">
@@ -368,7 +394,7 @@ class MainPage extends React.Component {
                         </div>
                     </Paper>
 
-                    <Paper style = {{"width":"600px", "margin": "auto"}} >
+                    <Paper style = {{"width":"600px", "height":"100px", "margin": "auto"}} >
                         <div style={styles.blockStyle}>
                             <Upload label="Add"  onFileLoad={this.onFileLoad}/>
                             <Button variant="raised" onClick={this.uploadPOST}
@@ -459,23 +485,23 @@ class MainPage extends React.Component {
                                 <TabContainer>
                                     <img src={this.state.current_image[0]} style={{"width":"550px", "marginLeft":"20px", "marginTop":"20px", "marginRight":"20px"}} />
 
-                                    <LineChart width={550} height={200}
-                                               data={(this.state.histogram_test[4]).map(n => {
+                                    <LineChart width={550} height={300}
+                                               data={(this.state.histogram_x).map(n => {
                                                    return (
-                                                       {name: this.state.histogram_test[3][n],
-                                                           r: this.state.histogram_test[0][n],
-                                                           g: this.state.histogram_test[1][n],
-                                                           b: this.state.histogram_test[2][n]}
+                                                       {name: n,
+                                                           r: this.state.histogram_ori[0][n],
+                                                           g: this.state.histogram_ori[1][n],
+                                                           b: this.state.histogram_ori[2][n]}
                                                    );
                                                })}
                                                margin={{ top: 15, right: 5, bottom: 5, left: 5 }}>
                                         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                                         <XAxis dataKey="name" />
-                                        <YAxis />
+                                        <YAxis  type="number" domain={[0, this.state.histogram_ori[3] + 50]} />
                                         <Tooltip />
-                                        <Line type="monotone" dataKey="r" stroke="#8884d8" activeDot={{r: 8}} />
-                                        <Line type="monotone" dataKey="g" stroke="#8884d8" activeDot={{r: 8}} />
-                                        <Line type="monotone" dataKey="b" stroke="#8884d8" activeDot={{r: 8}} />
+                                        <Line type="monotone" dataKey="r" stroke="#cc0000" activeDot={{r: 8}} />
+                                        <Line type="monotone" dataKey="g" stroke="#006600" activeDot={{r: 8}} />
+                                        <Line type="monotone" dataKey="b" stroke="#003399" activeDot={{r: 8}} />
 
                                     </LineChart>
 
@@ -497,19 +523,25 @@ class MainPage extends React.Component {
                                     </Card>
                                 </TabContainer>
                                 <TabContainer>
-                                    <img src={this.state.current_image_processed[0]} style={{"width":"550px", "marginLeft":"20px", "marginTop":"20px", "marginRight":"20px"}} />
-                                    <LineChart width={550} height={200}
-                                               data={(this.state.images).map(n => {
+                                    <img src={"data:image/jpeg;base64,".concat(this.state.current_image_processed[0])} style={{"width":"550px", "marginLeft":"20px", "marginTop":"20px", "marginRight":"20px"}} />
+                                    <LineChart width={550} height={300}
+                                               data={(this.state.histogram_x).map(n => {
                                                    return (
-                                                       {name: "", value: ""}
+                                                       {name: n,
+                                                           r: this.state.histogram_pro[0][n],
+                                                           g: this.state.histogram_pro[1][n],
+                                                           b: this.state.histogram_pro[2][n]}
                                                    );
                                                })}
                                                margin={{ top: 15, right: 5, bottom: 5, left: 5 }}>
                                         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                                         <XAxis dataKey="name" />
-                                        <YAxis />
+                                        <YAxis  type="number" domain={[0, this.state.histogram_pro[3] + 50]} />
                                         <Tooltip />
-                                        <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{r: 8}} />
+                                        <Line type="monotone" dataKey="r" stroke="#cc0000" activeDot={{r: 8}} />
+                                        <Line type="monotone" dataKey="g" stroke="#006600" activeDot={{r: 8}} />
+                                        <Line type="monotone" dataKey="b" stroke="#003399" activeDot={{r: 8}} />
+
                                     </LineChart>
 
                                     <Card>
@@ -547,11 +579,11 @@ class MainPage extends React.Component {
                             />}
                             style={{"marginTop":"20px", "marginBottom":"20px"}}
                         >
-                            <MenuItem value={"histogram eq"}><Typography component="p">
+                            <MenuItem value={"Histogram Equalization"}><Typography component="p">
                                 Histogram Equalization </Typography></MenuItem>
-                            <MenuItem value={"contrast stretching"}><Typography component="p">Contrast Stretching</Typography></MenuItem>
-                            <MenuItem value={"log compression"}><Typography component="p">Log Compression</Typography></MenuItem>
-                            <MenuItem value={"reverse video"}><Typography component="p">Reverse Video</Typography></MenuItem>
+                            <MenuItem value={"Contrast Stretching"}><Typography component="p">Contrast Stretching</Typography></MenuItem>
+                            <MenuItem value={"Log Compression"}><Typography component="p">Log Compression</Typography></MenuItem>
+                            <MenuItem value={"Reverse Video"}><Typography component="p">Reverse Video</Typography></MenuItem>
 
                         </Select>
 

@@ -11,8 +11,8 @@ class TitleBar extends React.Component {
                 < AppBar position = "static" color = "secondary" >
             < Toolbar >
             < Typography variant = "title" color = "inherit">
-                Heart Rate Monitor
-        < /Typography>
+                Image Processor
+                < /Typography>
         < /Toolbar>
         < /AppBar>
         < /div>
