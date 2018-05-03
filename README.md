@@ -10,7 +10,7 @@ This repository contains an image processing web application that contains the f
 
 1. Enter your e-mail and click "LOG IN". 
 
-![alt text](https://github.com/enoch-chang/ImageProcessorS18/blob/readme/screenshots/login.png)
+![alt text](https://github.com/enoch-chang/ImageProcessorS18/blob/readme/screenshots/login.png?raw=true)
 
 2. If this is your first log in, you will be prompted with a quick sign-up where you will be required to enter your name. Click 'CREATE NEW USER' when ready and you will be logged into the new user profile created.
 
@@ -24,21 +24,21 @@ NOTE: files must be either .jpg or .png and must be 1 MB or smaller.
 
 You may also access another user profile by clicking 'CHANGE USER'.
 
-![alt text](https://github.com/enoch-chang/ImageProcessorS18/blob/readme/screenshots/logged-in.png)
+![alt text](https://github.com/enoch-chang/ImageProcessorS18/blob/readme/screenshots/logged-in.png?raw=true)
 
 4. You will be able to browse all images stored under your user profile as listed by filename and upload date in the table below. To view an image and its associated metrics, simply click on the filename of interest.
 
-![alt text](https://github.com/enoch-chang/ImageProcessorS18/blob/readme/screenshots/viewer.png)
+![alt text](https://github.com/enoch-chang/ImageProcessorS18/blob/readme/screenshots/viewer.png?raw=true)
 
 5. As an image is selected, the file browser will refresh with processed images associated with the original image selected. The processed images will be listed again by filename and upload date. Clicking on a processed image will refresh the image viewer below with the image and metrics under the 'PROCESSED' tab. You may use the tabs to switch between the image and metrics of the original and processed images.
 
 If, at any point, you would like to view other images not on the current list, simply click 'VIEW ALL ORIGINAL IMAGES'.
 
-![alt text](https://github.com/enoch-chang/ImageProcessorS18/blob/readme/screenshots/viewer-p.png)
+![alt text](https://github.com/enoch-chang/ImageProcessorS18/blob/readme/screenshots/viewer-p.png?raw=true)
 
 6. The selected image under the 'ORIGINAL' tab can then be processed by a number of image processing techniques. Select the processing wanted from the drop-down menu and click 'GO!'.
 
-![alt text](https://github.com/enoch-chang/ImageProcessorS18/blob/readme/screenshots/process.png)
+![alt text](https://github.com/enoch-chang/ImageProcessorS18/blob/readme/screenshots/process.png?raw=true)
 
 
 ### Image Processing Module
