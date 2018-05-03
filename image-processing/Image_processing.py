@@ -49,7 +49,7 @@ class Image:
         :returns: self.dimensions an array in the form of (rows, columns)
         :returns: self.image_array: a numpy array containing the digital
         image data
-        :returns: self.alpha_channel: a yes or no string indicating whether 
+        :returns: self.alpha_channel: a yes or no string indicating whether
         the image contains an alpha channel
         """
         self.decode_string()
@@ -74,7 +74,7 @@ class Image:
         logger.info('Image Color: %s' % self.color_type)
         return self.color_type, self.dimensions, self.image_array,\
             self.alpha_channel
-        
+
     # Remove alpha channel if present
     def remove_alpha_channel(self):
         """ Removes alpha channel from image data array
@@ -145,7 +145,7 @@ class Image:
         'contrast_stretch' - image altered by contrast stretching,
         'log_comp' - image altered by logarithmic compression
         :returns: red_hist - the red frequency values of the image's histogram
-        :returns: blue_hist - the blue frequency values of the image's histogram
+        :returns: blue_hist-the blue frequency values of the image's histogram
         :returns: green_hist - the green frequency values of the image's
         histogram
         :returns: x_vals - the intensity values of the image (0-255)
@@ -459,5 +459,4 @@ def histogram_data(image_string):
     image = initialize_image(image_string)
     red_hist, blue_hist, green_hist, x_vals = image.output_histogram_data(
         'original')
-    return red_hist, blue_hist, green_hist, \
-           x_vals
+    return red_hist, blue_hist, green_hist, x_vals

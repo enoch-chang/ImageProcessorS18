@@ -460,4 +460,3 @@ def histogram_data(image_string):
     red_hist, blue_hist, green_hist, x_vals = image.output_histogram_data(
         'original')
     return red_hist, blue_hist, green_hist, x_vals
-  
