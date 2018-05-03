@@ -37,7 +37,7 @@ The backend code of this project runs off a module named Image_processing.py, wh
 
 Each of these functions takes in a base64 string encoding for an image, carries out the specified image processing technique, then returns a base64 string encoding for the altered image along with the image's histogram data and the time it took to run the technique.
 
-## Back End 
+### Back End 
 This program is running by Duke VCM. The backend code combines Server.py, mainfunction.py and models.py. The Server.py contains ```GET``` and ```POST``` connecting front end and image processing modules. ```GET /api/images/<user_email>
 ``` is for user to retrieve their data from this program database, MongoDB container. ```POST /api/images/create``` is for user creating their information in program database, which takes input user email and user name. ```POST /api/images/upload
  ```   is for the connection between front end and database. This function can help user store their uploading images in program database with the image information, including base64 string, filename, filetype, time stamp, image size and the original image histogram. ```POST /api/images/<email>/<filename>/process``` takes front end input image and image process type. After processing, this function will store the processed image information such as base64 string, processed image name with process type, original image name, time stamp, processing time duration and optional processed histogram. 
