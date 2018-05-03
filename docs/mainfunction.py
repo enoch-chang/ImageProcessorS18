@@ -58,7 +58,7 @@ def delete_init():
     user.images.remove(["No images", "No images", "No images", "No images",
                         "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
     user.pro_images.remove(["No images", "No images", "No images", "No images",
-                     "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
+                            "No images", [0, 0], [[0, 0], [0, 0], [0, 0]]])
     u.save()
 
 
