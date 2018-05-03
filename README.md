@@ -58,8 +58,8 @@ This program is running by Duke VCM. The backend code combines Server.py, mainfu
 ## Setup Instructions
 The current version of the code interacts with a server located on a continuously running VCM service (```http://vcm-3608.vm.duke.edu:5000```).
 
-To deploy the server and back-end algorithms on a different machine, log into your VCM then spin up the database using the command "sudo mongod." After the database is running, open a new terminal window, log into your VCM again, cd into the folder titled "ImageProcessorS18", then run the flask applcation with the command ```"gunicorn --bind 0.0.0.0:5000 main:app"```. If you wish to use this application for an extended period, open these in a screen. If you set up the database on a machine other than ```http://vcm-3608.vm.duke.edu```, specify the machine in Server.py. 
-## Using the Software
+To deploy the server and back-end algorithms on a different machine, log into your VCM then spin up the database using the command "sudo mongod." After the database is running, open a new terminal window, log into your VCM again, cd into the folder titled "ImageProcessorS18", then run the flask applcation with the command ```"gunicorn --bind 0.0.0.0:5000 main:app"```. If you wish to use this application for an extended period, open these in a screen. If you set up the database on a machine other than ```http://vcm-3608.vm.duke.edu```, the machine must be specified in both the server code and the front end code. 
+
 ## Other Notes
 Due to volatility and unpredictability of the performance of the VCM, please expect high latency and fail rate of all GET/POST requests. Multiple attempts WILL be required for every request.
 
