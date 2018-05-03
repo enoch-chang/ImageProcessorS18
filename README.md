@@ -1,7 +1,8 @@
-# ImageProcessorS18[![Build Status](https://travis-ci.org/enoch-chang/ImageProcessorS18.svg?branch=master)](https://travis-ci.org/enoch-chang/ImageProcessorS18) [![Documentation Status](https://readthedocs.org/projects/imageprocessings18/badge/?version=latest)](http://imageprocessings18.readthedocs.io/en/latest/?badge=latest) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+# ImageProcessorS18    [![Build Status](https://travis-ci.org/enoch-chang/ImageProcessorS18.svg?branch=master)](https://travis-ci.org/enoch-chang/ImageProcessorS18) [![Documentation Status](https://readthedocs.org/projects/imageprocessings18/badge/?version=latest)](http://imageprocessings18.readthedocs.io/en/latest/?badge=latest) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **BME590 Final Project MyLittlePony**  
 **Created by:** Enoch Chang, Anthony Schneider, Rich Wang
+
 ## About this Software
 ### Introduction
 This repository contains an image processing web application that contains the front-end (React application), back-end (Flask) and associated algorithms. Users can create accounts to upload images, access previously uploaded images saved under their e-mail and perform image processing. As each image (both original or processed) is selected, additional metrics are displayed underneath the image.
