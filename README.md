@@ -7,6 +7,8 @@
 ### Introduction
 This repository contains an image processing web application that contains the front-end (React application), back-end (Flask) and associated algorithms. Users can create accounts to upload images, access previously uploaded images saved under their e-mail and perform image processing. As each image (both original or processed) is selected, additional metrics are displayed underneath the image.
 
+Demo: https://youtu.be/_z7sYrrQBAc
+
 ### Front End
 
 1. Enter your e-mail and click "LOG IN". 
