@@ -7,6 +7,8 @@
 ### Introduction
 This repository contains an image processing web application that contains the front-end (React application), back-end (Flask) and associated algorithms. Users can create accounts to upload images, access previously uploaded images saved under their e-mail and perform image processing. As each image (both original or processed) is selected, additional metrics are displayed underneath the image.
 
+The application has been deployed on GitHub and can be accessed here: https://enoch-chang.github.io/BME590-FinalProj-Web/
+
 Demo: https://youtu.be/_z7sYrrQBAc
 
 ### Front End
@@ -67,7 +69,7 @@ To deploy the server and back-end algorithms on a different machine, log into yo
 Due to volatility and unpredictability of the performance of the VCM, please expect high latency and fail rate of all GET/POST requests. Multiple attempts WILL be required for every request.
 
 ### Project Documentation
-**RFC:** https://docs.google.com/document/d/1Mu7KEPWHF65n9_sypfO7raDynyUtr3FiK_S0V3Ok178/edit?usp=sharing
+**RFC:** https://drive.google.com/file/d/1k3gdbBzCxjjOYYY8vXHpK6596Up6HH_t/view?usp=sharing
 **Software Documentation:** imageprocessings18.readthedocs.io
 
 ### MIT License
